@@ -1,1 +1,1 @@
-alert ("Te amoo presiosa");
+alert ("checar tus tikets");
