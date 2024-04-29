@@ -18,4 +18,4 @@ dataSum+=parseInt(data);
 if (dataSum==0){
 console.log ('inserte dato');}
 else {
-prompt('la sumas es:'+dataSum);}
+console.log ('la sumas es:'+dataSum);}
