@@ -1,4 +1,4 @@
-var arrayData=new array();
+var arrayData=new Array();
 var archivoTxt=newXMLHTTPRequest();
 var fileRuta=datos.txt
 var dataSum=0;
