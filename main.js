@@ -1,6 +1,6 @@
 var arrayData=new Array();
 var archivoTxt=new XMLHttpRequest();
-var fileRuta='datos.txt'
+var fileRuta='datos.txt';
 var dataSum=0;
 
 archivoTxt.open("Get",fileRuta,false);
