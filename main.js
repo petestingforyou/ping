@@ -16,4 +16,6 @@ dataSum+=parseInt(data);
 });
 
 if (dataSum==0){
-console.log ('inserte dato');
+console.log ('inserte dato');}
+else {
+prompt('la sumas es:'+dataSum);}
