@@ -10,7 +10,7 @@ var txt=archivoTxt.responseText;
 for(var i=0; i<txt.length;i++){
 arrayData.push(txt[i]);
 }
-arrayData.foreach(function(data){
+arrayData.forEach(function(data){
 console.log(data);
 dataSum+=parseInt(data);
 });
