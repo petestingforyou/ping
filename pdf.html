@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Extracción de PDF</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+</head>
+<body>
+    <input type="file" id="file-input" accept="application/pdf" />
+    <pre id="output"></pre>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const output = document.getElementById('output');
+
+        fileInput.addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+
+                const textos = [];
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const textoPagina = textContent.items.map(item => item.str).join(' ');
+                    textos.push(textoPagina);
+                }
+
+                output.textContent = textos.join('\n\n'); // Mostrar texto en el <pre>
+                console.log(textos); // Array con el texto de cada página
+            }
+        });
+    </script>
+</body>
+</html>
