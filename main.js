@@ -27,7 +27,7 @@ const datos = {
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
-const contenedor = document.getElementById("datos");
+const contenedor = document.getElementById("parrafo");
 
 // Creamos el contenido HTML que queremos mostrar
 contenedor.innerHTML = `
