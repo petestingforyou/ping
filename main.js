@@ -31,8 +31,8 @@ const contenedor2 = document.getElementById("cita");
 
 // Creamos el contenido HTML que queremos mostrar
 contenedor.innerHTML = `
-    <p>${datos.parrafo}</p>
+    ${datos.parrafo}
     `;
 contenedor2.innerHTML = `
-    <p>${datos.cita}</p>
+    ${datos.cita}
     `;
