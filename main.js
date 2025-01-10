@@ -1,4 +1,4 @@
-var arrayData=new Array();
+/* var arrayData=new Array();
 var archivoTxt=new XMLHttpRequest();
 var fileRuta='datos.txt';
 var dataSum=0;
@@ -19,19 +19,20 @@ if (dataSum==0){
 console.log ('inserte dato');}
 else {
 console.log ('la sumas es:'+dataSum);}
-
+*/
 const datos = {
-    nombre: "Juan Pérez",
-    edad: 30,
-    profesion: "Desarrollador Web"
+    parrafo: "Juan Pérez",
+    cita: "",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
 const contenedor = document.getElementById("parrafo");
+const contenedor2 = document.getElementById("cita");
 
 // Creamos el contenido HTML que queremos mostrar
 contenedor.innerHTML = `
-    <p>Nombre: ${datos.nombre}</p>
-    <p>Edad: ${datos.edad} años</p>
-    <p>Profesión: ${datos.profesion}</p>
-`;
+    <p>${datos.parrafo}</p>
+    `;
+contenedor2.innerHTML = `
+    <p>${datos.cita}</p>
+    `;
