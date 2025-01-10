@@ -19,3 +19,19 @@ if (dataSum==0){
 console.log ('inserte dato');}
 else {
 console.log ('la sumas es:'+dataSum);}
+
+const datos = {
+    nombre: "Juan Pérez",
+    edad: 30,
+    profesion: "Desarrollador Web"
+};
+
+// Seleccionamos el elemento donde queremos mostrar los datos
+const contenedor = document.getElementById("datos");
+
+// Creamos el contenido HTML que queremos mostrar
+contenedor.innerHTML = `
+    <p>Nombre: ${datos.nombre}</p>
+    <p>Edad: ${datos.edad} años</p>
+    <p>Profesión: ${datos.profesion}</p>
+`;
