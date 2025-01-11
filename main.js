@@ -21,8 +21,8 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "Porque tú, oh SEÑOR, bendecirás al justo; lo cercarás de benevolencia como con un escudo.",
-    cita: "Salmo 5:12",
+    parrafo: "—Lo que hace más importante a tu rosa, es el tiempo que tú has perdido con ella..",
+    cita: "el principito",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
