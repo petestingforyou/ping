@@ -21,8 +21,8 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "—Lo que hace más importante a tu rosa, es el tiempo que tú has perdido con ella..",
-    cita: "el principito",
+    parrafo: "lo que quieres decir",
+    cita: "cita 2:12",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
