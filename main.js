@@ -21,8 +21,8 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "lo que quieres decir",
-    cita: "cita 2:12",
+    parrafo: "La justicia, digo, de Dios por la fe de Jesu Cristo, para todos y sobre todos los que creen; porque no hay diferencia.",
+    cita: "Romanos 3:22",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
