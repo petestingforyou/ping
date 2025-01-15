@@ -21,7 +21,7 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "¿que pasaria si Dios te dijera? - ni seré más con vosotros,si no destruyereis el anatema de en medio de vosotros." quitas lo que te estorba, o te alejas de Dios,
+    parrafo: "¿que pasaria si Dios te dijera? - ni seré más con vosotros,si no destruyereis el anatema de en medio de vosotros. quitas lo que te estorba, o te alejas de Dios",
     cita: "referencia Josue 7:12",
 };
 
