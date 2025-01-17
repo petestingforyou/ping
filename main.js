@@ -21,8 +21,8 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "<p>A veces solemos exaltar las virtudes de los grandes hombres de la biblia, llegando a tener una percepción que los hace casi inhumanos, es decir que no se adolecen de pasiones como las nuestras, y eso nos lleva a pensar que quizás hay algo en nosotros que no es suficiente para proseguir este camino, y lejos de alentarnos caemos en el desatino.</p> <p>Pero si observas un poco más podrás ver que también ellos calleron en desesperación, pero su resolución de creer en Dios no los abandono.</p> <p>Job dijo: <br><strong>Porque las saetas del Todopoderoso están en mí, cuyo veneno bebe mi espíritu; y terrores de Dios me combaten.<br>¿Cuál es mi fortaleza para esperar aún? ¿y cuál mi fin para dilatar mi vida?</strong></p>",
-    cita: "referencia Job 6:4,11",
+    parrafo: "La degeneración es progresiva tanto como el corazón anhele la dulsura de sus propias concupiscencias que lo mimetizan en un ser insasiable e insatisfecho adicto al placer.",
+    cita: "thetrushone",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
