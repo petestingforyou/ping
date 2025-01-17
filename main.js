@@ -21,9 +21,9 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "<p>A veces solemos exaltar las virtudes de los grandes hombres de la biblia, llegando a tener una percepción que los hace casi inhumanos, es decir que no se adolecen de pasiones como las nuestras, y eso nos lleva a pensar que quizás hay algo en nosotros que no es suficiente para proseguir este camino, y lejos de alentarnos caemos en el desatino. Pero si observas un poco más podrás ver que también ellos calleron en desesperación, pero su resolución de creer en Dios no los abandono.</p> </br>
+    parrafo: "<p>A veces solemos exaltar las virtudes de los grandes hombres de la biblia, llegando a tener una percepción que los hace casi inhumanos, es decir que no se adolecen de pasiones como las nuestras, y eso nos lleva a pensar que quizás hay algo en nosotros que no es suficiente para proseguir este camino, y lejos de alentarnos caemos en el desatino. Pero si observas un poco más podrás ver que también ellos calleron en desesperación, pero su resolución de creer en Dios no los abandono.</p>
 
-<p>Job dijo:</br>
+<p>Job dijo:
 Porque las saetas del Todopoderoso están en mí, cuyo veneno bebe mi espíritu; y terrores de Dios me combaten.</p></br>
 
 <p>¿Cuál es mi fortaleza para esperar aún? ¿y cuál mi fin para dilatar mi vida?</p>",
