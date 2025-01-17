@@ -27,7 +27,7 @@ const datos = {
 Porque las saetas del Todopoderoso están en mí, cuyo veneno bebe mi espíritu; y terrores de Dios me combaten.</p></br>
 
 <p>¿Cuál es mi fortaleza para esperar aún? ¿y cuál mi fin para dilatar mi vida?</p>",
-    cita: "referencia Job 6:4,11",
+    cita: "referencia Job 6:4,11.",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
