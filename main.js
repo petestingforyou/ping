@@ -21,7 +21,7 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "La degeneración es progresiva tanto como el corazón anhelé la dulsura de sus propias concupiscencias que lo mimetizan en un ser insaciable e insatisfecho adicto al placer.",
+    parrafo: "La degeneración es progresiva tanto como el corazón anhelé la dulzura de sus propias concupiscencias que lo mimetizan en un ser insaciable e insatisfecho adicto al placer.",
     cita: "LaPenumbraDeUnEscritor.",
 };
 
