@@ -21,8 +21,13 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "¿que pasaria si Dios te dijera? - ni seré más con vosotros, si no destruyereis el anatema de en medio de vosotros. <p> <strong>¿quitas lo que te estorba, o te alejas de Dios?</strong></p>",
-    cita: "referencia Josue 7:12",
+    parrafo: "<p>A veces solemos exaltar las virtudes de los grandes hombres de la biblia, llegando a tener una percepción que los hace casi inhumanos, es decir que no se adolecen de pasiones como las nuestras, y eso nos lleva a pensar que quizás hay algo en nosotros que no es suficiente para proseguir este camino, y lejos de alentarnos caemos en el desatino. Pero si observas un poco más podrás ver que también ellos calleron en desesperación, pero su resolución de creer en Dios no los abandono.</p> </br>
+
+<p>Job dijo:</br>
+Porque las saetas del Todopoderoso están en mí, cuyo veneno bebe mi espíritu; y terrores de Dios me combaten.</p></br>
+
+<p>¿Cuál es mi fortaleza para esperar aún? ¿y cuál mi fin para dilatar mi vida?</p>",
+    cita: "referencia Job 6:4,11",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
