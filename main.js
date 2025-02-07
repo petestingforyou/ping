@@ -21,8 +21,8 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "La degeneración es progresiva tanto como el corazón anhelé la dulzura de sus propias concupiscencias que lo mimetizan en un ser insaciable e insatisfecho adicto al placer.",
-    cita: "LaPenumbraDeUnEscritor",
+    parrafo: "Siempre me había dado miedo la gente y, debido a mi falta de confianza en mi habilidad de hablar o actuar como un ser humano, mantuve mis agonías solitarias encerradas en el pecho y mi melancolía e inquietud ocultas tras un ingenuo optimismo.",
+    cita: "indigno de ser humano- Ozamu Dazai",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
