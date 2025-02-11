@@ -27,8 +27,15 @@
                     textos.push(textoPagina);
                 }
 
-                output.textContent = textos; // Mostrar texto en el <pre>
-                console.log(textos); // Array con el texto de cada página
+const regex = /\$\s*([\d.]+)\s*\n\*(\d+)\*/g;
+let match;
+
+while ((match = regex.exec(textos)) !== null) {
+    console.log(`SKU: ${match[2]}, Precio: $${match[1]}`);
+output.textContent=textos;
+}
+
+                output.textContent = textos;
             }
         });
     </script>
