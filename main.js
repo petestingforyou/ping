@@ -21,8 +21,8 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "Siempre me había dado miedo la gente y, debido a mi falta de confianza en mi habilidad de hablar o actuar como un ser humano, mantuve mis agonías solitarias encerradas en el pecho y mi melancolía e inquietud ocultas tras un ingenuo optimismo.",
-    cita: "indigno de ser humano- Ozamu Dazai",
+    parrafo: "Qué pequeño ha sido el lienzo donde pensé colocar mi obra maestra, y al parecer solo quedaré en los trazos.",
+    cita: "Noctis Verba",
 };
 
 // Seleccionamos el elemento donde queremos mostrar los datos
