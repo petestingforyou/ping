@@ -3,30 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>Comparación de Precios en PDFs</title>
-  <!-- CDN de Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script type="module">
     import * as pdfjsLib from './libs/pdf.mjs';  
-    // Configurar PDF.js para usar el worker local
     pdfjsLib.GlobalWorkerOptions.workerSrc = './libs/pdf.worker.mjs';
   </script>
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center p-4 text-lg">
-  <!-- Contenedor responsivo -->
   <div class="bg-white rounded shadow p-6 w-full sm:w-11/12 md:w-3/4 lg:w-1/2 xl:w-1/3">
     <h1 class="text-2xl font-bold mb-4 text-center">Comparación de Precios</h1>
-    <!-- Input para seleccionar múltiples PDFs -->
     <input
       type="file"
       id="file-input"
       accept="application/pdf"
       multiple
-      class="block w-full text-sm text-gray-500
-             file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 
-             file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700
-             hover:file:bg-blue-100"
+      class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 
+             file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
     />
-    <!-- Área de salida -->
     <pre id="output" class="mt-4 p-4 bg-gray-50 rounded border border-gray-200 text-gray-800 whitespace-pre-wrap text-lg"></pre>
   </div>
 
@@ -34,69 +27,40 @@
     const fileInput = document.getElementById('file-input');
     const output = document.getElementById('output');
 
-    // Función para extraer el texto completo de un PDF
     async function extraerTextoDelPDF(arrayBuffer) {
       const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-      const textos = [];
+      let textoCompleto = '';
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
-        const textoPagina = textContent.items
-          .filter(item => item.str.trim())
-          .map(item => item.str.trim())
-          .join('');
-        textos.push(textoPagina);
+        textoCompleto += textContent.items.map(item => item.str.trim()).join(' ');
       }
-      return textos.join(' ');
+      return textoCompleto;
     }
 
-    // Función para extraer SKUs y precios de un texto
     function extraerDatos(texto) {
-      const skus = [];
-      const precios = [];
-      // Extraer SKUs (se asume que están entre asteriscos '*')
-      let startIndex = 0;
-      while ((startIndex = texto.indexOf('*', startIndex)) !== -1) {
-        let endIndex = texto.indexOf('*', startIndex + 1);
-        if (endIndex !== -1) {
-          const sku = texto.slice(startIndex + 1, endIndex);
-          if (sku) {
-            const skuNumerico = sku.replace(/\D/g, '');
-            skus.push(skuNumerico);
-          }
-          startIndex = endIndex + 1;
-        } else {
-          break;
-        }
+      const datos = {}; 
+      const regex = /\*(\d+)\*.*?\$(\d+(\.\d{1,2})?)/g;
+      let match;
+
+      while ((match = regex.exec(texto)) !== null) {
+        const sku = match[1]; 
+        const precio = match[2]; 
+        datos[sku] = precio; 
       }
-      // Extraer precios (se busca el símbolo '$')
-      let precioStart = 0;
-      while ((precioStart = texto.indexOf('$', precioStart)) !== -1) {
-        let possiblePrice = texto.slice(precioStart + 1, precioStart + 10);
-        possiblePrice = possiblePrice.replace(/\*.*$/, '');
-        if (possiblePrice.includes('$')) {
-          precioStart++;
-          continue;
-        }
-        precios.push(possiblePrice);
-        precioStart++;
-      }
-      return { skus, precios };
+
+      return datos;
     }
 
-    // Función para comparar dos conjuntos de datos y devolver solo los SKUs que tienen precios distintos
     function compararDatos(datos1, datos2) {
       const diferencias = [];
-      datos1.skus.forEach((sku, index1) => {
-        const index2 = datos2.skus.indexOf(sku);
-        if (index2 !== -1) {
-          const precio1 = datos1.precios[index1];
-          const precio2 = datos2.precios[index2];
-          if (precio1 !== precio2) {
-            diferencias.push({ sku, precio1, precio2 });
-          }
+
+      for (const sku in datos1) {
+        if (datos2.hasOwnProperty(sku) && datos1[sku] !== datos2[sku]) {
+          diferencias.push({ sku, precio1: datos1[sku], precio2: datos2[sku] });
         }
-      });
+      }
+
       return diferencias;
     }
 
@@ -104,7 +68,11 @@
       const files = Array.from(event.target.files);
       let resultadoTexto = '';
 
-      // Procesar cada PDF de forma independiente
+      if (files.length !== 2) {
+        output.textContent = 'Por favor, selecciona exactamente dos archivos PDF.';
+        return;
+      }
+
       const datosPDFs = await Promise.all(
         files.map(async file => {
           const arrayBuffer = await file.arrayBuffer();
@@ -113,25 +81,15 @@
         })
       );
 
-      // Se requiere exactamente dos PDFs para la comparación
-      if (datosPDFs.length !== 2) {
-        resultadoTexto = 'Por favor, selecciona exactamente dos archivos PDF.';
+      const diferencias = compararDatos(datosPDFs[0], datosPDFs[1]);
+      resultadoTexto += 'SKUs con precios diferentes entre PDFs:\n';
+
+      if (diferencias.length > 0) {
+        diferencias.forEach((item, idx) => {
+          resultadoTexto += `${idx + 1}.- SKU ${item.sku}: PDF1 $${item.precio1} vs PDF2 $${item.precio2}\n`;
+        });
       } else {
-        // Verificar si los arreglos (por ejemplo, los SKUs) tienen el mismo tamaño
-        if (datosPDFs[0].skus.length !== datosPDFs[1].skus.length) {
-          resultadoTexto += "Advertencia: Los PDFs tienen un número distinto de elementos.\n\n";
-        }
-        
-        // Comparar datos y mostrar solo los SKUs con precios diferentes
-        const diferencias = compararDatos(datosPDFs[0], datosPDFs[1]);
-        resultadoTexto += 'SKUs con precios diferentes entre PDFs:\n';
-        if (diferencias.length > 0) {
-          diferencias.forEach((item, idx) => {
-            resultadoTexto += `${idx + 1}.- SKU ${item.sku}: PDF1 $${item.precio1} vs PDF2 $${item.precio2}\n`;
-          });
-        } else {
-          resultadoTexto += 'No se encontraron diferencias en precios para SKUs comunes.';
-        }
+        resultadoTexto += 'No se encontraron diferencias en precios para SKUs comunes.';
       }
 
       output.textContent = resultadoTexto;
@@ -139,4 +97,3 @@
   </script>
 </body>
 </html>
-
