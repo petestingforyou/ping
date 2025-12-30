@@ -21,7 +21,7 @@ else {
 console.log ('la sumas es:'+dataSum);}
 */
 const datos = {
-    parrafo: "no",
+    parrafo: "Peso y balanzas justas son del SEÑOR: obra suya son todas las pesas de la bolsa.\nProverbios 16:11\n\nSi hay algo que me disgusta es que alguien se aproveche de otra persona, pensando que no hay quien se dé cuenta o que pueda intervenir; pero en los cielos está el Amo y Señor del universo, y a cada uno dará su pago según corresponda.",
     cita: "Noctis Verba",
 };
 
