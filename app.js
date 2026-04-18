@@ -30,3 +30,11 @@ async function extraerTexto() {
 
   fileReader.readAsArrayBuffer(file);
 }
+function descargarTXT() {
+  const blob = new Blob([textoExtraido], { type: "text/plain" });
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "resultado.txt";
+  link.click();
+}
