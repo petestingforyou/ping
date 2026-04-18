@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PDF a TXT</title>
+</head>
+<body>
+
+  <h2>Cargar PDF</h2>
+  <input type="file" id="pdfInput" accept="application/pdf">
+
+  <button onclick="extraerTexto()">Extraer texto</button>
+
+  <pre id="output"></pre>
+
+  <button onclick="descargarTXT()">Descargar TXT</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
