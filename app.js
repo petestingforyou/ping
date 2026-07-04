@@ -23,6 +23,7 @@ function iniciarApp() {
     iniciarElementos();
 
     console.log(app);
+    console.log(app.video);
 
 }
 
