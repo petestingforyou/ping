@@ -1,29 +1,13 @@
-const video = document.getElementById("video");
+const app = {
 
-async function iniciarCamara() {
+    video: null,
 
-    try {
+    resultado: null,
 
-        const stream = await navigator.mediaDevices.getUserMedia({
-    video: {
-        facingMode: "environment"
-    }
-});
+    camaras: [],
 
-        video.srcObject = stream;
+    camaraActual: 0,
 
-        await video.play();
+    lector: null
 
-        console.log("Cámara iniciada");
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("No fue posible acceder a la cámara.");
-
-    }
-
-}
-
-iniciarCamara();
+};
