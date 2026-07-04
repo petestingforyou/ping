@@ -35,6 +35,7 @@ async function obtenerCamaras() {
     app.camaras = dispositivos.filter(dispositivo => dispositivo.kind === "videoinput");
 
     console.log(app.camaras);
+    console.log(`Se encontraron ${app.camaras.length} cámaras.`);
 
 }
 
