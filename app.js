@@ -24,6 +24,7 @@ function iniciarApp() {
 
     console.log(app);
     console.log(app.video);
+    console.log(app.resultado);
 
 }
 
