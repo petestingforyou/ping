@@ -23,10 +23,13 @@ function iniciarElementos() {
 }
 async function iniciarApp(){
 
-    iniciarElementos();
+   iniciarElementos();
+
+    await iniciarCamara();
 
     await obtenerCamaras();
 
+    llenarListaCamaras();
 }
 async function obtenerCamaras() {
 
@@ -35,7 +38,32 @@ async function obtenerCamaras() {
     app.camaras = dispositivos.filter(dispositivo => dispositivo.kind === "videoinput");
 
     console.log(app.camaras);
-    console.log(`Se encontraron ${app.camaras.length} cámaras.`);
+   
+
+}
+function llenarListaCamaras() {
+
+    app.listaCamaras.innerHTML = "";
+
+    app.camaras.forEach((camara, indice) => {
+
+        const opcion = document.createElement("option");
+
+        opcion.value = camara.deviceId;
+
+        if (camara.label !== "") {
+
+            opcion.textContent = camara.label;
+
+        } else {
+
+            opcion.textContent = `Cámara ${indice + 1}`;
+
+        }
+
+        app.listaCamaras.appendChild(opcion);
+
+    });
 
 }
 
