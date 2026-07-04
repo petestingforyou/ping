@@ -1,5 +1,6 @@
 const app = {
-
+    listaCamaras: null,
+    
     video: null,
 
     resultado: null,
@@ -16,15 +17,24 @@ function iniciarElementos() {
     app.video = document.getElementById("video");
 
     app.resultado = document.getElementById("resultado");
+    
+    app.listaCamaras = document.getElementById("listaCamaras");
 
 }
-function iniciarApp() {
+async function iniciarApp(){
 
     iniciarElementos();
 
-    console.log(app);
-    console.log(app.video);
-    console.log(app.resultado);
+    await obtenerCamaras();
+
+}
+async function obtenerCamaras() {
+
+    const dispositivos = await navigator.mediaDevices.enumerateDevices();
+
+    app.camaras = dispositivos.filter(dispositivo => dispositivo.kind === "videoinput");
+
+    console.log(app.camaras);
 
 }
 
