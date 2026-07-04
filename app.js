@@ -1,69 +1,124 @@
-const app = {
-    listaCamaras: null,
-    
-    video: null,
+// ==========================================
+// ESTADO DE LA APLICACIÓN
+// ==========================================
 
+const app = {
+    video: null,
     resultado: null,
+    listaCamaras: null,
 
     camaras: [],
+    camaraActual: null,
 
-    camaraActual: 0,
-
+    stream: null,
     lector: null
-
 };
+
+// ==========================================
+// OBTENER LOS ELEMENTOS DEL HTML
+// ==========================================
+
 function iniciarElementos() {
 
     app.video = document.getElementById("video");
-
     app.resultado = document.getElementById("resultado");
-    
     app.listaCamaras = document.getElementById("listaCamaras");
 
 }
-async function iniciarApp(){
 
-   iniciarElementos();
+// ==========================================
+// ABRIR LA CÁMARA
+// ==========================================
 
-    await iniciarCamara();
+async function iniciarCamara() {
 
-    await obtenerCamaras();
+    try {
 
-    llenarListaCamaras();
+        const stream = await navigator.mediaDevices.getUserMedia({
+
+            video: {
+                facingMode: "environment"
+            }
+
+        });
+
+        app.stream = stream;
+
+        app.video.srcObject = stream;
+
+        await app.video.play();
+
+        console.log("Cámara iniciada");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("No fue posible acceder a la cámara.");
+
+    }
+
 }
+
+// ==========================================
+// OBTENER LAS CÁMARAS DISPONIBLES
+// ==========================================
+
 async function obtenerCamaras() {
 
     const dispositivos = await navigator.mediaDevices.enumerateDevices();
 
-    app.camaras = dispositivos.filter(dispositivo => dispositivo.kind === "videoinput");
+    app.camaras = dispositivos.filter(dispositivo =>
+        dispositivo.kind === "videoinput"
+    );
 
     console.log(app.camaras);
-   
 
 }
+
+// ==========================================
+// LLENAR EL SELECT
+// ==========================================
+
 function llenarListaCamaras() {
 
     app.listaCamaras.innerHTML = "";
 
     app.camaras.forEach((camara, indice) => {
 
-        const opcion = document.createElement("option");
+        const opcionCamara = document.createElement("option");
 
-        opcion.value = camara.deviceId;
+        opcionCamara.value = camara.deviceId;
 
         if (camara.label !== "") {
 
-            opcion.textContent = camara.label;
+            opcionCamara.textContent = camara.label;
 
         } else {
 
-            opcion.textContent = `Cámara ${indice + 1}`;
+            opcionCamara.textContent = `Cámara ${indice + 1}`;
 
         }
 
-        app.listaCamaras.appendChild(opcion);
+        app.listaCamaras.appendChild(opcionCamara);
 
     });
+
+}
+
+// ==========================================
+// INICIAR LA APLICACIÓN
+// ==========================================
+
+async function iniciarApp() {
+
+    iniciarElementos();
+
+    await iniciarCamara();
+
+    await obtenerCamaras();
+
+    llenarListaCamaras();
 
 }
 
