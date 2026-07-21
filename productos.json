@@ -1,11 +1,10 @@
 {
-
     "7503004327003": {
-        posicion:"per",
-        categoria:"dental"
+        "posicion": "per",
+        "categoria": "dental"
     },
     "7503004327002": {
-        posicion:"ads",
-        categoria:"dental"
-}
+        "posicion": "ads",
+        "categoria": "dental"
+    }
 }
