@@ -23,8 +23,8 @@ console.log("funciona");
 
             const posicion = productos[codigo];
 
-            const resultado =
-                document.getElementById("resultado");
+            const resultado = document.getElementById("resultado");
+             const barra = document.getElementById("");
 
             if (posicion) {
 
