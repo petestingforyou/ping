@@ -14,7 +14,6 @@ document
     .addEventListener("click", iniciarEscaner);
 
 function iniciarEscaner() {
-console.log("funciona");
     lector.start(
         { facingMode: "environment" },
         { fps: 10 },
@@ -24,12 +23,14 @@ console.log("funciona");
             const posicion = productos[codigo];
 
             const resultado = document.getElementById("resultado");
-             const barra = document.getElementById("");
+             const barra = document.getElementById("barra");
 
             if (posicion) {
 
                 resultado.textContent =
                     `✓ Colocar en ${posicion}`;
+                 barra.textContent =
+                    `este es ${codigo}`;
 
             } else {
 
