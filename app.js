@@ -21,12 +21,12 @@ function iniciarEscaner() {
         (codigo) => {
 
             const posicion = productos[codigo];
-
+                  
             const resultado = document.getElementById("resultado");
              const barra = document.getElementById("barra");
 
             if (posicion) {
-
+alert(codigo);
                 resultado.textContent =
                     `✓ Colocar en ${posicion}`;
                  barra.textContent =
