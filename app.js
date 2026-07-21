@@ -20,7 +20,7 @@ function iniciarEscaner() {
 
         (codigo) => {
 
-            const posicion = productos[codigo];
+            const posicion = productos[codigo].posicion;
                   
             const resultado = document.getElementById("resultado");
              const barra = document.getElementById("barra");
