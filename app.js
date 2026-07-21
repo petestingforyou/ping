@@ -13,7 +13,7 @@ document
     .addEventListener("click", iniciarEscaner);
 
 function iniciarEscaner() {
-
+console.log("funciona");
     lector.start(
         { facingMode: "environment" },
         { fps: 10 },
