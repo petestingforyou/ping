@@ -4,7 +4,7 @@ fetch("productos.json")
     .then(r => r.json())
     .then(datos => {
         productos = datos;
-        console.log("Productoscargados:",productos);
+        console.log("Productoscargados:",productos.posicion);
     });
 
 const lector = new Html5Qrcode("lector");
