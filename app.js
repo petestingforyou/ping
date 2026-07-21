@@ -26,11 +26,11 @@ function iniciarEscaner() {
              const barra = document.getElementById("barra");
 
             if (posicion) {
-alert(codigo);
+
                 resultado.textContent =
                     `✓ Colocar en ${posicion}`;
                  barra.textContent =
-                    `este es ${codigo}`;
+                    `este es: ${codigo}`;
 
             } else {
                    barra.textContent =
