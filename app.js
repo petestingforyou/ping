@@ -33,7 +33,8 @@ alert(codigo);
                     `este es ${codigo}`;
 
             } else {
-
+                   barra.textContent =
+                    `este es ${codigo}`;
                 resultado.textContent =
                     "✗ No pertenece al mueble";
             }
