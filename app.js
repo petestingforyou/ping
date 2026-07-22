@@ -20,7 +20,7 @@ function iniciarEscaner() {
         {qrbox: { width: 50, height: 250 }},
 
         (codigo) => {
-
+alert(codigo);
             const posicion = productos[codigo].posicion;
             const categoria = productos[codigo].categoria;
                   
