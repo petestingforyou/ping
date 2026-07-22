@@ -1,6 +1,6 @@
 let productos = {};
 
-fetch("productos.json")
+fetch("p.json")
     .then(r => r.json())
     .then(datos => {
         productos = datos;
