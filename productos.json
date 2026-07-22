@@ -1,10 +1,220 @@
 {
-    "7503004327003": {
-        "posicion": "per",
+    "41388284316": {
+        "posicion": "1-1-1",
         "categoria": "dental"
     },
-    "7503004327002": {
-        "posicion": "ads",
+    "8414600176713": {
+        "posicion": "1-1-2",
+        "categoria": "dental"
+    },
+    "70942507240": {
+        "posicion": "1-1-3",
+        "categoria": "dental"
+    
+    },
+    "7501061813286": {
+        "posicion": "1-1-4",
+        "categoria": "dental"
+    },
+    "7800005082024": {
+        "posicion": "1-1-5",
+        "categoria": "dental"
+    },
+    "7500435129749": {
+        "posicion": "1-1-6",
+        "categoria": "dental"
+    },
+    "7506195137161": {
+        "posicion": "1-1-7",
+        "categoria": "dental"
+    }
+    ,
+    "47701002773": {
+        "posicion": "1-2-1",
+        "categoria": "dental"
+    },
+    "7891024183182": {
+        "posicion": "1-2-2",
+        "categoria": "dental"
+    },
+    "70942303194": {
+        "posicion": "1-2-3",
+        "categoria": "dental"
+    },
+    "70942307109": {
+        "posicion": "1-2-4",
+        "categoria": "dental"
+    },
+    "7502235821267": {
+        "posicion": "1-2-5",
+        "categoria": "dental"
+    },
+    "7502235820956": {
+        "posicion": "1-2-6",
+        "categoria": "dental"
+    },
+    "7509546668659": {
+        "posicion": "1-2-7",
+        "categoria": "dental"
+    },
+    "70942125352": {
+        "posicion": "1-3-1",
+        "categoria": "dental"
+    },
+    "7501072601384": {
+        "posicion": "1-3-2",
+        "categoria": "dental"
+    },
+    "7501072600172": {
+        "posicion": "1-3-3",
+        "categoria": "dental"
+    },
+    "7794640172960": {
+        "posicion": "1-3-4",
+        "categoria": "dental"
+    },
+    "7896015530181": {
+        "posicion": "1-3-5",
+        "categoria": "dental"
+    },
+    "7500435258234": {
+        "posicion": "1-3-6",
+        "categoria": "dental"
+    },
+    "7500435110662": {
+        "posicion": "1-3-7",
+        "categoria": "dental"
+    },
+    "7500435138703": {
+        "posicion": "1-3-8",
+        "categoria": "dental"
+    },
+    "7500435250863": {
+        "posicion": "1-3-9",
+        "categoria": "dental"
+    },
+    "7509546693729": {
+        "posicion": "1-4-1",
+        "categoria": "dental"
+    },
+    "7509546667737": {
+        "posicion": "1-4-2",
+        "categoria": "dental"
+    },
+    "7509546079271": {
+        "posicion": "1-4-3",
+        "categoria": "dental"
+    },
+    "3014260014445": {
+        "posicion": "1-4-4",
+        "categoria": "dental"
+    },
+    "7506195129166": {
+        "posicion": "1-4-5",
+        "categoria": "dental"
+    },
+    "7501006719932": {
+        "posicion": "1-4-6",
+        "categoria": "dental"
+    },
+    "7501086453955": {
+        "posicion": "1-4-7",
+        "categoria": "dental"
+    },
+    "7702010631191": {
+        "posicion": "1-5-1",
+        "categoria": "dental"
+    },
+    "7509546055121": {
+        "posicion": "1-5-2",
+        "categoria": "dental"
+    },
+    "7509546055152": {
+        "posicion": "1-5-3",
+        "categoria": "dental"
+    },
+    "7509546695082": {
+        "posicion": "1-5-4",
+        "categoria": "dental"
+    },
+    "7509546690315": {
+        "posicion": "1-5-5",
+        "categoria": "dental"
+    },
+    "7506295356776": {
+        "posicion": "1-5-6",
+        "categoria": "dental"
+    },
+    "7591083011098": {
+        "posicion": "1-5-7",
+        "categoria": "dental"
+    },
+    "70942003308": {
+        "posicion": "1-5-8",
+        "categoria": "dental"
+    },
+    "7509546688817": {
+        "posicion": "1-6-1",
+        "categoria": "dental"
+    },
+    "7509546000350": {
+        "posicion": "1-6-2",
+        "categoria": "dental"
+    },
+    "7509546000343": {
+        "posicion": "1-6-3",
+        "categoria": "dental"
+    },
+    "7509546068909": {
+        "posicion": "1-6-4",
+        "categoria": "dental"
+    },
+    "7509546687353": {
+        "posicion": "1-6-5",
+        "categoria": "dental"
+    },
+    "7501035911567": {
+        "posicion": "1-6-6",
+        "categoria": "dental"
+    },
+    "7509546687261": {
+        "posicion": "1-6-7",
+        "categoria": "dental"
+    },
+    "7509546032023": {
+        "posicion": "1-6-8",
+        "categoria": "dental"
+    },
+    "827854011644": {
+        "posicion": "1-6-9",
+        "categoria": "dental"
+    },
+    "77326470176": {
+        "posicion": "1-6-10",
+        "categoria": "dental"
+    },
+    "33200186632": {
+        "posicion": "1-6-11",
+        "categoria": "dental"
+    },
+    "33200186601": {
+        "posicion": "1-6-12",
+        "categoria": "dental"
+    },
+    "33200004332": {
+        "posicion": "1-6-13",
+        "categoria": "dental"
+    },
+    "7509546060781": {
+        "posicion": "1-6-14",
+        "categoria": "dental"
+    },
+    "7509546690681": {
+        "posicion": "1-6-15",
+        "categoria": "dental"
+    },
+    "8430340061713": {
+        "posicion": "1-6-16",
         "categoria": "dental"
     }
 }
