@@ -17,6 +17,7 @@ function iniciarEscaner() {
     lector.start(
         { facingMode: "environment" },
         { fps: 30 },
+        {qrbox: { width: 300, height: 250 }},
 
         (codigo) => {
 
