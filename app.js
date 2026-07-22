@@ -4,7 +4,7 @@ fetch("productos.json")
     .then(r => r.json())
     .then(datos => {
         productos = datos;
-        console.log("Productoscargados:",productos.categoria);
+        
     });
 
 const lector = new Html5Qrcode("lector");
@@ -21,6 +21,7 @@ function iniciarEscaner() {
         (codigo) => {
 
             const posicion = productos[codigo].posicion;
+            const categoria = productos[codigo].categoria;
                   
             const resultado = document.getElementById("resultado");
              const barra = document.getElementById("barra");
