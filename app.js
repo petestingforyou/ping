@@ -1,11 +1,18 @@
 let productos = {};
+let cargado = false;
 
-fetch("p.json")
+fetch("productos.json")
     .then(r => r.json())
     .then(datos => {
         productos = datos;
-        
+        cargado = true;
+        console.log("Productos cargados:", productos);
+    })
+    .catch(error => {
+        console.error("Error cargando JSON:", error);
+        alert("No se pudo cargar el archivo p.json");
     });
+
 
 const lector = new Html5Qrcode("lector");
 
@@ -13,35 +20,63 @@ document
     .getElementById("botonEscanear")
     .addEventListener("click", iniciarEscaner);
 
+
 function iniciarEscaner() {
+
+    if (!cargado) {
+        alert("El archivo de productos todavía se está cargando");
+        return;
+    }
+
     lector.start(
         { facingMode: "environment" },
         { fps: 30 },
-       
 
         (codigo) => {
-alert(codigo);
-            const posicion = productos[codigo].posicion;
-            const categoria = productos[codigo].categoria;
-                  
-            const resultado = document.getElementById("resultado");
-             const barra = document.getElementById("barra");
 
-            if (posicion) {
+            // Limpia espacios o caracteres extra del lector
+            codigo = codigo.trim();
+
+            alert(codigo);
+
+            console.log("Código leído:", codigo);
+            console.log("Producto encontrado:", productos[codigo]);
+
+
+            const producto = productos[codigo];
+
+            const resultado = document.getElementById("resultado");
+            const barra = document.getElementById("barra");
+
+
+            if (producto) {
+
+                const posicion = producto.posicion;
+                const categoria = producto.categoria;
 
                 resultado.textContent =
                     `✓ Colocar en ${posicion}`;
-                 barra.textContent =
-                    `este es: ${codigo}`;
+
+                barra.textContent =
+                    `Este es: ${codigo} (${categoria})`;
 
             } else {
-                   barra.textContent =
-                    `este es ${codigo}`;
+
+                barra.textContent =
+                    `Este es: ${codigo}`;
+
                 resultado.textContent =
                     "✗ No pertenece al mueble";
+
             }
 
+
             lector.stop();
+
         }
-    );
+    )
+    .catch(error => {
+        console.error("Error iniciando escáner:", error);
+    });
+
 }
