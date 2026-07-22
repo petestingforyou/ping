@@ -48,19 +48,15 @@ function iniciarEscaner() {
                 const posicion = producto.posicion;
                 const categoria = producto.categoria;
 
-                resultado.textContent =
-                    `✓ Colocar en ${posicion}`;
-
-                barra.textContent =
-                    `Este es: ${codigo} (${categoria})`;
+           resultado.className = "correcto";
+         resultado.textContent = `✓ Colocar en ${posicion}`;
+        barra.textContent = `Código: ${codigo}`;
 
             } else {
 
-                barra.textContent =
-                    `Este es: ${codigo}`;
-
-                resultado.textContent =
-                    "✗ No pertenece al mueble";
+        resultado.className = "error";
+      resultado.textContent = "✗ No pertenece al mueble";
+      barra.textContent = `Código: ${codigo}`;
 
             }
 
