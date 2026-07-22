@@ -16,7 +16,7 @@ document
 function iniciarEscaner() {
     lector.start(
         { facingMode: "environment" },
-        { fps: 10 },
+        { fps: 30 },
 
         (codigo) => {
 
