@@ -10,7 +10,7 @@ fetch("productos.json")
     })
     .catch(error => {
         console.error("Error cargando JSON:", error);
-        alert("No se pudo cargar el archivo p.json");
+        alert("No se pudo cargar el archivo productos.json");
     });
 
 
@@ -30,18 +30,12 @@ function iniciarEscaner() {
 
     lector.start(
         { facingMode: "environment" },
-        { fps: 30 },
+        { fps: 10 },
 
         (codigo) => {
 
             // Limpia espacios o caracteres extra del lector
             codigo = codigo.trim();
-
-            alert(codigo);
-
-            console.log("Código leído:", codigo);
-            console.log("Producto encontrado:", productos[codigo]);
-
 
             const producto = productos[codigo];
 
