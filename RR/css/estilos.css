@@ -1,0 +1,160 @@
+/* =========================
+   INDEX.HTML - FORMULARIO
+========================= */
+
+body{
+    font-family: Arial, sans-serif;
+}
+
+
+.contenedor-formulario{
+    max-width:400px;
+    margin:40px auto;
+}
+
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+
+input, select, button{
+    padding:10px;
+    font-size:16px;
+}
+
+
+button{
+    cursor:pointer;
+}
+
+
+
+/* =========================
+   CONSULTA.HTML - TABLA
+========================= */
+
+
+.contenedor-consulta{
+    max-width:1000px;
+    margin:40px auto;
+}
+
+
+.tabla-consulta{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    margin-top:20px;
+}
+
+.tabla-consulta th{
+    background:#333;
+    color:white;
+    padding:10px;
+}
+
+
+.tabla-consulta td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+}
+
+
+.tabla-consulta tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+
+
+/* =========================
+   BUSCADOR CONSULTA
+========================= */
+
+
+.busqueda{
+
+    text-align:center;
+    margin-bottom:20px;
+
+}
+
+
+.busqueda input{
+
+    width:300px;
+    padding:10px;
+    font-size:16px;
+
+}
+/* =========================
+   RESUMEN CONSULTA
+========================= */
+
+
+.resumen{
+
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-bottom:20px;
+    font-size:18px;
+
+}
+
+
+.resumen p{
+
+    margin:0;
+
+}
+/* =========================
+   FILTRO FECHAS CONSULTA
+========================= */
+
+
+.filtros-fecha{
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:20px;
+    margin-bottom:20px;
+
+}
+
+
+.filtros-fecha input{
+
+    padding:8px;
+    font-size:16px;
+
+}
+
+
+.filtros-fecha button{
+
+    padding:8px 15px;
+    cursor:pointer;
+
+}
+#salir {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#salir:hover {
+    opacity: 0.85;
+}
