@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Borrar registros</title>
+</head>
+
+<body>
+
+<h2>Eliminar todos los retiros</h2>
+
+<button id="borrar">
+Borrar todos los registros
+</button>
+
+<p id="mensaje"></p>
+
+
+<script type="module">
+
+import { db } from "./js/firebase.js";
+
+import {
+    collection,
+    getDocs,
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+
+
+
+const boton = document.getElementById("borrar");
+const mensaje = document.getElementById("mensaje");
+
+
+
+boton.addEventListener("click", async ()=>{
+
+
+    const confirmar = confirm(
+        "¿Seguro que deseas borrar TODOS los registros?"
+    );
+
+
+    if(!confirmar){
+        return;
+    }
+
+
+
+    const consulta = await getDocs(
+        collection(db,"retiros")
+    );
+
+
+
+    let eliminados = 0;
+
+
+
+    for(const registro of consulta.docs){
+
+
+        await deleteDoc(
+            doc(db,"retiros",registro.id)
+        );
+
+
+        eliminados++;
+
+    }
+
+
+
+    mensaje.textContent =
+    `Se eliminaron ${eliminados} registros correctamente.`;
+
+
+
+});
+
+</script>
+
+
+</body>
+
+</html>
