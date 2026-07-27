@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Generar Hash</title>
+</head>
+
+<body>
+
+<h2>Generador de contraseña</h2>
+
+
+<input id="password" placeholder="Contraseña">
+
+
+<button onclick="generar()">
+Generar
+</button>
+
+
+<p id="resultado"></p>
+
+
+
+<script>
+
+
+async function generar(){
+
+
+const texto = document.getElementById("password").value;
+
+
+const encoder = new TextEncoder();
+
+
+const datos = encoder.encode(texto);
+
+
+const hash = await crypto.subtle.digest(
+"SHA-256",
+datos
+);
+
+
+
+const arreglo = Array.from(
+new Uint8Array(hash)
+);
+
+
+
+const hashHex = arreglo.map(
+
+b => b.toString(16).padStart(2,"0")
+
+).join("");
+
+
+
+document.getElementById("resultado").textContent = hashHex;
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
