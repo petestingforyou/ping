@@ -1,0 +1,80 @@
+body{
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:#f5f5f5;
+
+    margin:0;
+
+    padding:20px;
+
+}
+
+.contenedor{
+
+    max-width:500px;
+
+    margin:auto;
+
+    background:white;
+
+    padding:20px;
+
+    border-radius:10px;
+
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+
+}
+
+h1{
+
+    text-align:center;
+
+}
+
+#reader{
+
+    width:100%;
+
+    margin-top:20px;
+
+}
+
+.resultado {
+    margin-top: 25px;
+}
+
+.resultado h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.producto-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 16px;
+    text-align: left;
+}
+
+.producto-card .nombre {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1565c0;
+}
+
+.producto-card .dato {
+    margin: 8px 0;
+}
+
+.producto-card .etiqueta {
+    font-weight: bold;
+}
+
+.producto-no-encontrado {
+    text-align: center;
+    color: #c62828;
+    font-weight: bold;
+}

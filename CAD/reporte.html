@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Reporte de productos</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#eee;
+}
+
+
+.hoja{
+    width:800px;
+    margin:20px auto;
+    background:white;
+    padding:30px;
+    border:1px solid #999;
+}
+
+
+.encabezado{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+
+.logo{
+    position:absolute;
+    left:0;
+    font-size:35px;
+}
+
+
+h1{
+    font-size:22px;
+    margin:0;
+}
+
+
+.datos{
+    margin-top:20px;
+    font-size:14px;
+}
+
+
+.linea{
+    display:inline-block;
+    width:250px;
+    border-bottom:1px solid black;
+}
+
+
+.instrucciones{
+
+    margin-top:15px;
+    border:1px solid black;
+    padding:10px;
+    font-size:12px;
+
+}
+
+
+.clasificacion{
+
+    text-align:center;
+    margin:10px;
+    font-weight:bold;
+
+}
+
+
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+
+}
+
+
+th,td{
+
+    border:1px solid black;
+    padding:5px;
+    text-align:center;
+
+}
+
+
+th{
+
+    background:#ddd;
+
+}
+
+
+.descripcion{
+
+    text-align:left;
+
+}
+
+
+
+.firma{
+
+    margin-top:40px;
+
+}
+
+
+button{
+
+    margin:20px;
+    padding:12px 25px;
+    font-size:16px;
+
+}
+
+
+
+@media print{
+
+    button{
+        display:none;
+    }
+
+    body{
+        background:white;
+    }
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="hoja">
+
+
+<div class="encabezado">
+
+<div class="logo">
+    ◉
+</div>
+
+<h1>
+Reporte de productos
+</h1>
+
+
+</div>
+
+
+
+<div class="datos">
+
+<p>
+Fecha de vigencia de artículos para reportar "Próximos a caducar":
+<span class="linea"></span>
+</p>
+
+
+<p>
+Fecha de vigencia de artículos para reportar "Caducados":
+<span class="linea"></span>
+</p>
+
+
+</div>
+
+
+
+<div class="instrucciones">
+
+<b>Anota los artículos a reportar de acuerdo a lo siguiente:</b>
+
+<br><br>
+
+1. El orden para reportar los artículos es el siguiente:
+Caducados, Próximos a caducar y Mal estado.
+
+<br>
+
+2. Desglosa los artículos por fecha de caducidad.
+
+<br>
+
+3. Marca con una "X" en la sección correspondiente el tipo de artículo a reportar.
+
+</div>
+
+
+
+<div class="clasificacion">
+
+CAD: Caducados &nbsp;&nbsp;&nbsp;
+
+PAC: Próximos a caducar &nbsp;&nbsp;&nbsp;
+
+ME: Mal estado
+
+</div>
+
+
+
+<table>
+
+
+<tr>
+
+<th>#</th>
+<th>Código</th>
+<th>Descripción del producto</th>
+<th>CAD</th>
+<th>PAC</th>
+<th>ME</th>
+<th>Lote</th>
+<th>Caducidad</th>
+<th>Piezas</th>
+
+</tr>
+
+
+
+<tr>
+<td>1</td>
+<td>890220113468</td>
+<td class="descripcion">Tornado DT</td>
+<td></td>
+<td>X</td>
+<td></td>
+<td>B7514008</td>
+<td>SEP 27</td>
+<td>1</td>
+</tr>
+
+
+
+<tr>
+<td>2</td>
+<td>366201000767</td>
+<td class="descripcion">W. Gangre</td>
+<td></td>
+<td>X</td>
+<td></td>
+<td>480598</td>
+<td>SEP 26</td>
+<td>1</td>
+</tr>
+
+
+
+<tr>
+<td>3</td>
+<td>450360450494</td>
+<td class="descripcion">Weserix</td>
+<td>X</td>
+<td></td>
+<td></td>
+<td>241689</td>
+<td>SEP 26</td>
+<td>2</td>
+</tr>
+
+
+
+</table>
+
+
+
+<div class="firma">
+
+Responsable: _______________________________
+
+<br><br>
+
+Firma: _____________________________________
+
+</div>
+
+
+
+</div>
+
+
+
+<button onclick="window.print()">
+🖨 Imprimir / Guardar PDF
+</button>
+
+
+
+</body>
+
+</html>
