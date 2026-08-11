@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Reporte de productos</title>
+
+<link
+    rel="stylesheet"
+    href="reporte.css"
+>
+```
+
+</head>
+
+<body>
+
+```
+<!-- ======================================
+     CONFIGURACIÓN DEL REPORTE
+======================================= -->
+
+<div
+    id="configuracion"
+    class="configuracion"
+>
+
+    <div class="panel-configuracion">
+
+        <h1>
+            📋 Generar reporte
+        </h1>
+
+        <p class="descripcion-configuracion">
+            Selecciona el mes correspondiente a la revisión.
+        </p>
+
+        <div class="campo">
+
+            <label for="mesReporte">
+                Mes de revisión
+            </label>
+
+            <input
+                type="month"
+                id="mesReporte"
+            >
+
+        </div>
+
+        <div class="vigencias">
+
+            <div class="vigencia">
+
+                <strong>
+                    CAD
+                </strong>
+
+                <span id="vigenciaCad">
+                    Selecciona un mes
+                </span>
+
+            </div>
+
+            <div class="vigencia">
+
+                <strong>
+                    PAC
+                </strong>
+
+                <span id="vigenciaPac">
+                    Selecciona un mes
+                </span>
+
+            </div>
+
+        </div>
+
+        <button
+            id="btnVistaPrevia"
+            class="btn-principal"
+            type="button"
+        >
+            Ver vista previa
+        </button>
+
+        <div
+            id="mensaje"
+            class="mensaje"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     VISTA PREVIA
+======================================= -->
+
+<div
+    id="vistaPrevia"
+    class="oculto"
+>
+
+    <div class="barra-acciones">
+
+        <button
+            id="btnRegresar"
+            type="button"
+            class="btn-secundario"
+        >
+            ← Cambiar mes
+        </button>
+
+        <button
+            id="btnGenerarPDF"
+            type="button"
+            class="btn-pdf"
+        >
+            🖨 Generar PDF
+        </button>
+
+    </div>
+
+
+    <!-- ==================================
+         HOJA DEL REPORTE
+    =================================== -->
+
+    <div
+        id="hojaReporte"
+        class="hoja"
+    >
+
+        <!-- ENCABEZADO -->
+
+        <div class="encabezado">
+
+            <div class="logo">
+
+                <img
+                    id="logoReporte"
+                    src="img/logo.png"
+                    alt="Logo"
+                >
+
+                <span id="sinLogo">
+                    LOGO
+                </span>
+
+            </div>
+
+            <div class="titulo">
+
+                <h1>
+                    REPORTE DE PRODUCTOS
+                </h1>
+
+                <p>
+                    Registro mensual de incidencias
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DATOS DEL REPORTE -->
+
+        <div class="datos-reporte">
+
+            <div>
+
+                <strong>
+                    Mes de revisión:
+                </strong>
+
+                <span id="mesReporteTexto">
+                    -
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Vigencia CAD:
+                </strong>
+
+                <span id="vigenciaCadTexto">
+                    -
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Vigencia PAC:
+                </strong>
+
+                <span id="vigenciaPacTexto">
+                    -
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- INSTRUCCIONES -->
+
+        <div class="instrucciones">
+
+            <strong>
+                Anota los artículos a reportar de acuerdo
+                con la revisión mensual.
+            </strong>
+
+            <ol>
+
+                <li>
+                    El orden para reportar los artículos es:
+                    Caducados, Próximos a caducar y Mal estado.
+                </li>
+
+                <li>
+                    Los artículos se registran de acuerdo
+                    con la incidencia detectada durante el mes.
+                </li>
+
+                <li>
+                    Se desglosan los artículos por fecha
+                    de caducidad.
+                </li>
+
+            </ol>
+
+        </div>
+
+
+        <!-- CLASIFICACIÓN -->
+
+        <div class="clasificacion">
+
+            <span>
+                <strong>CAD</strong> = Caducados
+            </span>
+
+            <span>
+                <strong>PAC</strong> = Próximos a caducar
+            </span>
+
+            <span>
+                <strong>ME</strong> = Mal estado
+            </span>
+
+        </div>
+
+
+        <!-- TABLA -->
+
+        <div class="tabla-contenedor">
+
+            <table id="tablaReporte">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Código</th>
+                        <th>Descripción del producto</th>
+                        <th>CAD</th>
+                        <th>PAC</th>
+                        <th>ME</th>
+                        <th>Lote</th>
+                        <th>Caducidad</th>
+                        <th>Piezas</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="cuerpoReporte">
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- TOTAL -->
+
+        <div class="total">
+
+            Total de incidencias:
+
+            <strong id="totalIncidencias">
+                0
+            </strong>
+
+        </div>
+
+
+        <!-- FOOTER / FIRMAS -->
+
+        <div class="firmas">
+
+            <div class="firma">
+
+                <div class="linea-firma"></div>
+
+                <strong>
+                    Colaborador
+                </strong>
+
+            </div>
+
+            <div class="firma">
+
+                <div class="linea-firma"></div>
+
+                <strong>
+                    Administrador de Inventarios
+                </strong>
+
+            </div>
+
+            <div class="firma">
+
+                <div class="linea-firma"></div>
+
+                <strong>
+                    Responsable de Farmacia
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================
+     FIREBASE
+======================================= -->
+
+<script
+    type="module"
+    src="reporte.js"
+></script>
+```
+
+</body>
+
+</html>
