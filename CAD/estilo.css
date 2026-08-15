@@ -1,0 +1,598 @@
+/* ========================================
+   ESTILO GENERAL
+======================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f5f5f5;
+
+    margin: 0;
+
+    padding: 20px;
+
+    color: #222;
+}
+
+
+/* ========================================
+   OCULTO
+======================================== */
+
+.oculto {
+    display: none !important;
+}
+
+
+/* ========================================
+   CONTENEDOR PRINCIPAL
+======================================== */
+
+#aplicacion {
+
+    max-width: 700px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 10px
+        rgba(0, 0, 0, .15);
+}
+
+
+/* ========================================
+   PANTALLA DE USUARIO
+======================================== */
+
+.pantalla-usuario {
+
+    min-height: 90vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+.tarjeta-usuario {
+
+    width: 100%;
+
+    max-width: 450px;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 10px
+        rgba(0, 0, 0, .15);
+}
+
+
+.tarjeta-usuario h1 {
+
+    text-align: center;
+
+    margin-top: 0;
+
+    margin-bottom: 10px;
+}
+
+
+.tarjeta-usuario h2 {
+
+    text-align: center;
+
+    margin-top: 0;
+
+    margin-bottom: 20px;
+
+    font-size: 20px;
+}
+
+
+.tarjeta-usuario p {
+
+    text-align: center;
+
+    line-height: 1.5;
+
+    margin-bottom: 25px;
+}
+
+
+.tarjeta-usuario label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 7px;
+}
+
+
+.tarjeta-usuario select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    background: white;
+
+    margin-bottom: 15px;
+}
+
+
+.tarjeta-usuario select:focus {
+
+    outline: none;
+
+    border-color: #1565c0;
+}
+
+
+#btnIniciar {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #1565c0;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+#btnIniciar:hover {
+
+    background: #0d47a1;
+}
+
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+
+.encabezado {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+
+.encabezado h1 {
+
+    margin: 0 0 8px 0;
+
+    font-size: 25px;
+}
+
+
+.encabezado p {
+
+    margin: 0;
+
+    font-size: 15px;
+}
+
+
+.menu {
+
+    display: flex;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+}
+
+
+.menu button {
+
+    padding: 9px 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #1565c0;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.menu button:hover {
+
+    background: #0d47a1;
+}
+
+
+/* ========================================
+   LECTOR
+======================================== */
+
+.lector {
+
+    margin-top: 20px;
+
+    text-align: center;
+}
+
+
+.lector h2 {
+
+    margin-bottom: 15px;
+}
+
+
+#reader {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    margin: auto;
+}
+
+
+#codigo {
+
+    margin-top: 15px;
+
+    font-size: 18px;
+
+    color: #1565c0;
+
+    font-weight: bold;
+
+    word-break: break-all;
+}
+
+
+/* ========================================
+   ENTRADA MANUAL
+======================================== */
+
+.entrada-manual {
+
+    margin-top: 20px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #ddd;
+}
+
+
+.entrada-manual label {
+
+    display: block;
+
+    text-align: left;
+
+    font-weight: bold;
+
+    margin-bottom: 6px;
+}
+
+
+.entrada-manual input {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    margin-bottom: 10px;
+}
+
+
+.entrada-manual input:focus {
+
+    outline: none;
+
+    border-color: #1565c0;
+}
+
+
+.entrada-manual button {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #1565c0;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.entrada-manual button:hover {
+
+    background: #0d47a1;
+}
+
+
+/* ========================================
+   RESULTADO
+======================================== */
+
+.resultado {
+
+    margin-top: 25px;
+}
+
+
+/* ========================================
+   TARJETA PRODUCTO
+======================================== */
+
+.tarjeta-producto {
+
+    background: #f5f5f5;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 18px;
+
+    margin-bottom: 20px;
+}
+
+
+.tarjeta-producto h2 {
+
+    margin-top: 0;
+
+    text-align: center;
+
+    font-size: 20px;
+}
+
+
+.tarjeta-producto p {
+
+    margin: 10px 0;
+
+    font-size: 16px;
+}
+
+
+.no-encontrado {
+
+    border-color: #e0a0a0;
+
+    background: #fff5f5;
+}
+
+
+.no-encontrado h2 {
+
+    color: #c62828;
+}
+
+
+.no-encontrado strong {
+
+    color: #c62828;
+}
+
+
+/* ========================================
+   TARJETA FORMULARIO
+======================================== */
+
+.tarjeta-formulario {
+
+    background: white;
+
+    border: 1px solid #ddd;
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    margin-top: 15px;
+}
+
+
+.tarjeta-formulario h2 {
+
+    text-align: center;
+
+    margin-top: 0;
+
+    margin-bottom: 20px;
+}
+
+
+.tarjeta-formulario label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-top: 12px;
+
+    margin-bottom: 6px;
+}
+
+
+.tarjeta-formulario input,
+.tarjeta-formulario select {
+
+    width: 100%;
+
+    padding: 11px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    background: white;
+}
+
+
+.tarjeta-formulario input:focus,
+.tarjeta-formulario select:focus {
+
+    outline: none;
+
+    border-color: #1565c0;
+}
+
+
+.tarjeta-formulario button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #2e7d32;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+.tarjeta-formulario button:hover {
+
+    background: #1b5e20;
+}
+
+
+/* ========================================
+   MENSAJES
+======================================== */
+
+.mensaje {
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    min-height: 20px;
+}
+
+
+/* ========================================
+   RESPONSIVO
+======================================== */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 10px;
+    }
+
+    #aplicacion {
+        padding: 15px;
+    }
+
+    .tarjeta-usuario {
+        padding: 20px;
+    }
+
+    .encabezado {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        text-align: center;
+    }
+
+    .menu {
+
+        justify-content: center;
+
+    }
+
+    .menu button {
+
+        flex: 1;
+
+        min-width: 130px;
+
+    }
+
+}

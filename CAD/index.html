@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Productos Caducados</title>
+
+    <link
+        rel="stylesheet"
+        href="estilo.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- ========================================
+         SELECCIÓN DE USUARIO
+    ========================================= -->
+
+    <section
+        id="pantallaUsuario"
+        class="pantalla-usuario"
+    >
+
+        <div class="tarjeta-usuario">
+
+            <h1>
+                Productos Caducados
+            </h1>
+
+            <h2>
+                Inicio de detecciones
+            </h2>
+
+            <p>
+                Selecciona el nombre de la persona
+                que realizará las detecciones.
+            </p>
+
+            <label for="usuarioSelect">
+                Responsable
+            </label>
+
+            <select id="usuarioSelect">
+
+                <option value="">
+                    Selecciona un usuario
+                </option>
+
+            </select>
+
+            <button
+                id="btnIniciar"
+                type="button"
+            >
+                Iniciar detecciones
+            </button>
+
+            <div
+                id="mensajeUsuario"
+                class="mensaje"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================
+         APLICACIÓN
+    ========================================= -->
+
+    <main
+        id="aplicacion"
+        class="oculto"
+    >
+
+        <header class="encabezado">
+
+            <div>
+
+                <h1>
+                    Productos Caducados
+                </h1>
+
+                <p>
+                    Responsable:
+                    <strong id="usuarioActual"></strong>
+                </p>
+
+            </div>
+
+            <div class="menu">
+
+                <button
+                    id="btnReporte"
+                    type="button"
+                >
+                    Generar reporte
+                </button>
+
+                <button
+                    id="btnCambiarUsuario"
+                    type="button"
+                >
+                    Cambiar usuario
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- ========================================
+             LECTOR
+        ========================================= -->
+
+        <section class="lector">
+
+            <h2>
+                Escanear producto
+            </h2>
+
+            <div id="reader"></div>
+
+            <p id="codigo">
+                Esperando escaneo...
+            </p>
+
+            <div id="entradaManualContenedor">
+
+                <label for="entradaManual">
+                    Código manual
+                </label>
+
+                <input
+                    type="text"
+                    id="entradaManual"
+                    placeholder="Escribe el código"
+                >
+
+                <button
+                    id="btnBuscarManual"
+                    type="button"
+                >
+                    Buscar producto
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================================
+             RESULTADO DEL PRODUCTO
+        ========================================= -->
+
+        <section
+            id="resultado"
+            class="resultado"
+        >
+
+            <div id="productoEncontrado"></div>
+
+            <div id="incidenciaContenedor"></div>
+
+        </section>
+
+
+        <!-- ========================================
+             MENSAJES
+        ========================================= -->
+
+        <div
+            id="mensaje"
+            class="mensaje"
+        ></div>
+
+    </main>
+
+
+    <script
+        src="https://unpkg.com/html5-qrcode"
+    ></script>
+
+    <script
+        type="module"
+        src="app.js"
+    ></script>
+
+</body>
+
+</html>
