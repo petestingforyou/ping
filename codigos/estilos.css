@@ -1,0 +1,933 @@
+/* =========================================
+   VARIABLES
+========================================= */
+
+:root {
+
+    --fondo: #f4f7fb;
+
+    --panel: #ffffff;
+
+    --texto: #111827;
+
+    --texto-secundario: #6b7280;
+
+    --borde: #dbe1e8;
+
+    --azul: #2563eb;
+
+    --azul-hover: #1d4ed8;
+
+    --rojo: #dc2626;
+
+    --verde: #16a34a;
+
+    --sombra:
+        0 8px 25px rgba(15, 23, 42, 0.08);
+
+    --radio: 12px;
+
+}
+
+
+/* =========================================
+   GENERAL
+========================================= */
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+
+body {
+
+    margin: 0;
+
+    background: var(--fondo);
+
+    color: var(--texto);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.encabezado {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 22px 35px;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid var(--borde);
+
+}
+
+
+.marca {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+}
+
+
+.logo {
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: var(--azul);
+
+    color: white;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    font-size: 18px;
+
+}
+
+
+.marca h1 {
+
+    margin: 0;
+
+    font-size: 25px;
+
+}
+
+
+.marca p {
+
+    margin: 3px 0 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 13px;
+
+}
+
+
+.estado {
+
+    color: var(--verde);
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.contenido {
+
+    width: min(1400px, 94%);
+
+    margin: 30px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(350px, 430px)
+        1fr;
+
+    gap: 25px;
+
+}
+
+
+/* =========================================
+   PANELES
+========================================= */
+
+.panel {
+
+    background: var(--panel);
+
+    border: 1px solid var(--borde);
+
+    border-radius: var(--radio);
+
+    box-shadow: var(--sombra);
+
+    padding: 25px;
+
+}
+
+
+.titulo-seccion {
+
+    color: var(--azul);
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.panel h2 {
+
+    margin: 0 0 20px;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================
+   REGISTROS
+========================================= */
+
+.lista-registros {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+.registro {
+
+    border: 1px solid var(--borde);
+
+    border-radius: 10px;
+
+    padding: 16px;
+
+    background: #fafbfd;
+
+    position: relative;
+
+}
+
+
+.registro-cabecera {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+
+}
+
+
+.registro-numero {
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    color: var(--texto-secundario);
+
+}
+
+
+.btn-eliminar {
+
+    width: 28px;
+
+    height: 28px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: #fee2e2;
+
+    color: var(--rojo);
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+}
+
+
+.btn-eliminar:hover {
+
+    background: #fecaca;
+
+}
+
+
+/* =========================================
+   CAMPOS
+========================================= */
+
+.campo {
+
+    margin-bottom: 13px;
+
+}
+
+
+.campo:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+.campo label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+.campo input,
+.bloque-tamano select {
+
+    width: 100%;
+
+    padding: 10px 11px;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: var(--texto);
+
+    font-size: 14px;
+
+    outline: none;
+
+}
+
+
+.campo input:focus,
+.bloque-tamano select:focus {
+
+    border-color: var(--azul);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+
+}
+
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.btn {
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 11px 16px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.1s;
+
+}
+
+
+.btn:active {
+
+    transform: scale(0.98);
+
+}
+
+
+.btn-principal {
+
+    background: var(--azul);
+
+    color: white;
+
+}
+
+
+.btn-principal:hover {
+
+    background: var(--azul-hover);
+
+}
+
+
+.btn-secundario {
+
+    background: #eef2f7;
+
+    color: #374151;
+
+}
+
+
+.btn-secundario:hover {
+
+    background: #e2e8f0;
+
+}
+
+
+/* =========================================
+   BOTÓN AGREGAR
+========================================= */
+
+#btnAgregar {
+
+    width: 100%;
+
+    margin-top: 15px;
+
+}
+
+
+/* =========================================
+   SEPARADOR
+========================================= */
+
+.separador {
+
+    height: 1px;
+
+    background: var(--borde);
+
+    margin: 25px 0;
+
+}
+
+
+/* =========================================
+   TAMAÑO
+========================================= */
+
+.bloque-tamano label {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+}
+
+
+.bloque-tamano select {
+
+    margin-bottom: 15px;
+
+}
+
+
+.ayuda {
+
+    margin: -12px 0 15px;
+
+    color: var(--texto-secundario);
+
+    font-size: 13px;
+
+}
+
+
+.opciones-personalizadas {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    padding: 14px;
+
+    border: 1px solid var(--borde);
+
+    border-radius: 10px;
+
+    background: #fafbfd;
+
+}
+
+
+.opciones-personalizadas .campo {
+
+    margin-bottom: 0;
+
+}
+
+
+.nota-tamano {
+
+    grid-column: 1 / -1;
+
+    margin: 3px 0 0;
+
+    color: var(--texto-secundario);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+
+}
+
+
+.oculto {
+
+    display: none !important;
+
+}
+
+
+/* =========================================
+   BOTÓN GENERAR
+========================================= */
+
+#btnGenerar {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+}
+
+
+/* =========================================
+   VISTA PREVIA
+========================================= */
+
+.vista-previa {
+
+    min-width: 0;
+
+}
+
+
+.mensaje-inicial {
+
+    min-height: 350px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    color: var(--texto-secundario);
+
+}
+
+
+.icono-vacio {
+
+    font-size: 60px;
+
+    color: #cbd5e1;
+
+    margin-bottom: 15px;
+
+}
+
+
+.mensaje-inicial p {
+
+    margin: 0 0 7px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: #64748b;
+
+}
+
+
+.mensaje-inicial span {
+
+    max-width: 420px;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================
+   CONTENEDOR DE CÓDIGOS
+========================================= */
+
+.contenedor-codigos {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: flex-start;
+
+    gap: 22px;
+
+}
+
+
+/* =========================================
+   ETIQUETA
+========================================= */
+
+.etiqueta-contenedor {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.etiqueta-codigo {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: white;
+
+    border: 1px dashed #cbd5e1;
+
+    padding: 5px;
+
+    overflow: hidden;
+
+}
+
+
+.codigo-svg {
+
+    display: block;
+
+    max-width: 100%;
+
+}
+
+
+.informacion-visible {
+
+    width: 100%;
+
+    text-align: center;
+
+    color: #111111;
+
+    font-size: 9px;
+
+    line-height: 1.25;
+
+    word-break: break-word;
+
+}
+
+
+/* =========================================
+   BOTÓN DESCARGAR PNG
+========================================= */
+
+.btn-descargar-png {
+
+    background: #16a34a;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 8px 12px;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+.btn-descargar-png:hover {
+
+    background: #15803d;
+
+}
+
+
+/* =========================================
+   ACCIONES
+========================================= */
+
+.acciones {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid var(--borde);
+
+}
+
+
+/* =========================================
+   PIE
+========================================= */
+
+.pie {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 25px;
+
+    color: var(--texto-secundario);
+
+    font-size: 12px;
+
+}
+
+
+.pie strong {
+
+    color: var(--texto);
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .contenido {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .encabezado {
+
+        padding: 18px;
+
+    }
+
+    .estado {
+
+        display: none;
+
+    }
+
+    .contenido {
+
+        width: 94%;
+
+        margin: 18px auto;
+
+    }
+
+    .panel {
+
+        padding: 18px;
+
+    }
+
+    .opciones-personalizadas {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .contenedor-codigos {
+
+        justify-content: center;
+
+    }
+
+}
+
+
+/* =========================================
+   IMPRESIÓN
+========================================= */
+
+@media print {
+
+    @page {
+
+        margin: 0;
+
+    }
+
+
+    body {
+
+        background: white;
+
+    }
+
+
+    .encabezado,
+    .configuracion,
+    .acciones,
+    .pie {
+
+        display: none !important;
+
+    }
+
+
+    .contenido {
+
+        display: block;
+
+        width: 100%;
+
+        margin: 0;
+
+    }
+
+
+    .panel {
+
+        border: none;
+
+        box-shadow: none;
+
+        padding: 0;
+
+    }
+
+
+    .vista-previa > h2,
+    .vista-previa > .titulo-seccion,
+    .mensaje-inicial {
+
+        display: none !important;
+
+    }
+
+
+    .contenedor-codigos {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 10px;
+
+        align-items: flex-start;
+
+    }
+
+
+    .etiqueta-contenedor {
+
+        break-inside: avoid;
+
+        page-break-inside: avoid;
+
+    }
+
+
+    .etiqueta-codigo {
+
+        border: none;
+
+        padding: 0;
+
+    }
+
+
+    .btn-descargar-png {
+
+        display: none !important;
+
+    }
+
+}
