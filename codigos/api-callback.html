@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>PassBar API Callback</title>
+
+</head>
+
+<body>
+
+<script>
+
+(function () {
+
+    try {
+
+        const hash =
+            window.location.hash.substring(1);
+
+        const parametros =
+            new URLSearchParams(hash);
+
+        const datosCodificados =
+            parametros.get("datos");
+
+        if (!datosCodificados) {
+
+            throw new Error(
+                "No se recibieron datos."
+            );
+
+        }
+
+
+        const datos =
+            JSON.parse(
+                decodeURIComponent(
+                    datosCodificados
+                )
+            );
+
+
+        window.parent.postMessage(
+
+            {
+                tipo:
+                    "PASSBAR_API",
+
+                requestId:
+                    datos.requestId || "",
+
+                datos:
+                    datos
+            },
+
+            "https://petestingforyou.github.io"
+
+        );
+
+
+    } catch (error) {
+
+        window.parent.postMessage(
+
+            {
+                tipo:
+                    "PASSBAR_API",
+
+                requestId:
+                    "",
+
+                datos: {
+
+                    ok:
+                        false,
+
+                    mensaje:
+                        error.message ||
+                        "Error al procesar la respuesta."
+
+                }
+
+            },
+
+            "https://petestingforyou.github.io"
+
+        );
+
+    }
+
+})();
+
+</script>
+
+</body>
+
+</html>
