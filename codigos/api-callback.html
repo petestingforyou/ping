@@ -4,9 +4,16 @@
 
 <head>
 
-    <meta charset="UTF-8">
 
-    <title>PassBar API Callback</title>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>PassBar API Callback</title>
+
 
 </head>
 
@@ -24,26 +31,34 @@
         const parametros =
             new URLSearchParams(hash);
 
-        const datosCodificados =
+        const datos =
             parametros.get("datos");
 
-        if (!datosCodificados) {
+        if (!datos) {
 
             throw new Error(
-                "No se recibieron datos."
+                "No se recibieron datos del servidor."
             );
 
         }
 
+        /*
+         * URLSearchParams ya decodifica
+         * automáticamente el valor del parámetro.
+         */
+        const respuesta =
+            JSON.parse(datos);
 
-        const datos =
-            JSON.parse(
-                decodeURIComponent(
-                    datosCodificados
-                )
-            );
-
-
+        /*
+         * Enviamos la respuesta a Pc.html.
+         *
+         * Usamos "*" aquí porque esta página
+         * puede ser cargada desde un iframe
+         * después de pasar por Apps Script.
+         *
+         * Pc.html será quien valide el origen
+         * y el requestId.
+         */
         window.parent.postMessage(
 
             {
@@ -51,16 +66,15 @@
                     "PASSBAR_API",
 
                 requestId:
-                    datos.requestId || "",
+                    respuesta.requestId || "",
 
                 datos:
-                    datos
+                    respuesta
             },
 
-            "https://petestingforyou.github.io"
+            "*"
 
         );
-
 
     } catch (error) {
 
@@ -80,13 +94,13 @@
 
                     mensaje:
                         error.message ||
-                        "Error al procesar la respuesta."
+                        "Error al procesar la respuesta del servidor."
 
                 }
 
             },
 
-            "https://petestingforyou.github.io"
+            "*"
 
         );
 
