@@ -4,16 +4,14 @@
 
 <head>
 
+    <meta charset="UTF-8">
 
-<meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>PassBar API Callback</title>
-
+    <title>PassBar API Callback</title>
 
 </head>
 
@@ -31,10 +29,10 @@
         const parametros =
             new URLSearchParams(hash);
 
-        const datos =
+        const datosTexto =
             parametros.get("datos");
 
-        if (!datos) {
+        if (!datosTexto) {
 
             throw new Error(
                 "No se recibieron datos del servidor."
@@ -43,42 +41,45 @@
         }
 
         /*
-         * URLSearchParams ya decodifica
-         * automáticamente el valor del parámetro.
+         * URLSearchParams ya realiza la
+         * decodificación del parámetro.
          */
-        const respuesta =
-            JSON.parse(datos);
+        const datos =
+            JSON.parse(
+                datosTexto
+            );
 
         /*
-         * Enviamos la respuesta a Pc.html.
+         * IMPORTANTE:
          *
-         * Usamos "*" aquí porque esta página
-         * puede ser cargada desde un iframe
-         * después de pasar por Apps Script.
+         * No usamos window.parent.
          *
-         * Pc.html será quien valide el origen
-         * y el requestId.
+         * Esta página puede estar dentro
+         * del iframe de Apps Script.
+         *
+         * window.top apunta directamente
+         * a Pc.html.
          */
-        window.parent.postMessage(
+        window.top.postMessage(
 
             {
                 tipo:
                     "PASSBAR_API",
 
                 requestId:
-                    respuesta.requestId || "",
+                    datos.requestId || "",
 
                 datos:
-                    respuesta
+                    datos
             },
 
-            "*"
+            "https://petestingforyou.github.io"
 
         );
 
     } catch (error) {
 
-        window.parent.postMessage(
+        window.top.postMessage(
 
             {
                 tipo:
@@ -100,7 +101,7 @@
 
             },
 
-            "*"
+            "https://petestingforyou.github.io"
 
         );
 
