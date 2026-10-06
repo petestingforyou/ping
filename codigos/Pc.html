@@ -1,0 +1,2745 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PassBar - Administrador de Licencias</title>
+
+    <link
+        rel="stylesheet"
+        href="pc.css"
+    >
+
+</head>
+
+<body>
+
+
+<div class="contenedor">
+
+
+    <!-- ========================================
+         ENCABEZADO
+    ========================================= -->
+
+    <header class="encabezado">
+
+        <h1>
+            PassBar
+        </h1>
+
+        <p>
+            Administrador de Licencias
+        </p>
+
+        <span
+            id="estadoConexion"
+            class="estado-conexion"
+        >
+            Conectando con el administrador...
+        </span>
+
+    </header>
+
+
+    <!-- ========================================
+         RESUMEN
+    ========================================= -->
+
+    <section class="resumen">
+
+        <div class="tarjeta">
+
+            <div class="tarjeta-titulo">
+                Licencias totales
+            </div>
+
+            <div
+                id="totalLicencias"
+                class="tarjeta-numero"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="tarjeta-titulo">
+                Licencias activas
+            </div>
+
+            <div
+                id="licenciasActivas"
+                class="tarjeta-numero"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="tarjeta-titulo">
+                Códigos generados
+            </div>
+
+            <div
+                id="totalCodigos"
+                class="tarjeta-numero"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="tarjeta-titulo">
+                Códigos disponibles
+            </div>
+
+            <div
+                id="totalDisponibles"
+                class="tarjeta-numero"
+            >
+                0
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================
+         CREAR LICENCIA
+    ========================================= -->
+
+    <section class="panel">
+
+        <h2>
+            Crear nueva licencia
+        </h2>
+
+
+        <div class="formulario">
+
+
+            <div class="campo campo-completo">
+
+                <label for="cliente">
+                    Cliente
+                </label>
+
+                <input
+                    type="text"
+                    id="cliente"
+                    placeholder="Ejemplo: Empresa ABC"
+                    maxlength="100"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="fechaInicio">
+                    Fecha de inicio
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaInicio"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="fechaFin">
+                    Fecha de vencimiento
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaFin"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="limiteCodigos">
+                    Límite de códigos
+                </label>
+
+                <input
+                    type="number"
+                    id="limiteCodigos"
+                    min="0"
+                    step="1"
+                    value="100"
+                >
+
+                <span class="ayuda">
+                    Usa 0 para licencia sin límite.
+                </span>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="estadoInicial">
+                    Estado inicial
+                </label>
+
+                <select id="estadoInicial">
+
+                    <option value="true">
+                        Activa
+                    </option>
+
+                    <option value="false">
+                        Inactiva
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- LICENCIA GENERADA -->
+
+        <div
+            id="contenedorLicenciaGenerada"
+            class="licencia-generada"
+            style="display: none;"
+        >
+
+            <input
+                type="text"
+                id="licenciaGenerada"
+                readonly
+            >
+
+            <button
+                type="button"
+                id="btnCopiarNueva"
+                class="btn-verde"
+            >
+                Copiar
+            </button>
+
+        </div>
+
+
+        <div class="botones">
+
+            <button
+                type="button"
+                id="btnCrear"
+                class="btn-principal"
+            >
+                Crear licencia
+            </button>
+
+            <button
+                type="button"
+                id="btnLimpiarFormulario"
+                class="btn-secundario"
+            >
+                Limpiar
+            </button>
+
+        </div>
+
+
+        <div
+            id="mensajeFormulario"
+            class="mensaje"
+        ></div>
+
+
+    </section>
+
+
+    <!-- ========================================
+         LISTADO
+    ========================================= -->
+
+    <section class="panel">
+
+        <h2>
+            Licencias registradas
+        </h2>
+
+
+        <div class="barra-herramientas">
+
+            <input
+                type="text"
+                id="buscador"
+                placeholder="Buscar por licencia o cliente..."
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="btnActualizar"
+                class="btn-secundario"
+            >
+                Actualizar
+            </button>
+
+        </div>
+
+
+        <div class="tabla-contenedor">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Licencia
+                        </th>
+
+                        <th>
+                            Cliente
+                        </th>
+
+                        <th>
+                            Inicio
+                        </th>
+
+                        <th>
+                            Vencimiento
+                        </th>
+
+                        <th>
+                            Límite
+                        </th>
+
+                        <th>
+                            Generados
+                        </th>
+
+                        <th>
+                            Disponibles
+                        </th>
+
+                        <th>
+                            Estado
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="tablaLicencias"></tbody>
+
+            </table>
+
+
+            <div
+                id="sinResultados"
+                class="sin-resultados"
+                style="display: none;"
+            >
+                No se encontraron licencias.
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+<!-- ========================================
+     MODAL
+========================================= -->
+
+<div
+    id="modal"
+    class="modal"
+>
+
+    <div class="modal-contenido">
+
+        <h3 id="modalTitulo">
+            Confirmar operación
+        </h3>
+
+        <p id="modalMensaje"></p>
+
+        <div class="modal-botones">
+
+            <button
+                type="button"
+                id="btnCancelarModal"
+                class="btn-secundario"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="button"
+                id="btnConfirmarModal"
+                class="btn-rojo"
+            >
+                Confirmar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="module">
+
+
+// =====================================================
+// CONFIGURACIÓN
+// =====================================================
+
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbwvG1bVGWD8V0o-fafXariezwgXndnCsmkSD1U8tlZUf2vGbjS0in4mx6Y-AA9t7ef2/exec";
+
+
+const CLAVE_SESION =
+    "passbar_admin_token";
+
+
+const TIEMPO_ESPERA =
+    20000;
+
+
+const ORIGEN_CALLBACK =
+    "https://petestingforyou.github.io";
+
+
+// =====================================================
+// ELEMENTOS HTML
+// =====================================================
+
+const cliente =
+    document.getElementById("cliente");
+
+const fechaInicio =
+    document.getElementById("fechaInicio");
+
+const fechaFin =
+    document.getElementById("fechaFin");
+
+const limiteCodigos =
+    document.getElementById("limiteCodigos");
+
+const estadoInicial =
+    document.getElementById("estadoInicial");
+
+const btnCrear =
+    document.getElementById("btnCrear");
+
+const btnLimpiarFormulario =
+    document.getElementById("btnLimpiarFormulario");
+
+const btnCopiarNueva =
+    document.getElementById("btnCopiarNueva");
+
+const licenciaGenerada =
+    document.getElementById("licenciaGenerada");
+
+const contenedorLicenciaGenerada =
+    document.getElementById("contenedorLicenciaGenerada");
+
+const mensajeFormulario =
+    document.getElementById("mensajeFormulario");
+
+const tablaLicencias =
+    document.getElementById("tablaLicencias");
+
+const sinResultados =
+    document.getElementById("sinResultados");
+
+const buscador =
+    document.getElementById("buscador");
+
+const btnActualizar =
+    document.getElementById("btnActualizar");
+
+const estadoConexion =
+    document.getElementById("estadoConexion");
+
+const totalLicencias =
+    document.getElementById("totalLicencias");
+
+const licenciasActivas =
+    document.getElementById("licenciasActivas");
+
+const totalCodigos =
+    document.getElementById("totalCodigos");
+
+const totalDisponibles =
+    document.getElementById("totalDisponibles");
+
+
+// =====================================================
+// MODAL
+// =====================================================
+
+const modal =
+    document.getElementById("modal");
+
+const modalTitulo =
+    document.getElementById("modalTitulo");
+
+const modalMensaje =
+    document.getElementById("modalMensaje");
+
+const btnCancelarModal =
+    document.getElementById("btnCancelarModal");
+
+const btnConfirmarModal =
+    document.getElementById("btnConfirmarModal");
+
+
+let accionModal = null;
+
+
+// =====================================================
+// ESTADO
+// =====================================================
+
+let licencias = [];
+
+let tokenSesion =
+    sessionStorage.getItem(
+        CLAVE_SESION
+    ) || "";
+
+
+// =====================================================
+// INICIO
+// =====================================================
+
+iniciar();
+
+
+// =====================================================
+// INICIAR
+// =====================================================
+
+async function iniciar() {
+
+    establecerFechasIniciales();
+
+    if (!tokenSesion) {
+
+        const autorizado =
+            await solicitarAcceso();
+
+        if (!autorizado) {
+
+            bloquearAdministrador();
+
+            return;
+
+        }
+
+    }
+
+    await cargarLicencias();
+
+}
+
+
+// =====================================================
+// SOLICITAR ACCESO
+// =====================================================
+
+async function solicitarAcceso() {
+
+    estadoConexion.textContent =
+        "Autorización requerida";
+
+
+    const clave =
+        prompt(
+            "Introduce la clave administrativa de PassBar:"
+        );
+
+
+    if (!clave) {
+
+        return false;
+
+    }
+
+
+    try {
+
+        const resultado =
+            await enviarSolicitud({
+
+                accion:
+                    "login",
+
+                clave:
+                    clave
+
+            });
+
+
+        if (
+            resultado.ok !== true ||
+            !resultado.token
+        ) {
+
+            throw new Error(
+                resultado.mensaje ||
+                "No fue posible iniciar sesión."
+            );
+
+        }
+
+
+        tokenSesion =
+            resultado.token;
+
+
+        sessionStorage.setItem(
+            CLAVE_SESION,
+            tokenSesion
+        );
+
+
+        estadoConexion.textContent =
+            "Administrador autorizado";
+
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(
+            "Error de autenticación:",
+            error
+        );
+
+
+        mostrarError(
+            error.message ||
+            "No fue posible iniciar sesión."
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+// =====================================================
+// BLOQUEAR ADMINISTRADOR
+// =====================================================
+
+function bloquearAdministrador() {
+
+    btnCrear.disabled =
+        true;
+
+    btnActualizar.disabled =
+        true;
+
+    estadoConexion.textContent =
+        "Acceso administrativo requerido";
+
+}
+
+
+// =====================================================
+// COMUNICACIÓN CON APPS SCRIPT
+// =====================================================
+// Apps Script responde redirigiendo el iframe hacia
+// api-callback.html en GitHub Pages.
+//
+// El callback ejecuta postMessage() hacia esta página.
+//
+// IMPORTANTE:
+// No comprobamos evento.source porque el iframe cambia
+// de documento al navegar desde Apps Script hacia
+// api-callback.html.
+// =====================================================
+
+function enviarSolicitud(datos) {
+
+    return new Promise(
+        (
+            resolver,
+            rechazar
+        ) => {
+
+            const requestId =
+                "passbar_" +
+                Date.now() +
+                "_" +
+                Math.random()
+                    .toString(36)
+                    .substring(2, 12);
+
+
+            const nombreIframe =
+                "iframe_" +
+                requestId;
+
+
+            const iframe =
+                document.createElement(
+                    "iframe"
+                );
+
+
+            iframe.name =
+                nombreIframe;
+
+
+            iframe.style.display =
+                "none";
+
+
+            iframe.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+
+            document.body.appendChild(
+                iframe
+            );
+
+
+            const formulario =
+                document.createElement(
+                    "form"
+                );
+
+
+            formulario.method =
+                "POST";
+
+
+            formulario.action =
+                API_URL;
+
+
+            formulario.target =
+                nombreIframe;
+
+
+            formulario.style.display =
+                "none";
+
+
+            const datosSolicitud = {
+
+                ...datos,
+
+                requestId:
+                    requestId
+
+            };
+
+
+            agregarCampoFormulario(
+                formulario,
+                "datos",
+                JSON.stringify(
+                    datosSolicitud
+                )
+            );
+
+
+            agregarCampoFormulario(
+                formulario,
+                "requestId",
+                requestId
+            );
+
+
+            agregarCampoFormulario(
+                formulario,
+                "origen",
+                window.location.origin
+            );
+
+
+            document.body.appendChild(
+                formulario
+            );
+
+
+            let terminado =
+                false;
+
+
+            let temporizador;
+
+
+            function limpiar() {
+
+                if (
+                    formulario.parentNode
+                ) {
+
+                    formulario.remove();
+
+                }
+
+
+                if (
+                    iframe.parentNode
+                ) {
+
+                    iframe.remove();
+
+                }
+
+            }
+
+
+            function finalizarError(
+                mensaje
+            ) {
+
+                if (
+                    terminado
+                ) {
+
+                    return;
+
+                }
+
+
+                terminado =
+                    true;
+
+
+                clearTimeout(
+                    temporizador
+                );
+
+
+                window.removeEventListener(
+                    "message",
+                    recibirMensaje
+                );
+
+
+                limpiar();
+
+
+                rechazar(
+                    new Error(
+                        mensaje
+                    )
+                );
+
+            }
+
+
+            function recibirMensaje(
+                evento
+            ) {
+
+                if (
+                    terminado
+                ) {
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------
+                // VALIDAR ORIGEN
+                // -----------------------------------------
+
+                if (
+                    evento.origin !==
+                    ORIGEN_CALLBACK
+                ) {
+
+                    return;
+
+                }
+
+
+                const respuesta =
+                    evento.data;
+
+
+                // -----------------------------------------
+                // VALIDAR TIPO
+                // -----------------------------------------
+
+                if (
+                    !respuesta ||
+                    respuesta.tipo !==
+                    "PASSBAR_API"
+                ) {
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------
+                // VALIDAR REQUEST ID
+                // -----------------------------------------
+
+                if (
+                    respuesta.requestId !==
+                    requestId
+                ) {
+
+                    return;
+
+                }
+
+
+                terminado =
+                    true;
+
+
+                clearTimeout(
+                    temporizador
+                );
+
+
+                window.removeEventListener(
+                    "message",
+                    recibirMensaje
+                );
+
+
+                const datosRespuesta =
+                    respuesta.datos || {};
+
+
+                limpiar();
+
+
+                if (
+                    datosRespuesta.ok === true
+                ) {
+
+                    resolver(
+                        datosRespuesta
+                    );
+
+                } else {
+
+                    rechazar(
+                        new Error(
+                            datosRespuesta.mensaje ||
+                            "El servidor rechazó la operación."
+                        )
+                    );
+
+                }
+
+            }
+
+
+            window.addEventListener(
+                "message",
+                recibirMensaje
+            );
+
+
+            temporizador =
+                setTimeout(
+                    () => {
+
+                        finalizarError(
+                            "Tiempo de espera agotado al comunicarse con el servidor."
+                        );
+
+                    },
+                    TIEMPO_ESPERA
+                );
+
+
+            try {
+
+                formulario.submit();
+
+            } catch (error) {
+
+                finalizarError(
+                    error.message ||
+                    "No fue posible enviar la solicitud."
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+// =====================================================
+// AGREGAR CAMPO A FORMULARIO
+// =====================================================
+
+function agregarCampoFormulario(
+    formulario,
+    nombre,
+    valor
+) {
+
+    const campo =
+        document.createElement(
+            "input"
+        );
+
+
+    campo.type =
+        "hidden";
+
+
+    campo.name =
+        nombre;
+
+
+    campo.value =
+        String(
+            valor ?? ""
+        );
+
+
+    formulario.appendChild(
+        campo
+    );
+
+}
+
+
+// =====================================================
+// CARGAR LICENCIAS
+// =====================================================
+
+async function cargarLicencias() {
+
+    try {
+
+        estadoConexion.textContent =
+            "Conectando con el administrador...";
+
+
+        const resultado =
+            await enviarSolicitud({
+
+                accion:
+                    "listar",
+
+                token:
+                    tokenSesion
+
+            });
+
+
+        licencias =
+            Array.isArray(
+                resultado.licencias
+            )
+                ? resultado.licencias
+                : [];
+
+
+        licencias.sort(
+            (
+                a,
+                b
+            ) =>
+                String(
+                    a.id || ""
+                ).localeCompare(
+                    String(
+                        b.id || ""
+                    )
+                )
+        );
+
+
+        estadoConexion.textContent =
+            "Administrador conectado";
+
+
+        renderizar();
+
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando licencias:",
+            error
+        );
+
+
+        const mensaje =
+            String(
+                error.message || ""
+            ).toLowerCase();
+
+
+        if (
+            mensaje.includes("sesión") ||
+            mensaje.includes("expirado") ||
+            mensaje.includes("no proporcionada")
+        ) {
+
+            sessionStorage.removeItem(
+                CLAVE_SESION
+            );
+
+
+            tokenSesion =
+                "";
+
+
+            const autorizado =
+                await solicitarAcceso();
+
+
+            if (
+                autorizado
+            ) {
+
+                await cargarLicencias();
+
+            }
+
+
+            return;
+
+        }
+
+
+        estadoConexion.textContent =
+            "Error de conexión";
+
+
+        mostrarError(
+            error.message ||
+            "No fue posible cargar las licencias."
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// CREAR LICENCIA
+// =====================================================
+
+btnCrear.addEventListener(
+    "click",
+    crearLicencia
+);
+
+
+async function crearLicencia() {
+
+    limpiarMensaje();
+
+
+    const nombreCliente =
+        cliente.value.trim();
+
+
+    const inicio =
+        fechaInicio.value;
+
+
+    const fin =
+        fechaFin.value;
+
+
+    const limite =
+        Number(
+            limiteCodigos.value
+        );
+
+
+    const activa =
+        estadoInicial.value ===
+        "true";
+
+
+    if (!nombreCliente) {
+
+        mostrarError(
+            "Escribe el nombre del cliente."
+        );
+
+
+        cliente.focus();
+
+
+        return;
+
+    }
+
+
+    if (!inicio) {
+
+        mostrarError(
+            "Selecciona la fecha de inicio."
+        );
+
+
+        return;
+
+    }
+
+
+    if (!fin) {
+
+        mostrarError(
+            "Selecciona la fecha de vencimiento."
+        );
+
+
+        return;
+
+    }
+
+
+    if (
+        fin < inicio
+    ) {
+
+        mostrarError(
+            "La fecha de vencimiento no puede ser anterior a la fecha de inicio."
+        );
+
+
+        return;
+
+    }
+
+
+    if (
+        !Number.isInteger(limite) ||
+        limite < 0
+    ) {
+
+        mostrarError(
+            "El límite debe ser un número entero igual o mayor que 0."
+        );
+
+
+        limiteCodigos.focus();
+
+
+        return;
+
+    }
+
+
+    btnCrear.disabled =
+        true;
+
+
+    btnCrear.textContent =
+        "Creando licencia...";
+
+
+    try {
+
+        let clave =
+            "";
+
+
+        let creada =
+            false;
+
+
+        for (
+            let intento = 0;
+            intento < 10;
+            intento++
+        ) {
+
+            const posibleClave =
+                generarClaveLicencia();
+
+
+            try {
+
+                await enviarSolicitud({
+
+                    accion:
+                        "crear",
+
+                    token:
+                        tokenSesion,
+
+                    licenciaId:
+                        posibleClave,
+
+                    activa:
+                        activa,
+
+                    cliente:
+                        nombreCliente,
+
+                    fechaInicio:
+                        inicio,
+
+                    fechaFin:
+                        fin,
+
+                    limiteCodigos:
+                        limite
+
+                });
+
+
+                clave =
+                    posibleClave;
+
+
+                creada =
+                    true;
+
+
+                break;
+
+
+            } catch (error) {
+
+                console.warn(
+                    "Intento de creación fallido:",
+                    error
+                );
+
+
+                if (
+                    intento === 9
+                ) {
+
+                    throw error;
+
+                }
+
+            }
+
+        }
+
+
+        if (!creada) {
+
+            throw new Error(
+                "No fue posible crear la licencia."
+            );
+
+        }
+
+
+        licenciaGenerada.value =
+            clave;
+
+
+        contenedorLicenciaGenerada.style.display =
+            "flex";
+
+
+        mostrarExito(
+            "Licencia creada correctamente."
+        );
+
+
+        await cargarLicencias();
+
+
+        cliente.value =
+            "";
+
+
+        limiteCodigos.value =
+            "100";
+
+
+        estadoInicial.value =
+            "true";
+
+
+    } catch (error) {
+
+        console.error(
+            "Error creando licencia:",
+            error
+        );
+
+
+        mostrarError(
+            error.message ||
+            "No fue posible crear la licencia."
+        );
+
+
+    } finally {
+
+        btnCrear.disabled =
+            false;
+
+
+        btnCrear.textContent =
+            "Crear licencia";
+
+    }
+
+}
+
+
+// =====================================================
+// GENERAR CLAVE
+// =====================================================
+
+function generarClaveLicencia() {
+
+    const caracteres =
+        "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+
+    function bloque() {
+
+        let resultado =
+            "";
+
+
+        for (
+            let i = 0;
+            i < 4;
+            i++
+        ) {
+
+            const posicion =
+                Math.floor(
+                    Math.random() *
+                    caracteres.length
+                );
+
+
+            resultado +=
+                caracteres[posicion];
+
+        }
+
+
+        return resultado;
+
+    }
+
+
+    return (
+        "PB-" +
+        bloque() +
+        "-" +
+        bloque() +
+        "-" +
+        bloque()
+    );
+
+}
+
+
+// =====================================================
+// COPIAR NUEVA LICENCIA
+// =====================================================
+
+btnCopiarNueva.addEventListener(
+    "click",
+    async () => {
+
+        const texto =
+            licenciaGenerada.value;
+
+
+        if (!texto) {
+
+            return;
+
+        }
+
+
+        try {
+
+            await navigator.clipboard.writeText(
+                texto
+            );
+
+
+            btnCopiarNueva.textContent =
+                "Copiado";
+
+
+            setTimeout(
+                () => {
+
+                    btnCopiarNueva.textContent =
+                        "Copiar";
+
+                },
+                1500
+            );
+
+
+        } catch {
+
+            licenciaGenerada.select();
+
+
+            document.execCommand(
+                "copy"
+            );
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// RENDERIZAR
+// =====================================================
+
+function renderizar() {
+
+    const texto =
+        buscador.value
+            .trim()
+            .toLowerCase();
+
+
+    const filtradas =
+        licencias.filter(
+            licencia => {
+
+                const clave =
+                    String(
+                        licencia.id || ""
+                    )
+                        .toLowerCase();
+
+
+                const nombre =
+                    String(
+                        licencia.cliente || ""
+                    )
+                        .toLowerCase();
+
+
+                return (
+                    clave.includes(texto) ||
+                    nombre.includes(texto)
+                );
+
+            }
+        );
+
+
+    tablaLicencias.innerHTML =
+        "";
+
+
+    sinResultados.style.display =
+        filtradas.length === 0
+            ? "block"
+            : "none";
+
+
+    filtradas.forEach(
+        licencia => {
+
+            tablaLicencias.appendChild(
+                crearFila(
+                    licencia
+                )
+            );
+
+        }
+    );
+
+
+    actualizarResumen();
+
+}
+
+
+// =====================================================
+// CREAR FILA
+// =====================================================
+
+function crearFila(
+    licencia
+) {
+
+    const fila =
+        document.createElement(
+            "tr"
+        );
+
+
+    const limite =
+        Number(
+            licencia.limiteCodigos || 0
+        );
+
+
+    const generados =
+        Number(
+            licencia.codigosGenerados || 0
+        );
+
+
+    const disponibles =
+        limite > 0
+            ? Math.max(
+                0,
+                limite - generados
+            )
+            : "∞";
+
+
+    const estado =
+        obtenerEstado(
+            licencia
+        );
+
+
+    fila.innerHTML = `
+
+        <td>
+            <span class="licencia-tabla">
+                ${escaparHTML(licencia.id)}
+            </span>
+        </td>
+
+        <td>
+            ${escaparHTML(
+                licencia.cliente || ""
+            )}
+        </td>
+
+        <td>
+            ${formatearFecha(
+                licencia.fechaInicio
+            )}
+        </td>
+
+        <td>
+            ${formatearFecha(
+                licencia.fechaFin
+            )}
+        </td>
+
+        <td>
+            ${
+                limite > 0
+                    ? limite
+                    : "∞"
+            }
+        </td>
+
+        <td>
+            ${generados}
+        </td>
+
+        <td>
+            ${disponibles}
+        </td>
+
+        <td>
+
+            <span
+                class="estado ${estado.clase}"
+            >
+                ${estado.texto}
+            </span>
+
+        </td>
+
+        <td>
+
+            <div class="acciones-tabla">
+
+                <button
+                    type="button"
+                    class="btn-verde btn-pequeno"
+                    data-accion="copiar"
+                    data-id="${escaparHTML(
+                        licencia.id
+                    )}"
+                >
+                    Copiar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-secundario btn-pequeno"
+                    data-accion="activar"
+                    data-id="${escaparHTML(
+                        licencia.id
+                    )}"
+                >
+                    ${
+                        licencia.activa
+                            ? "Desactivar"
+                            : "Activar"
+                    }
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-naranja btn-pequeno"
+                    data-accion="reiniciar"
+                    data-id="${escaparHTML(
+                        licencia.id
+                    )}"
+                >
+                    Reiniciar
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-rojo btn-pequeno"
+                    data-accion="eliminar"
+                    data-id="${escaparHTML(
+                        licencia.id
+                    )}"
+                >
+                    Eliminar
+                </button>
+
+            </div>
+
+        </td>
+
+    `;
+
+
+    return fila;
+
+}
+
+
+// =====================================================
+// ESTADO DE LICENCIA
+// =====================================================
+
+function obtenerEstado(
+    licencia
+) {
+
+    if (
+        licencia.activa !== true
+    ) {
+
+        return {
+
+            texto:
+                "Inactiva",
+
+            clase:
+                "estado-inactiva"
+
+        };
+
+    }
+
+
+    const fechaFin =
+        convertirFecha(
+            licencia.fechaFin
+        );
+
+
+    if (fechaFin) {
+
+        const hoy =
+            new Date();
+
+
+        hoy.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        if (
+            hoy > fechaFin
+        ) {
+
+            return {
+
+                texto:
+                    "Vencida",
+
+                clase:
+                    "estado-vencida"
+
+            };
+
+        }
+
+    }
+
+
+    const limite =
+        Number(
+            licencia.limiteCodigos || 0
+        );
+
+
+    const generados =
+        Number(
+            licencia.codigosGenerados || 0
+        );
+
+
+    if (
+        limite > 0 &&
+        generados >= limite
+    ) {
+
+        return {
+
+            texto:
+                "Agotada",
+
+            clase:
+                "estado-agotada"
+
+        };
+
+    }
+
+
+    return {
+
+        texto:
+            "Activa",
+
+        clase:
+            "estado-activa"
+
+    };
+
+}
+
+
+// =====================================================
+// ACCIONES DE TABLA
+// =====================================================
+
+tablaLicencias.addEventListener(
+    "click",
+    evento => {
+
+        const boton =
+            evento.target.closest(
+                "button"
+            );
+
+
+        if (!boton) {
+
+            return;
+
+        }
+
+
+        const accion =
+            boton.dataset.accion;
+
+
+        const id =
+            boton.dataset.id;
+
+
+        const licencia =
+            licencias.find(
+                item =>
+                    item.id === id
+            );
+
+
+        if (!licencia) {
+
+            return;
+
+        }
+
+
+        switch (accion) {
+
+            case "copiar":
+
+                copiarLicencia(
+                    licencia.id
+                );
+
+                break;
+
+
+            case "activar":
+
+                cambiarEstado(
+                    licencia
+                );
+
+                break;
+
+
+            case "reiniciar":
+
+                confirmarReinicio(
+                    licencia
+                );
+
+                break;
+
+
+            case "eliminar":
+
+                confirmarEliminacion(
+                    licencia
+                );
+
+                break;
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// COPIAR LICENCIA
+// =====================================================
+
+async function copiarLicencia(
+    licencia
+) {
+
+    try {
+
+        await navigator.clipboard.writeText(
+            licencia
+        );
+
+
+        mostrarExito(
+            `Licencia ${licencia} copiada.`
+        );
+
+
+    } catch {
+
+        const temporal =
+            document.createElement(
+                "textarea"
+            );
+
+
+        temporal.value =
+            licencia;
+
+
+        document.body.appendChild(
+            temporal
+        );
+
+
+        temporal.select();
+
+
+        document.execCommand(
+            "copy"
+        );
+
+
+        temporal.remove();
+
+
+        mostrarExito(
+            `Licencia ${licencia} copiada.`
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// CAMBIAR ESTADO
+// =====================================================
+
+async function cambiarEstado(
+    licencia
+) {
+
+    const nuevoEstado =
+        licencia.activa !== true;
+
+
+    try {
+
+        await enviarSolicitud({
+
+            accion:
+                "estado",
+
+            token:
+                tokenSesion,
+
+            licenciaId:
+                licencia.id,
+
+            activa:
+                nuevoEstado
+
+        });
+
+
+        mostrarExito(
+            nuevoEstado
+                ? "Licencia activada."
+                : "Licencia desactivada."
+        );
+
+
+        await cargarLicencias();
+
+
+    } catch (error) {
+
+        mostrarError(
+            error.message ||
+            "No fue posible cambiar el estado."
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// REINICIAR
+// =====================================================
+
+function confirmarReinicio(
+    licencia
+) {
+
+    abrirModal(
+
+        "Reiniciar contador",
+
+        `¿Quieres reiniciar a 0 los códigos generados de ${licencia.id}? Esta operación se utiliza principalmente para pruebas.`,
+
+        async () => {
+
+            try {
+
+                await enviarSolicitud({
+
+                    accion:
+                        "reiniciar",
+
+                    token:
+                        tokenSesion,
+
+                    licenciaId:
+                        licencia.id
+
+                });
+
+
+                mostrarExito(
+                    "Contador reiniciado correctamente."
+                );
+
+
+                await cargarLicencias();
+
+
+            } catch (error) {
+
+                mostrarError(
+                    error.message ||
+                    "No fue posible reiniciar el contador."
+                );
+
+            }
+
+        }
+
+    );
+
+}
+
+
+// =====================================================
+// ELIMINAR
+// =====================================================
+
+function confirmarEliminacion(
+    licencia
+) {
+
+    abrirModal(
+
+        "Eliminar licencia",
+
+        `¿Estás seguro de eliminar definitivamente la licencia ${licencia.id}? Esta operación no se puede deshacer.`,
+
+        async () => {
+
+            try {
+
+                await enviarSolicitud({
+
+                    accion:
+                        "eliminar",
+
+                    token:
+                        tokenSesion,
+
+                    licenciaId:
+                        licencia.id
+
+                });
+
+
+                mostrarExito(
+                    "Licencia eliminada correctamente."
+                );
+
+
+                await cargarLicencias();
+
+
+            } catch (error) {
+
+                mostrarError(
+                    error.message ||
+                    "No fue posible eliminar la licencia."
+                );
+
+            }
+
+        }
+
+    );
+
+}
+
+
+// =====================================================
+// MODAL
+// =====================================================
+
+function abrirModal(
+    titulo,
+    mensaje,
+    accion
+) {
+
+    modalTitulo.textContent =
+        titulo;
+
+
+    modalMensaje.textContent =
+        mensaje;
+
+
+    accionModal =
+        accion;
+
+
+    modal.classList.add(
+        "visible"
+    );
+
+}
+
+
+function cerrarModal() {
+
+    modal.classList.remove(
+        "visible"
+    );
+
+
+    accionModal =
+        null;
+
+}
+
+
+btnCancelarModal.addEventListener(
+    "click",
+    cerrarModal
+);
+
+
+btnConfirmarModal.addEventListener(
+    "click",
+    async () => {
+
+        if (
+            typeof accionModal ===
+            "function"
+        ) {
+
+            const accion =
+                accionModal;
+
+
+            cerrarModal();
+
+
+            await accion();
+
+        }
+
+    }
+);
+
+
+// =====================================================
+// RESUMEN
+// =====================================================
+
+function actualizarResumen() {
+
+    totalLicencias.textContent =
+        licencias.length;
+
+
+    const activas =
+        licencias.filter(
+            licencia =>
+                licencia.activa === true
+        ).length;
+
+
+    licenciasActivas.textContent =
+        activas;
+
+
+    let generados =
+        0;
+
+
+    let disponibles =
+        0;
+
+
+    licencias.forEach(
+        licencia => {
+
+            const limite =
+                Number(
+                    licencia.limiteCodigos ||
+                    0
+                );
+
+
+            const usados =
+                Number(
+                    licencia.codigosGenerados ||
+                    0
+                );
+
+
+            generados +=
+                usados;
+
+
+            if (
+                limite > 0
+            ) {
+
+                disponibles +=
+                    Math.max(
+                        0,
+                        limite -
+                        usados
+                    );
+
+            }
+
+        }
+    );
+
+
+    totalCodigos.textContent =
+        generados;
+
+
+    totalDisponibles.textContent =
+        disponibles;
+
+}
+
+
+// =====================================================
+// BUSCAR
+// =====================================================
+
+buscador.addEventListener(
+    "input",
+    renderizar
+);
+
+
+// =====================================================
+// ACTUALIZAR
+// =====================================================
+
+btnActualizar.addEventListener(
+    "click",
+    async () => {
+
+        btnActualizar.disabled =
+            true;
+
+
+        btnActualizar.textContent =
+            "Actualizando...";
+
+
+        await cargarLicencias();
+
+
+        btnActualizar.disabled =
+            false;
+
+
+        btnActualizar.textContent =
+            "Actualizar";
+
+    }
+);
+
+
+// =====================================================
+// LIMPIAR
+// =====================================================
+
+btnLimpiarFormulario.addEventListener(
+    "click",
+    () => {
+
+        cliente.value =
+            "";
+
+
+        limiteCodigos.value =
+            "100";
+
+
+        estadoInicial.value =
+            "true";
+
+
+        establecerFechasIniciales();
+
+
+        contenedorLicenciaGenerada.style.display =
+            "none";
+
+
+        licenciaGenerada.value =
+            "";
+
+
+        limpiarMensaje();
+
+    }
+);
+
+
+// =====================================================
+// FECHAS
+// =====================================================
+
+function establecerFechasIniciales() {
+
+    const hoy =
+        new Date();
+
+
+    const inicio =
+        convertirFechaInput(
+            hoy
+        );
+
+
+    const fin =
+        new Date(
+            hoy
+        );
+
+
+    fin.setFullYear(
+        fin.getFullYear() + 1
+    );
+
+
+    fechaInicio.value =
+        inicio;
+
+
+    fechaFin.value =
+        convertirFechaInput(
+            fin
+        );
+
+}
+
+
+function convertirFechaInput(
+    fecha
+) {
+
+    return [
+
+        fecha.getFullYear(),
+
+        String(
+            fecha.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        ),
+
+        String(
+            fecha.getDate()
+        ).padStart(
+            2,
+            "0"
+        )
+
+    ].join("-");
+
+}
+
+
+// =====================================================
+// FORMATEAR FECHA
+// =====================================================
+
+function formatearFecha(
+    valor
+) {
+
+    if (!valor) {
+
+        return "—";
+
+    }
+
+
+    const fecha =
+        convertirFecha(
+            valor
+        );
+
+
+    if (!fecha) {
+
+        return String(
+            valor
+        );
+
+    }
+
+
+    return [
+
+        String(
+            fecha.getDate()
+        ).padStart(
+            2,
+            "0"
+        ),
+
+        String(
+            fecha.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        ),
+
+        fecha.getFullYear()
+
+    ].join("/");
+
+}
+
+
+// =====================================================
+// CONVERTIR FECHA
+// =====================================================
+
+function convertirFecha(
+    valor
+) {
+
+    if (!valor) {
+
+        return null;
+
+    }
+
+
+    if (
+        typeof valor.toDate ===
+        "function"
+    ) {
+
+        return valor.toDate();
+
+    }
+
+
+    if (
+        valor instanceof Date
+    ) {
+
+        return valor;
+
+    }
+
+
+    const texto =
+        String(
+            valor
+        ).trim();
+
+
+    if (
+        /^\d{4}-\d{2}-\d{2}$/.test(
+            texto
+        )
+    ) {
+
+        const partes =
+            texto.split("-");
+
+
+        const fecha =
+            new Date(
+
+                Number(
+                    partes[0]
+                ),
+
+                Number(
+                    partes[1]
+                ) - 1,
+
+                Number(
+                    partes[2]
+                )
+
+            );
+
+
+        return isNaN(
+            fecha.getTime()
+        )
+            ? null
+            : fecha;
+
+    }
+
+
+    if (
+        /^\d{2}-\d{2}-\d{4}$/.test(
+            texto
+        )
+    ) {
+
+        const partes =
+            texto.split("-");
+
+
+        const fecha =
+            new Date(
+
+                Number(
+                    partes[2]
+                ),
+
+                Number(
+                    partes[1]
+                ) - 1,
+
+                Number(
+                    partes[0]
+                )
+
+            );
+
+
+        return isNaN(
+            fecha.getTime()
+        )
+            ? null
+            : fecha;
+
+    }
+
+
+    const fecha =
+        new Date(
+            texto
+        );
+
+
+    return isNaN(
+        fecha.getTime()
+    )
+        ? null
+        : fecha;
+
+}
+
+
+// =====================================================
+// ESCAPAR HTML
+// =====================================================
+
+function escaparHTML(
+    valor
+) {
+
+    return String(
+        valor ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// =====================================================
+// MENSAJES
+// =====================================================
+
+function limpiarMensaje() {
+
+    mensajeFormulario.textContent =
+        "";
+
+
+    mensajeFormulario.className =
+        "mensaje";
+
+}
+
+
+function mostrarExito(
+    mensaje
+) {
+
+    mensajeFormulario.textContent =
+        mensaje;
+
+
+    mensajeFormulario.className =
+        "mensaje exito";
+
+}
+
+
+function mostrarError(
+    mensaje
+) {
+
+    mensajeFormulario.textContent =
+        mensaje;
+
+
+    mensajeFormulario.className =
+        "mensaje error";
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
