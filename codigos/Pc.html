@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
@@ -54,6 +55,7 @@
     ========================================= -->
 
     <section class="resumen">
+
 
         <div class="tarjeta">
 
@@ -118,6 +120,7 @@
 
         </div>
 
+
     </section>
 
 
@@ -138,7 +141,9 @@
             <div class="campo campo-completo">
 
                 <label for="cliente">
+
                     Cliente
+
                 </label>
 
                 <input
@@ -155,7 +160,9 @@
             <div class="campo">
 
                 <label for="fechaInicio">
+
                     Fecha de inicio
+
                 </label>
 
                 <input
@@ -169,7 +176,9 @@
             <div class="campo">
 
                 <label for="fechaFin">
+
                     Fecha de vencimiento
+
                 </label>
 
                 <input
@@ -183,7 +192,9 @@
             <div class="campo">
 
                 <label for="limiteCodigos">
+
                     Límite de códigos
+
                 </label>
 
                 <input
@@ -195,7 +206,9 @@
                 >
 
                 <span class="ayuda">
+
                     Usa 0 para licencia sin límite.
+
                 </span>
 
             </div>
@@ -204,10 +217,14 @@
             <div class="campo">
 
                 <label for="estadoInicial">
+
                     Estado inicial
+
                 </label>
 
-                <select id="estadoInicial">
+                <select
+                    id="estadoInicial"
+                >
 
                     <option value="true">
                         Activa
@@ -360,7 +377,9 @@
                 </thead>
 
 
-                <tbody id="tablaLicencias"></tbody>
+                <tbody
+                    id="tablaLicencias"
+                ></tbody>
 
             </table>
 
@@ -393,11 +412,15 @@
 
     <div class="modal-contenido">
 
-        <h3 id="modalTitulo">
+        <h3
+            id="modalTitulo"
+        >
             Confirmar operación
         </h3>
 
-        <p id="modalMensaje"></p>
+        <p
+            id="modalMensaje"
+        ></p>
 
         <div class="modal-botones">
 
@@ -424,7 +447,13 @@
 </div>
 
 
-<script type="module">
+<script>
+
+
+// =====================================================
+// PASSBAR - ADMINISTRADOR DE LICENCIAS
+// GOOGLE APPS SCRIPT
+// =====================================================
 
 
 // =====================================================
@@ -443,73 +472,139 @@ const TIEMPO_ESPERA =
     20000;
 
 
-const ORIGEN_CALLBACK =
-    "https://petestingforyou.github.io";
+const ORIGENES_PERMITIDOS = [
+
+    "https://petestingforyou.github.io",
+
+    "http://127.0.0.1:5500",
+
+    "http://localhost:5500"
+
+];
 
 
 // =====================================================
-// ELEMENTOS HTML
+// ELEMENTOS
 // =====================================================
 
 const cliente =
-    document.getElementById("cliente");
+    document.getElementById(
+        "cliente"
+    );
+
 
 const fechaInicio =
-    document.getElementById("fechaInicio");
+    document.getElementById(
+        "fechaInicio"
+    );
+
 
 const fechaFin =
-    document.getElementById("fechaFin");
+    document.getElementById(
+        "fechaFin"
+    );
+
 
 const limiteCodigos =
-    document.getElementById("limiteCodigos");
+    document.getElementById(
+        "limiteCodigos"
+    );
+
 
 const estadoInicial =
-    document.getElementById("estadoInicial");
+    document.getElementById(
+        "estadoInicial"
+    );
+
 
 const btnCrear =
-    document.getElementById("btnCrear");
+    document.getElementById(
+        "btnCrear"
+    );
+
 
 const btnLimpiarFormulario =
-    document.getElementById("btnLimpiarFormulario");
+    document.getElementById(
+        "btnLimpiarFormulario"
+    );
+
 
 const btnCopiarNueva =
-    document.getElementById("btnCopiarNueva");
+    document.getElementById(
+        "btnCopiarNueva"
+    );
+
 
 const licenciaGenerada =
-    document.getElementById("licenciaGenerada");
+    document.getElementById(
+        "licenciaGenerada"
+    );
+
 
 const contenedorLicenciaGenerada =
-    document.getElementById("contenedorLicenciaGenerada");
+    document.getElementById(
+        "contenedorLicenciaGenerada"
+    );
+
 
 const mensajeFormulario =
-    document.getElementById("mensajeFormulario");
+    document.getElementById(
+        "mensajeFormulario"
+    );
+
 
 const tablaLicencias =
-    document.getElementById("tablaLicencias");
+    document.getElementById(
+        "tablaLicencias"
+    );
+
 
 const sinResultados =
-    document.getElementById("sinResultados");
+    document.getElementById(
+        "sinResultados"
+    );
+
 
 const buscador =
-    document.getElementById("buscador");
+    document.getElementById(
+        "buscador"
+    );
+
 
 const btnActualizar =
-    document.getElementById("btnActualizar");
+    document.getElementById(
+        "btnActualizar"
+    );
+
 
 const estadoConexion =
-    document.getElementById("estadoConexion");
+    document.getElementById(
+        "estadoConexion"
+    );
+
 
 const totalLicencias =
-    document.getElementById("totalLicencias");
+    document.getElementById(
+        "totalLicencias"
+    );
+
 
 const licenciasActivas =
-    document.getElementById("licenciasActivas");
+    document.getElementById(
+        "licenciasActivas"
+    );
+
 
 const totalCodigos =
-    document.getElementById("totalCodigos");
+    document.getElementById(
+        "totalCodigos"
+    );
+
 
 const totalDisponibles =
-    document.getElementById("totalDisponibles");
+    document.getElementById(
+        "totalDisponibles"
+    );
 
 
 // =====================================================
@@ -517,29 +612,46 @@ const totalDisponibles =
 // =====================================================
 
 const modal =
-    document.getElementById("modal");
+    document.getElementById(
+        "modal"
+    );
+
 
 const modalTitulo =
-    document.getElementById("modalTitulo");
+    document.getElementById(
+        "modalTitulo"
+    );
+
 
 const modalMensaje =
-    document.getElementById("modalMensaje");
+    document.getElementById(
+        "modalMensaje"
+    );
+
 
 const btnCancelarModal =
-    document.getElementById("btnCancelarModal");
+    document.getElementById(
+        "btnCancelarModal"
+    );
+
 
 const btnConfirmarModal =
-    document.getElementById("btnConfirmarModal");
+    document.getElementById(
+        "btnConfirmarModal"
+    );
 
 
-let accionModal = null;
+let accionModal =
+    null;
 
 
 // =====================================================
 // ESTADO
 // =====================================================
 
-let licencias = [];
+let licencias =
+    [];
+
 
 let tokenSesion =
     sessionStorage.getItem(
@@ -562,10 +674,12 @@ async function iniciar() {
 
     establecerFechasIniciales();
 
+
     if (!tokenSesion) {
 
         const autorizado =
             await solicitarAcceso();
+
 
         if (!autorizado) {
 
@@ -576,6 +690,7 @@ async function iniciar() {
         }
 
     }
+
 
     await cargarLicencias();
 
@@ -625,8 +740,11 @@ async function solicitarAcceso() {
         ) {
 
             throw new Error(
+
                 resultado.mensaje ||
+
                 "No fue posible iniciar sesión."
+
             );
 
         }
@@ -637,8 +755,11 @@ async function solicitarAcceso() {
 
 
         sessionStorage.setItem(
+
             CLAVE_SESION,
+
             tokenSesion
+
         );
 
 
@@ -652,14 +773,20 @@ async function solicitarAcceso() {
     } catch (error) {
 
         console.error(
+
             "Error de autenticación:",
+
             error
+
         );
 
 
         mostrarError(
+
             error.message ||
+
             "No fue posible iniciar sesión."
+
         );
 
 
@@ -679,8 +806,10 @@ function bloquearAdministrador() {
     btnCrear.disabled =
         true;
 
+
     btnActualizar.disabled =
         true;
+
 
     estadoConexion.textContent =
         "Acceso administrativo requerido";
@@ -689,38 +818,42 @@ function bloquearAdministrador() {
 
 
 // =====================================================
-// COMUNICACIÓN CON APPS SCRIPT
-// =====================================================
-// Apps Script responde redirigiendo el iframe hacia
-// api-callback.html en GitHub Pages.
-//
-// El callback ejecuta postMessage() hacia esta página.
-//
-// IMPORTANTE:
-// No comprobamos evento.source porque el iframe cambia
-// de documento al navegar desde Apps Script hacia
-// api-callback.html.
+// ENVÍO AL SERVIDOR
 // =====================================================
 
-function enviarSolicitud(datos) {
+function enviarSolicitud(
+    datos
+) {
 
     return new Promise(
+
         (
             resolver,
             rechazar
         ) => {
 
             const requestId =
+
                 "passbar_" +
+
                 Date.now() +
+
                 "_" +
+
                 Math.random()
+
                     .toString(36)
-                    .substring(2, 12);
+
+                    .substring(
+                        2,
+                        12
+                    );
 
 
             const nombreIframe =
+
                 "iframe_" +
+
                 requestId;
 
 
@@ -782,25 +915,37 @@ function enviarSolicitud(datos) {
 
 
             agregarCampoFormulario(
+
                 formulario,
+
                 "datos",
+
                 JSON.stringify(
                     datosSolicitud
                 )
+
             );
 
 
             agregarCampoFormulario(
+
                 formulario,
+
                 "requestId",
+
                 requestId
+
             );
 
 
             agregarCampoFormulario(
+
                 formulario,
+
                 "origen",
+
                 window.location.origin
+
             );
 
 
@@ -842,9 +987,7 @@ function enviarSolicitud(datos) {
                 mensaje
             ) {
 
-                if (
-                    terminado
-                ) {
+                if (terminado) {
 
                     return;
 
@@ -861,8 +1004,11 @@ function enviarSolicitud(datos) {
 
 
                 window.removeEventListener(
+
                     "message",
+
                     recibirMensaje
+
                 );
 
 
@@ -870,9 +1016,11 @@ function enviarSolicitud(datos) {
 
 
                 rechazar(
+
                     new Error(
                         mensaje
                     )
+
                 );
 
             }
@@ -882,22 +1030,29 @@ function enviarSolicitud(datos) {
                 evento
             ) {
 
-                if (
-                    terminado
-                ) {
+                if (terminado) {
 
                     return;
 
                 }
 
 
-                // -----------------------------------------
-                // VALIDAR ORIGEN
-                // -----------------------------------------
+                /*
+                 * IMPORTANTE:
+                 *
+                 * Ya no verificamos:
+                 *
+                 * evento.source === iframe.contentWindow
+                 *
+                 * porque api-callback.html llega
+                 * después de la navegación de Apps Script.
+                 */
+
 
                 if (
-                    evento.origin !==
-                    ORIGEN_CALLBACK
+                    !ORIGENES_PERMITIDOS.includes(
+                        evento.origin
+                    )
                 ) {
 
                     return;
@@ -909,24 +1064,16 @@ function enviarSolicitud(datos) {
                     evento.data;
 
 
-                // -----------------------------------------
-                // VALIDAR TIPO
-                // -----------------------------------------
-
                 if (
                     !respuesta ||
                     respuesta.tipo !==
-                    "PASSBAR_API"
+                        "PASSBAR_API"
                 ) {
 
                     return;
 
                 }
 
-
-                // -----------------------------------------
-                // VALIDAR REQUEST ID
-                // -----------------------------------------
 
                 if (
                     respuesta.requestId !==
@@ -948,20 +1095,27 @@ function enviarSolicitud(datos) {
 
 
                 window.removeEventListener(
+
                     "message",
+
                     recibirMensaje
+
                 );
 
 
                 const datosRespuesta =
-                    respuesta.datos || {};
+
+                    respuesta.datos ||
+
+                    {};
 
 
                 limpiar();
 
 
                 if (
-                    datosRespuesta.ok === true
+                    datosRespuesta.ok ===
+                    true
                 ) {
 
                     resolver(
@@ -971,10 +1125,15 @@ function enviarSolicitud(datos) {
                 } else {
 
                     rechazar(
+
                         new Error(
+
                             datosRespuesta.mensaje ||
+
                             "El servidor rechazó la operación."
+
                         )
+
                     );
 
                 }
@@ -983,21 +1142,29 @@ function enviarSolicitud(datos) {
 
 
             window.addEventListener(
+
                 "message",
+
                 recibirMensaje
+
             );
 
 
             temporizador =
                 setTimeout(
+
                     () => {
 
                         finalizarError(
+
                             "Tiempo de espera agotado al comunicarse con el servidor."
+
                         );
 
                     },
+
                     TIEMPO_ESPERA
+
                 );
 
 
@@ -1008,26 +1175,34 @@ function enviarSolicitud(datos) {
             } catch (error) {
 
                 finalizarError(
+
                     error.message ||
+
                     "No fue posible enviar la solicitud."
+
                 );
 
             }
 
         }
+
     );
 
 }
 
 
 // =====================================================
-// AGREGAR CAMPO A FORMULARIO
+// AGREGAR CAMPO AL FORMULARIO
 // =====================================================
 
 function agregarCampoFormulario(
+
     formulario,
+
     nombre,
+
     valor
+
 ) {
 
     const campo =
@@ -1045,9 +1220,7 @@ function agregarCampoFormulario(
 
 
     campo.value =
-        String(
-            valor ?? ""
-        );
+        valor;
 
 
     formulario.appendChild(
@@ -1090,17 +1263,22 @@ async function cargarLicencias() {
 
 
         licencias.sort(
+
             (
                 a,
                 b
             ) =>
+
                 String(
                     a.id || ""
                 ).localeCompare(
+
                     String(
                         b.id || ""
                     )
+
                 )
+
         );
 
 
@@ -1114,8 +1292,11 @@ async function cargarLicencias() {
     } catch (error) {
 
         console.error(
+
             "Error cargando licencias:",
+
             error
+
         );
 
 
@@ -1126,9 +1307,15 @@ async function cargarLicencias() {
 
 
         if (
-            mensaje.includes("sesión") ||
-            mensaje.includes("expirado") ||
-            mensaje.includes("no proporcionada")
+
+            mensaje.includes(
+                "sesión"
+            ) ||
+
+            mensaje.includes(
+                "expirado"
+            )
+
         ) {
 
             sessionStorage.removeItem(
@@ -1144,9 +1331,7 @@ async function cargarLicencias() {
                 await solicitarAcceso();
 
 
-            if (
-                autorizado
-            ) {
+            if (autorizado) {
 
                 await cargarLicencias();
 
@@ -1163,8 +1348,11 @@ async function cargarLicencias() {
 
 
         mostrarError(
+
             error.message ||
+
             "No fue posible cargar las licencias."
+
         );
 
     }
@@ -1177,8 +1365,11 @@ async function cargarLicencias() {
 // =====================================================
 
 btnCrear.addEventListener(
+
     "click",
+
     crearLicencia
+
 );
 
 
@@ -1216,9 +1407,7 @@ async function crearLicencia() {
             "Escribe el nombre del cliente."
         );
 
-
         cliente.focus();
-
 
         return;
 
@@ -1231,7 +1420,6 @@ async function crearLicencia() {
             "Selecciona la fecha de inicio."
         );
 
-
         return;
 
     }
@@ -1243,7 +1431,6 @@ async function crearLicencia() {
             "Selecciona la fecha de vencimiento."
         );
 
-
         return;
 
     }
@@ -1254,9 +1441,10 @@ async function crearLicencia() {
     ) {
 
         mostrarError(
-            "La fecha de vencimiento no puede ser anterior a la fecha de inicio."
-        );
 
+            "La fecha de vencimiento no puede ser anterior a la fecha de inicio."
+
+        );
 
         return;
 
@@ -1264,17 +1452,22 @@ async function crearLicencia() {
 
 
     if (
-        !Number.isInteger(limite) ||
+
+        !Number.isInteger(
+            limite
+        ) ||
+
         limite < 0
+
     ) {
 
         mostrarError(
+
             "El límite debe ser un número entero igual o mayor que 0."
+
         );
 
-
         limiteCodigos.focus();
-
 
         return;
 
@@ -1300,9 +1493,13 @@ async function crearLicencia() {
 
 
         for (
+
             let intento = 0;
+
             intento < 10;
+
             intento++
+
         ) {
 
             const posibleClave =
@@ -1354,8 +1551,11 @@ async function crearLicencia() {
             } catch (error) {
 
                 console.warn(
-                    "Intento de creación fallido:",
+
+                    "Intento fallido:",
+
                     error
+
                 );
 
 
@@ -1375,7 +1575,9 @@ async function crearLicencia() {
         if (!creada) {
 
             throw new Error(
+
                 "No fue posible crear la licencia."
+
             );
 
         }
@@ -1390,7 +1592,9 @@ async function crearLicencia() {
 
 
         mostrarExito(
+
             "Licencia creada correctamente."
+
         );
 
 
@@ -1412,14 +1616,20 @@ async function crearLicencia() {
     } catch (error) {
 
         console.error(
+
             "Error creando licencia:",
+
             error
+
         );
 
 
         mostrarError(
+
             error.message ||
+
             "No fue posible crear la licencia."
+
         );
 
 
@@ -1454,15 +1664,23 @@ function generarClaveLicencia() {
 
 
         for (
+
             let i = 0;
+
             i < 4;
+
             i++
+
         ) {
 
             const posicion =
+
                 Math.floor(
+
                     Math.random() *
+
                     caracteres.length
+
                 );
 
 
@@ -1478,12 +1696,19 @@ function generarClaveLicencia() {
 
 
     return (
+
         "PB-" +
+
         bloque() +
+
         "-" +
+
         bloque() +
+
         "-" +
+
         bloque()
+
     );
 
 }
@@ -1494,7 +1719,9 @@ function generarClaveLicencia() {
 // =====================================================
 
 btnCopiarNueva.addEventListener(
+
     "click",
+
     async () => {
 
         const texto =
@@ -1520,20 +1747,22 @@ btnCopiarNueva.addEventListener(
 
 
             setTimeout(
+
                 () => {
 
                     btnCopiarNueva.textContent =
                         "Copiar";
 
                 },
+
                 1500
+
             );
 
 
-        } catch {
+        } catch (error) {
 
             licenciaGenerada.select();
-
 
             document.execCommand(
                 "copy"
@@ -1542,6 +1771,7 @@ btnCopiarNueva.addEventListener(
         }
 
     }
+
 );
 
 
@@ -1559,28 +1789,37 @@ function renderizar() {
 
     const filtradas =
         licencias.filter(
+
             licencia => {
 
                 const clave =
+
                     String(
                         licencia.id || ""
-                    )
-                        .toLowerCase();
+                    ).toLowerCase();
 
 
                 const nombre =
+
                     String(
                         licencia.cliente || ""
-                    )
-                        .toLowerCase();
+                    ).toLowerCase();
 
 
                 return (
-                    clave.includes(texto) ||
-                    nombre.includes(texto)
+
+                    clave.includes(
+                        texto
+                    ) ||
+
+                    nombre.includes(
+                        texto
+                    )
+
                 );
 
             }
+
         );
 
 
@@ -1589,21 +1828,28 @@ function renderizar() {
 
 
     sinResultados.style.display =
+
         filtradas.length === 0
+
             ? "block"
+
             : "none";
 
 
     filtradas.forEach(
+
         licencia => {
 
             tablaLicencias.appendChild(
+
                 crearFila(
                     licencia
                 )
+
             );
 
         }
+
     );
 
 
@@ -1639,11 +1885,14 @@ function crearFila(
 
 
     const disponibles =
+
         limite > 0
+
             ? Math.max(
                 0,
                 limite - generados
             )
+
             : "∞";
 
 
@@ -1656,58 +1905,88 @@ function crearFila(
     fila.innerHTML = `
 
         <td>
+
             <span class="licencia-tabla">
-                ${escaparHTML(licencia.id)}
+
+                ${escaparHTML(
+                    licencia.id
+                )}
+
             </span>
+
         </td>
 
+
         <td>
+
             ${escaparHTML(
                 licencia.cliente || ""
             )}
+
         </td>
 
+
         <td>
+
             ${formatearFecha(
                 licencia.fechaInicio
             )}
+
         </td>
 
+
         <td>
+
             ${formatearFecha(
                 licencia.fechaFin
             )}
+
         </td>
 
+
         <td>
+
             ${
                 limite > 0
                     ? limite
                     : "∞"
             }
+
         </td>
 
+
         <td>
+
             ${generados}
+
         </td>
 
+
         <td>
+
             ${disponibles}
+
         </td>
+
 
         <td>
 
             <span
                 class="estado ${estado.clase}"
             >
+
                 ${estado.texto}
+
             </span>
 
         </td>
 
+
         <td>
 
-            <div class="acciones-tabla">
+            <div
+                class="acciones-tabla"
+            >
 
                 <button
                     type="button"
@@ -1719,6 +1998,7 @@ function crearFila(
                 >
                     Copiar
                 </button>
+
 
                 <button
                     type="button"
@@ -1735,6 +2015,7 @@ function crearFila(
                     }
                 </button>
 
+
                 <button
                     type="button"
                     class="btn-naranja btn-pequeno"
@@ -1745,6 +2026,7 @@ function crearFila(
                 >
                     Reiniciar
                 </button>
+
 
                 <button
                     type="button"
@@ -1846,8 +2128,11 @@ function obtenerEstado(
 
 
     if (
+
         limite > 0 &&
+
         generados >= limite
+
     ) {
 
         return {
@@ -1881,7 +2166,9 @@ function obtenerEstado(
 // =====================================================
 
 tablaLicencias.addEventListener(
+
     "click",
+
     evento => {
 
         const boton =
@@ -1907,8 +2194,10 @@ tablaLicencias.addEventListener(
 
         const licencia =
             licencias.find(
+
                 item =>
                     item.id === id
+
             );
 
 
@@ -1959,6 +2248,7 @@ tablaLicencias.addEventListener(
         }
 
     }
+
 );
 
 
@@ -1978,7 +2268,9 @@ async function copiarLicencia(
 
 
         mostrarExito(
+
             `Licencia ${licencia} copiada.`
+
         );
 
 
@@ -2011,7 +2303,9 @@ async function copiarLicencia(
 
 
         mostrarExito(
+
             `Licencia ${licencia} copiada.`
+
         );
 
     }
@@ -2051,9 +2345,13 @@ async function cambiarEstado(
 
 
         mostrarExito(
+
             nuevoEstado
+
                 ? "Licencia activada."
+
                 : "Licencia desactivada."
+
         );
 
 
@@ -2063,8 +2361,11 @@ async function cambiarEstado(
     } catch (error) {
 
         mostrarError(
+
             error.message ||
+
             "No fue posible cambiar el estado."
+
         );
 
     }
@@ -2073,7 +2374,7 @@ async function cambiarEstado(
 
 
 // =====================================================
-// REINICIAR
+// REINICIAR CONTADOR
 // =====================================================
 
 function confirmarReinicio(
@@ -2105,7 +2406,9 @@ function confirmarReinicio(
 
 
                 mostrarExito(
+
                     "Contador reiniciado correctamente."
+
                 );
 
 
@@ -2115,8 +2418,11 @@ function confirmarReinicio(
             } catch (error) {
 
                 mostrarError(
+
                     error.message ||
+
                     "No fue posible reiniciar el contador."
+
                 );
 
             }
@@ -2161,7 +2467,9 @@ function confirmarEliminacion(
 
 
                 mostrarExito(
+
                     "Licencia eliminada correctamente."
+
                 );
 
 
@@ -2171,8 +2479,11 @@ function confirmarEliminacion(
             } catch (error) {
 
                 mostrarError(
+
                     error.message ||
+
                     "No fue posible eliminar la licencia."
+
                 );
 
             }
@@ -2227,18 +2538,25 @@ function cerrarModal() {
 
 
 btnCancelarModal.addEventListener(
+
     "click",
+
     cerrarModal
+
 );
 
 
 btnConfirmarModal.addEventListener(
+
     "click",
+
     async () => {
 
         if (
+
             typeof accionModal ===
             "function"
+
         ) {
 
             const accion =
@@ -2253,6 +2571,7 @@ btnConfirmarModal.addEventListener(
         }
 
     }
+
 );
 
 
@@ -2268,8 +2587,10 @@ function actualizarResumen() {
 
     const activas =
         licencias.filter(
+
             licencia =>
                 licencia.activa === true
+
         ).length;
 
 
@@ -2286,19 +2607,18 @@ function actualizarResumen() {
 
 
     licencias.forEach(
+
         licencia => {
 
             const limite =
                 Number(
-                    licencia.limiteCodigos ||
-                    0
+                    licencia.limiteCodigos || 0
                 );
 
 
             const usados =
                 Number(
-                    licencia.codigosGenerados ||
-                    0
+                    licencia.codigosGenerados || 0
                 );
 
 
@@ -2311,15 +2631,20 @@ function actualizarResumen() {
             ) {
 
                 disponibles +=
+
                     Math.max(
+
                         0,
+
                         limite -
                         usados
+
                     );
 
             }
 
         }
+
     );
 
 
@@ -2338,8 +2663,11 @@ function actualizarResumen() {
 // =====================================================
 
 buscador.addEventListener(
+
     "input",
+
     renderizar
+
 );
 
 
@@ -2348,7 +2676,9 @@ buscador.addEventListener(
 // =====================================================
 
 btnActualizar.addEventListener(
+
     "click",
+
     async () => {
 
         btnActualizar.disabled =
@@ -2370,15 +2700,18 @@ btnActualizar.addEventListener(
             "Actualizar";
 
     }
+
 );
 
 
 // =====================================================
-// LIMPIAR
+// LIMPIAR FORMULARIO
 // =====================================================
 
 btnLimpiarFormulario.addEventListener(
+
     "click",
+
     () => {
 
         cliente.value =
@@ -2407,6 +2740,7 @@ btnLimpiarFormulario.addEventListener(
         limpiarMensaje();
 
     }
+
 );
 
 
@@ -2433,7 +2767,10 @@ function establecerFechasIniciales() {
 
 
     fin.setFullYear(
-        fin.getFullYear() + 1
+
+        fin.getFullYear() +
+        1
+
     );
 
 
@@ -2545,8 +2882,10 @@ function convertirFecha(
 
 
     if (
+
         typeof valor.toDate ===
         "function"
+
     ) {
 
         return valor.toDate();
@@ -2570,9 +2909,11 @@ function convertirFecha(
 
 
     if (
+
         /^\d{4}-\d{2}-\d{2}$/.test(
             texto
         )
+
     ) {
 
         const partes =
@@ -2600,16 +2941,20 @@ function convertirFecha(
         return isNaN(
             fecha.getTime()
         )
+
             ? null
+
             : fecha;
 
     }
 
 
     if (
+
         /^\d{2}-\d{2}-\d{4}$/.test(
             texto
         )
+
     ) {
 
         const partes =
@@ -2637,7 +2982,9 @@ function convertirFecha(
         return isNaN(
             fecha.getTime()
         )
+
             ? null
+
             : fecha;
 
     }
@@ -2652,7 +2999,9 @@ function convertirFecha(
     return isNaN(
         fecha.getTime()
     )
+
         ? null
+
         : fecha;
 
 }
@@ -2669,22 +3018,27 @@ function escaparHTML(
     return String(
         valor ?? ""
     )
+
         .replace(
             /&/g,
             "&amp;"
         )
+
         .replace(
             /</g,
             "&lt;"
         )
+
         .replace(
             />/g,
             "&gt;"
         )
+
         .replace(
             /"/g,
             "&quot;"
         )
+
         .replace(
             /'/g,
             "&#039;"
