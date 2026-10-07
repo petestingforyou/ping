@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>PassBar</title>
+
+<link
+    rel="stylesheet"
+    href="estilos.css"
+>
+
+<style>
+
+    /* =========================================
+       MODAL DE MENSAJES PASSBAR
+    ========================================== */
+
+    .passbar-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background:
+            rgba(15, 23, 42, 0.58);
+        backdrop-filter:
+            blur(4px);
+        -webkit-backdrop-filter:
+            blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 99999;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.2s ease,
+            visibility 0.2s ease;
+    }
+
+
+    .passbar-modal-overlay.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+
+    .passbar-modal {
+        width: min(
+            420px,
+            100%
+        );
+        background:
+            #ffffff;
+        border-radius:
+            18px;
+        box-shadow:
+            0 25px 70px
+            rgba(0, 0, 0, 0.25);
+        overflow: hidden;
+        transform:
+            translateY(12px)
+            scale(0.97);
+        transition:
+            transform 0.2s ease;
+    }
+
+
+    .passbar-modal-overlay.visible
+    .passbar-modal {
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+
+    .passbar-modal-cabecera {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding:
+            20px 22px 16px;
+        border-bottom:
+            1px solid #e5e7eb;
+    }
+
+
+    .passbar-modal-icono {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        border-radius:
+            12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+            #eef2ff;
+        color:
+            #4f46e5;
+        font-size:
+            22px;
+        font-weight:
+            700;
+    }
+
+
+    .passbar-modal-titulo {
+        margin: 0;
+        font-size:
+            18px;
+        font-weight:
+            700;
+        color:
+            #111827;
+    }
+
+
+    .passbar-modal-cuerpo {
+        padding:
+            20px 22px;
+    }
+
+
+    .passbar-modal-mensaje {
+        margin: 0;
+        color:
+            #4b5563;
+        font-size:
+            15px;
+        line-height:
+            1.6;
+        white-space:
+            pre-wrap;
+        overflow-wrap:
+            anywhere;
+    }
+
+
+    .passbar-modal-pie {
+        display: flex;
+        justify-content: flex-end;
+        padding:
+            0 22px 20px;
+    }
+
+
+    .passbar-modal-boton {
+        border: none;
+        border-radius:
+            10px;
+        padding:
+            10px 22px;
+        background:
+            #2563eb;
+        color:
+            #ffffff;
+        font-size:
+            14px;
+        font-weight:
+            600;
+        cursor: pointer;
+        transition:
+            background 0.2s ease,
+            transform 0.1s ease;
+    }
+
+
+    .passbar-modal-boton:hover {
+        background:
+            #1d4ed8;
+    }
+
+
+    .passbar-modal-boton:active {
+        transform:
+            scale(0.97);
+    }
+
+
+    .passbar-modal-boton:focus {
+        outline:
+            3px solid
+            rgba(37, 99, 235, 0.25);
+        outline-offset:
+            2px;
+    }
+
+
+    /* =========================================
+       TIPOS DE MENSAJE
+    ========================================== */
+
+    .passbar-modal-overlay.tipo-error
+    .passbar-modal-icono {
+        background:
+            #fef2f2;
+        color:
+            #dc2626;
+    }
+
+
+    .passbar-modal-overlay.tipo-exito
+    .passbar-modal-icono {
+        background:
+            #ecfdf5;
+        color:
+            #059669;
+    }
+
+
+    .passbar-modal-overlay.tipo-advertencia
+    .passbar-modal-icono {
+        background:
+            #fffbeb;
+        color:
+            #d97706;
+    }
+
+
+    .passbar-modal-overlay.tipo-info
+    .passbar-modal-icono {
+        background:
+            #eff6ff;
+        color:
+            #2563eb;
+    }
+
+
+    /* =========================================
+       MÓVIL
+    ========================================== */
+
+    @media (max-width: 480px) {
+
+        .passbar-modal-overlay {
+            padding:
+                16px;
+        }
+
+
+        .passbar-modal {
+            border-radius:
+                16px;
+        }
+
+
+        .passbar-modal-cabecera {
+            padding:
+                18px 18px 14px;
+        }
+
+
+        .passbar-modal-cuerpo {
+            padding:
+                18px;
+        }
+
+
+        .passbar-modal-pie {
+            padding:
+                0 18px 18px;
+        }
+
+
+        .passbar-modal-boton {
+            width:
+                100%;
+        }
+
+    }
+
+</style>
+
+
+</head>
+
+<body>
+
+<!-- =========================================
+     MODAL DE MENSAJES PASSBAR
+========================================== -->
+
+<div
+    id="passbarModal"
+    class="passbar-modal-overlay tipo-info"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="passbarModalTitulo"
+    aria-describedby="passbarModalMensaje"
+>
+
+
+<div class="passbar-modal">
+
+    <div class="passbar-modal-cabecera">
+
+        <div
+            id="passbarModalIcono"
+            class="passbar-modal-icono"
+            aria-hidden="true"
+        >
+            i
+        </div>
+
+        <h2
+            id="passbarModalTitulo"
+            class="passbar-modal-titulo"
+        >
+            PassBar
+        </h2>
+
+    </div>
+
+
+    <div class="passbar-modal-cuerpo">
+
+        <p
+            id="passbarModalMensaje"
+            class="passbar-modal-mensaje"
+        ></p>
+
+    </div>
+
+
+    <div class="passbar-modal-pie">
+
+        <button
+            type="button"
+            id="btnCerrarPassbarModal"
+            class="passbar-modal-boton"
+        >
+            Entendido
+        </button>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- =========================================
+     ACTIVACIÓN DE LICENCIA
+========================================== -->
+
+<div
+    id="pantallaLicencia"
+    class="pantalla-licencia"
+>
+
+
+<div class="panel-licencia">
+
+    <div class="logo-licencia">
+        PB
+    </div>
+
+    <h1>
+        Activar PassBar
+    </h1>
+
+    <p>
+        Ingresa la licencia proporcionada
+        para utilizar el generador.
+    </p>
+
+    <label for="licenciaInput">
+        Licencia
+    </label>
+
+    <input
+        type="text"
+        id="licenciaInput"
+        placeholder="Ejemplo: PB-001"
+        autocomplete="off"
+    >
+
+    <button
+        type="button"
+        id="btnActivarLicencia"
+    >
+        Activar licencia
+    </button>
+
+    <p
+        id="mensajeLicencia"
+        class="mensaje-licencia"
+    ></p>
+
+</div>
+
+
+</div>
+
+<!-- =========================================
+     ENCABEZADO
+========================================== -->
+
+<header class="encabezado">
+
+
+<div class="marca">
+
+    <div class="logo">
+        PB
+    </div>
+
+    <div>
+
+        <h1>
+            PassBar
+        </h1>
+
+        <p>
+            tu contraseña en un codigo de barras
+        </p>
+
+    </div>
+
+</div>
+
+
+<div
+    class="estado"
+    id="estadoLicencia"
+>
+    Verificando licencia...
+</div>
+
+
+</header>
+
+<!-- =========================================
+     CONTENIDO PRINCIPAL
+========================================== -->
+
+<main class="contenido">
+
+
+<!-- =====================================
+     CONFIGURACIÓN
+====================================== -->
+
+<section class="panel configuracion">
+
+    <div class="titulo-seccion">
+        CONFIGURACIÓN
+    </div>
+
+    <h2>
+        Códigos a generar
+    </h2>
+
+
+    <div
+        id="listaRegistros"
+        class="lista-registros"
+    >
+    </div>
+
+
+    <button
+        type="button"
+        id="btnAgregar"
+        class="btn btn-secundario"
+    >
+        + Agregar otro código
+    </button>
+
+
+
+    <!-- =================================
+         TAMAÑO
+    ================================== -->
+
+    <div class="separador"></div>
+
+    <div class="titulo-seccion">
+        
+    </div>
+
+
+    <div class="bloque-tamano">
+
+        <h2>
+            Configuracion
+        </h2>
+
+        <p class="ayuda">
+            Se aplicará a todos
+        </p>
+
+
+        <label for="tamanoCodigo">
+            Tamaño
+        </label>
+
+
+        <select id="tamanoCodigo">
+
+            <option value="pequeno">
+                Pequeño
+            </option>
+
+            <option value="mediano" selected>
+                Mediano
+            </option>
+
+            <option value="grande">
+                Grande
+            </option>
+
+            <option value="personalizado">
+                Personalizado
+            </option>
+
+        </select>
+
+
+
+        <!-- =================================
+             TAMAÑO PERSONALIZADO
+        ================================== -->
+
+        <div
+            id="opcionesPersonalizadas"
+            class="opciones-personalizadas oculto"
+        >
+
+            <div class="campo">
+
+                <label for="anchoEtiqueta">
+                    Ancho de etiqueta (cm)
+                </label>
+
+                <input
+                    type="number"
+                    id="anchoEtiqueta"
+                    min="1"
+                    step="0.1"
+                    value="5"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="altoEtiqueta">
+                    Alto de etiqueta (cm)
+                </label>
+
+                <input
+                    type="number"
+                    id="altoEtiqueta"
+                    min="0.5"
+                    step="0.1"
+                    value="1.5"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="altoBarras">
+                    Alto de barras (cm)
+                </label>
+
+                <input
+                    type="number"
+                    id="altoBarras"
+                    min="0.3"
+                    step="0.1"
+                    value="1"
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="tamanoTexto">
+                    Tamaño del texto
+                </label>
+
+                <input
+                    type="number"
+                    id="tamanoTexto"
+                    min="6"
+                    max="40"
+                    step="1"
+                    value="10"
+                >
+
+            </div>
+
+
+            <p class="nota-tamano">
+                Ejemplo: 5 cm × 1.5 cm corresponde a una
+                etiqueta de 50 mm × 15 mm.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================
+         GENERAR
+    ================================== -->
+
+    <button
+        type="button"
+        id="btnGenerar"
+        class="btn btn-principal"
+        disabled
+    >
+        Verificando licencia...
+    </button>
+
+</section>
+
+
+
+<!-- =====================================
+     VISTA PREVIA
+====================================== -->
+
+<section class="panel vista-previa">
+
+    <div class="titulo-seccion">
+        VISTA PREVIA
+    </div>
+
+    <h2>
+        Códigos generados
+    </h2>
+
+
+    <div
+        id="mensajeInicial"
+        class="mensaje-inicial"
+    >
+
+        <div class="icono-vacio">
+            ▦
+        </div>
+
+        <p>
+            Aún no hay códigos
+        </p>
+
+        <span>
+            Completa los datos de los registros y genera
+            los códigos para verlos aquí.
+        </span>
+
+    </div>
+
+
+    <div
+        id="contenedorCodigos"
+        class="contenedor-codigos"
+    >
+    </div>
+
+
+
+    <!-- =================================
+         ACCIONES
+    ================================== -->
+
+    <div
+        id="acciones"
+        class="acciones oculto"
+    >
+
+        <button
+            type="button"
+            id="btnLimpiar"
+            class="btn btn-secundario"
+        >
+            Limpiar vista
+        </button>
+
+
+        <button
+            type="button"
+            id="btnImprimir"
+            class="btn btn-principal"
+        >
+            Imprimir códigos
+        </button>
+
+    </div>
+
+</section>
+
+
+</main>
+
+<!-- =========================================
+     PIE
+========================================== -->
+
+<footer class="pie">
+
+
+<strong>
+    PassBar
+</strong>
+
+<span>
+    Generador de códigos de barras
+</span>
+
+
+</footer>
+
+<!-- =========================================
+     JSBARCODE
+========================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"
+></script>
+
+<!-- =========================================
+     SISTEMA DE MENSAJES PASSBAR
+========================================== -->
+
+<script>
+
+    (function () {
+
+        const modal =
+            document.getElementById(
+                "passbarModal"
+            );
+
+
+        const titulo =
+            document.getElementById(
+                "passbarModalTitulo"
+            );
+
+
+        const mensaje =
+            document.getElementById(
+                "passbarModalMensaje"
+            );
+
+
+        const icono =
+            document.getElementById(
+                "passbarModalIcono"
+            );
+
+
+        const boton =
+            document.getElementById(
+                "btnCerrarPassbarModal"
+            );
+
+
+        let ultimoElementoActivo = null;
+
+
+
+        function cerrarModal() {
+
+            modal.classList.remove(
+                "visible"
+            );
+
+
+            if (
+                ultimoElementoActivo &&
+                typeof ultimoElementoActivo.focus === "function"
+            ) {
+
+                setTimeout(
+                    function () {
+
+                        ultimoElementoActivo.focus();
+
+                    },
+                    50
+                );
+
+            }
+
+        }
+
+
+
+        function mostrarModal(
+            texto,
+            tipo = "info",
+            tituloTexto = "PassBar"
+        ) {
+
+            ultimoElementoActivo =
+                document.activeElement;
+
+
+            modal.classList.remove(
+                "tipo-info",
+                "tipo-error",
+                "tipo-exito",
+                "tipo-advertencia"
+            );
+
+
+            modal.classList.add(
+                "tipo-" + tipo
+            );
+
+
+            titulo.textContent =
+                tituloTexto;
+
+
+            mensaje.textContent =
+                String(texto);
+
+
+            if (tipo === "error") {
+
+                icono.textContent =
+                    "!";
+
+            } else if (tipo === "exito") {
+
+                icono.textContent =
+                    "✓";
+
+            } else if (tipo === "advertencia") {
+
+                icono.textContent =
+                    "!";
+
+            } else {
+
+                icono.textContent =
+                    "i";
+
+            }
+
+
+            modal.classList.add(
+                "visible"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    boton.focus();
+
+                },
+                50
+            );
+
+        }
+
+
+
+        boton.addEventListener(
+            "click",
+            cerrarModal
+        );
+
+
+        modal.addEventListener(
+            "click",
+            function (evento) {
+
+                if (
+                    evento.target === modal
+                ) {
+
+                    cerrarModal();
+
+                }
+
+            }
+        );
+
+
+        document.addEventListener(
+            "keydown",
+            function (evento) {
+
+                if (
+                    evento.key === "Escape" &&
+                    modal.classList.contains("visible")
+                ) {
+
+                    cerrarModal();
+
+                }
+
+            }
+        );
+
+
+
+        /*
+         * Interceptamos los alert()
+         * tradicionales utilizados
+         * por app.js.
+         */
+
+        window.alert =
+            function (texto) {
+
+                mostrarModal(
+                    texto,
+                    "info",
+                    "PassBar"
+                );
+
+            };
+
+
+
+        window.passbarMensaje =
+            function (
+                texto,
+                tipo = "info",
+                tituloTexto = "PassBar"
+            ) {
+
+                mostrarModal(
+                    texto,
+                    tipo,
+                    tituloTexto
+                );
+
+            };
+
+    })();
+
+</script>
+
+<!-- =========================================
+     APLICACIÓN
+========================================== -->
+
+<script
+    type="module"
+    src="app.js"
+></script>
+
+</body>
+
+</html>

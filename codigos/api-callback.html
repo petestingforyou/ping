@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>PassBar API Callback</title>
+
+
+</head>
+
+<body>
+
+<script>
+
+(function () {
+
+    console.log(
+        "[PASSBAR CALLBACK] Callback local iniciado."
+    );
+
+    try {
+
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const datosTexto =
+            parametros.get("datos");
+
+        const origen =
+            parametros.get("origen");
+
+        console.log(
+            "[PASSBAR CALLBACK] Origen recibido:",
+            origen
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] Datos recibidos:",
+            datosTexto
+        );
+
+        if (!datosTexto) {
+
+            throw new Error(
+                "No se recibieron datos del servidor."
+            );
+
+        }
+
+        if (!origen) {
+
+            throw new Error(
+                "No se recibió el origen de la aplicación."
+            );
+
+        }
+
+        const datos =
+            JSON.parse(datosTexto);
+
+        console.log(
+            "[PASSBAR CALLBACK] Datos procesados:",
+            datos
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] window === window.top:",
+            window === window.top
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] window.parent === window.top:",
+            window.parent === window.top
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] window.parent:",
+            window.parent
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] window.top:",
+            window.top
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] Enviando respuesta a Pc.html..."
+        );
+
+        window.top.postMessage(
+            {
+                tipo: "PASSBAR_API",
+
+                requestId:
+                    datos.requestId || "",
+
+                datos:
+                    datos
+            },
+            origen
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] Mensaje enviado correctamente."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "[PASSBAR CALLBACK] Error:",
+            error
+        );
+
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const origen =
+            parametros.get("origen") || "*";
+
+        window.top.postMessage(
+            {
+                tipo: "PASSBAR_API",
+
+                requestId: "",
+
+                datos: {
+
+                    ok: false,
+
+                    mensaje:
+                        error &&
+                        error.message
+                            ? error.message
+                            : "Error al procesar la respuesta del servidor."
+
+                }
+            },
+            origen
+        );
+
+        console.log(
+            "[PASSBAR CALLBACK] Mensaje de error enviado."
+        );
+
+    }
+
+})();
+
+</script>
+
+</body>
+
+</html>
