@@ -1,0 +1,546 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  }
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+background: #f3f5f8;
+color: #20252b;
+min-height: 100vh;
+}
+
+/* =====================================================
+ENCABEZADO
+===================================================== */
+
+.encabezado {
+background: #18212b;
+color: white;
+padding: 20px;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.encabezado h1 {
+font-size: 24px;
+margin-bottom: 4px;
+}
+
+.encabezado p {
+font-size: 14px;
+opacity: 0.8;
+}
+
+/* =====================================================
+CONTENEDOR
+===================================================== */
+
+.contenedor {
+width: min(100%, 850px);
+margin: 0 auto;
+padding: 20px;
+}
+
+/* =====================================================
+PANTALLAS
+===================================================== */
+
+.pantalla {
+display: none;
+}
+
+.pantalla.activa {
+display: block;
+}
+
+/* =====================================================
+TARJETAS
+===================================================== */
+
+.tarjeta {
+background: white;
+border-radius: 14px;
+padding: 20px;
+margin-bottom: 18px;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.bienvenida {
+text-align: center;
+}
+
+.bienvenida h2 {
+margin-bottom: 8px;
+}
+
+.descripcion {
+color: #6d7680;
+margin-bottom: 20px;
+}
+
+/* =====================================================
+BOTONES
+===================================================== */
+
+.boton {
+border: none;
+border-radius: 10px;
+padding: 14px 18px;
+font-size: 16px;
+font-weight: bold;
+cursor: pointer;
+transition:
+transform 0.15s,
+opacity 0.15s;
+}
+
+.boton:active {
+transform: scale(0.98);
+}
+
+.boton:disabled {
+opacity: 0.45;
+cursor: not-allowed;
+}
+
+.boton-principal {
+width: 100%;
+background: #1f6feb;
+color: white;
+}
+
+.boton-secundario {
+background: #e9edf2;
+color: #303943;
+}
+
+.boton-guardar {
+width: 100%;
+background: #198754;
+color: white;
+margin-bottom: 20px;
+}
+
+.boton-siguiente {
+width: 100%;
+background: #1f6feb;
+color: white;
+font-size: 20px;
+padding: 18px;
+}
+
+.boton-volver {
+border: none;
+background: transparent;
+color: #1f6feb;
+font-size: 15px;
+font-weight: bold;
+cursor: pointer;
+padding: 5px 0;
+}
+
+/* =====================================================
+BOTONES DE ESCANEO
+===================================================== */
+
+.boton-escanear {
+margin-top: 5px;
+}
+
+.boton-cancelar {
+width: 100%;
+margin-top: 10px;
+}
+
+/* =====================================================
+BARRA SUPERIOR
+===================================================== */
+
+.barra-superior {
+display: flex;
+align-items: center;
+gap: 18px;
+margin-bottom: 18px;
+}
+
+.barra-superior h2 {
+font-size: 20px;
+}
+
+.barra-superior p {
+color: #6d7680;
+font-size: 13px;
+margin-top: 3px;
+}
+
+/* =====================================================
+FORMULARIO
+===================================================== */
+
+label {
+display: block;
+font-weight: bold;
+margin-bottom: 8px;
+}
+
+.campo {
+width: 100%;
+padding: 13px;
+border: 1px solid #ccd3da;
+border-radius: 9px;
+font-size: 16px;
+outline: none;
+}
+
+.campo:focus {
+border-color: #1f6feb;
+}
+
+.ayuda {
+color: #737c85;
+font-size: 13px;
+margin-top: 8px;
+}
+
+/* =====================================================
+ENCABEZADOS DE SECCION
+===================================================== */
+
+.encabezado-seccion {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 15px;
+margin-bottom: 15px;
+}
+
+.encabezado-seccion h3 {
+margin-bottom: 4px;
+}
+
+.encabezado-seccion p {
+color: #707982;
+font-size: 13px;
+}
+
+/* =====================================================
+ESTADO ESCANER
+===================================================== */
+
+.estado {
+border-radius: 20px;
+padding: 7px 11px;
+font-size: 12px;
+font-weight: bold;
+white-space: nowrap;
+}
+
+.estado-detenido {
+background: #edf0f3;
+color: #66717c;
+}
+
+.estado-activo {
+background: #dff6e8;
+color: #17733d;
+}
+
+/* =====================================================
+MENSAJE DEL ESCANEO
+===================================================== */
+
+.mensaje-escanear {
+background: #f3f6fa;
+border-radius: 9px;
+padding: 12px;
+margin-bottom: 15px;
+text-align: center;
+color: #626c76;
+font-size: 14px;
+}
+
+/* =====================================================
+CAMARA
+===================================================== */
+
+.lector-camara {
+width: 100%;
+max-width: 500px;
+margin: 0 auto 15px;
+overflow: hidden;
+border-radius: 12px;
+background: #101419;
+display: none;
+}
+
+.lector-camara.activo {
+display: block;
+}
+
+#lectorCamara video {
+width: 100% !important;
+border-radius: 12px;
+}
+
+/* =====================================================
+LISTA DE PRODUCTOS
+===================================================== */
+
+.lista-escaneados {
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+
+.producto-escaneado {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 12px;
+border: 1px solid #e0e5e9;
+border-radius: 9px;
+padding: 12px;
+}
+
+.producto-codigo {
+font-family: monospace;
+font-size: 15px;
+word-break: break-all;
+}
+
+.producto-cantidad {
+min-width: 42px;
+text-align: center;
+background: #e9f1ff;
+color: #1f6feb;
+border-radius: 20px;
+padding: 6px 9px;
+font-weight: bold;
+}
+
+.producto-repetido {
+border-left: 4px solid #f0ad00;
+}
+
+.sin-productos {
+color: #7a838c;
+text-align: center;
+padding: 20px;
+}
+
+/* =====================================================
+LOTES
+===================================================== */
+
+.lista-lotes {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.lote {
+background: white;
+border-radius: 12px;
+padding: 17px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 15px;
+cursor: pointer;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+border: 1px solid transparent;
+}
+
+.lote:hover {
+border-color: #1f6feb;
+}
+
+.lote h3 {
+margin-bottom: 5px;
+}
+
+.lote p {
+color: #737c85;
+font-size: 13px;
+}
+
+.lote-flecha {
+font-size: 22px;
+color: #1f6feb;
+}
+
+.sin-lotes {
+background: white;
+border-radius: 14px;
+padding: 40px 20px;
+text-align: center;
+color: #747d86;
+}
+
+.icono-vacio {
+font-size: 42px;
+margin-bottom: 12px;
+}
+
+/* =====================================================
+REVISION
+===================================================== */
+
+.revision {
+display: block;
+}
+
+.tarjeta-barcode {
+text-align: center;
+min-height: 330px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+
+.indicador-producto {
+margin-bottom: 18px;
+}
+
+.indicador-producto span {
+display: inline-flex;
+width: 42px;
+height: 42px;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+background: #1f6feb;
+color: white;
+font-weight: bold;
+}
+
+.zona-barcode {
+width: 100%;
+overflow-x: auto;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px 5px;
+}
+
+.codigo-svg {
+width: min(100%, 650px);
+height: auto;
+min-height: 150px;
+}
+
+/* =====================================================
+REPETICIONES
+===================================================== */
+
+.informacion-repeticion {
+min-height: 25px;
+color: #6d7680;
+font-size: 15px;
+font-weight: bold;
+}
+
+.informacion-repeticion.repetido {
+color: #c47b00;
+}
+
+/* =====================================================
+FINALIZADO
+===================================================== */
+
+.finalizado {
+text-align: center;
+padding: 45px 20px;
+}
+
+.icono-finalizado {
+width: 70px;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0 auto 18px;
+border-radius: 50%;
+background: #198754;
+color: white;
+font-size: 38px;
+font-weight: bold;
+}
+
+.finalizado h2 {
+margin-bottom: 10px;
+}
+
+.finalizado p {
+color: #707982;
+margin-bottom: 25px;
+}
+
+.oculto {
+display: none !important;
+}
+
+/* =====================================================
+MENSAJES
+===================================================== */
+
+.mensaje {
+position: fixed;
+left: 50%;
+bottom: 25px;
+transform: translate(-50%, 100px);
+background: #20252b;
+color: white;
+padding: 13px 20px;
+border-radius: 10px;
+opacity: 0;
+transition: all 0.25s ease;
+z-index: 9999;
+max-width: calc(100% - 30px);
+text-align: center;
+}
+
+.mensaje.mostrar {
+transform: translate(-50%, 0);
+opacity: 1;
+}
+
+/* =====================================================
+RESPONSIVE
+===================================================== */
+
+@media (max-width: 600px) {
+
+
+.contenedor {
+    padding: 12px;
+}
+
+.encabezado {
+    padding: 16px;
+}
+
+.encabezado h1 {
+    font-size: 21px;
+}
+
+.tarjeta {
+    padding: 15px;
+}
+
+.barra-superior {
+    gap: 10px;
+}
+
+.barra-superior h2 {
+    font-size: 18px;
+}
+
+.codigo-svg {
+    min-height: 130px;
+}
+
+
+}
