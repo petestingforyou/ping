@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Lector de Lotes</title>
+
+<link rel="stylesheet" href="estilos.css">
+
+<!-- Lector de códigos mediante cámara -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+<!-- Generador de códigos de barras SVG -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+<header class="encabezado">
+    <div>
+        <h1>Lector de Lotes</h1>
+        <p>Escanea productos y organiza tus códigos</p>
+    </div>
+</header>
+
+
+<main class="contenedor">
+
+
+    <!-- ================================================= -->
+    <!-- PANTALLA PRINCIPAL -->
+    <!-- ================================================= -->
+
+    <section id="pantallaPrincipal" class="pantalla activa">
+
+        <div class="tarjeta bienvenida">
+
+            <h2>Mis lotes</h2>
+
+            <p class="descripcion">
+                Crea un lote para comenzar a escanear productos.
+            </p>
+
+            <button id="btnNuevoLote" class="boton boton-principal">
+                + Nuevo lote
+            </button>
+
+        </div>
+
+
+        <div id="listaLotes" class="lista-lotes">
+
+            <div class="sin-lotes">
+                <div class="icono-vacio">📦</div>
+                <p>Aún no tienes lotes guardados.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- CREAR LOTE -->
+    <!-- ================================================= -->
+
+    <section id="pantallaNuevoLote" class="pantalla">
+
+        <div class="barra-superior">
+
+            <button id="btnVolverPrincipal" class="boton-volver">
+                ← Volver
+            </button>
+
+            <h2>Nuevo lote</h2>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <label for="nombreLote">
+                Nombre del lote
+            </label>
+
+            <input
+                type="text"
+                id="nombreLote"
+                class="campo"
+                placeholder="Ej. Farmacia Octubre"
+                autocomplete="off"
+            >
+
+            <p class="ayuda">
+                Escribe un nombre para identificar este grupo de productos.
+            </p>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="encabezado-seccion">
+
+                <div>
+                    <h3>Escaneo</h3>
+                    <p id="contadorEscaneos">
+                        0 productos escaneados
+                    </p>
+                </div>
+
+                <span id="estadoEscaner" class="estado estado-detenido">
+                    Detenido
+                </span>
+
+            </div>
+
+
+            <div id="lectorCamara" class="lector-camara"></div>
+
+
+            <div class="controles-escaner">
+
+                <button
+                    id="btnIniciarEscaneo"
+                    class="boton boton-principal"
+                >
+                    📷 Iniciar escaneo
+                </button>
+
+                <button
+                    id="btnDetenerEscaneo"
+                    class="boton boton-secundario"
+                    disabled
+                >
+                    ■ Detener cámara
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="encabezado-seccion">
+
+                <div>
+                    <h3>Productos escaneados</h3>
+                    <p>
+                        Los códigos repetidos se agrupan automáticamente.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div id="listaEscaneados" class="lista-escaneados">
+
+                <div class="sin-productos">
+                    Todavía no has escaneado productos.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="btnGuardarLote"
+            class="boton boton-guardar"
+        >
+            💾 Guardar lote
+        </button>
+
+    </section>
+
+
+
+    <!-- ================================================= -->
+    <!-- REVISION DEL LOTE -->
+    <!-- ================================================= -->
+
+    <section id="pantallaRevision" class="pantalla">
+
+        <div class="barra-superior">
+
+            <button id="btnVolverLotes" class="boton-volver">
+                ← Lotes
+            </button>
+
+            <div>
+                <h2 id="tituloLoteRevision">
+                    Lote
+                </h2>
+
+                <p id="progresoRevision">
+                    Producto 1 de 1
+                </p>
+            </div>
+
+        </div>
+
+
+        <div id="contenedorRevision" class="revision">
+
+            <div class="tarjeta tarjeta-barcode">
+
+                <div class="indicador-producto">
+                    <span id="numeroProductoActual">
+                        1
+                    </span>
+                </div>
+
+
+                <div class="zona-barcode">
+
+                    <!-- El SVG se genera aquí -->
+                    <svg
+                        id="codigoBarrasRevision"
+                        class="codigo-svg"
+                    ></svg>
+
+                </div>
+
+
+                <div
+                    id="informacionRepeticion"
+                    class="informacion-repeticion"
+                >
+                </div>
+
+            </div>
+
+
+            <button
+                id="btnSiguiente"
+                class="boton boton-siguiente"
+            >
+                Siguiente →
+            </button>
+
+        </div>
+
+
+        <!-- FINALIZADO -->
+
+        <div
+            id="pantallaFinalizado"
+            class="tarjeta finalizado oculto"
+        >
+
+            <div class="icono-finalizado">
+                ✓
+            </div>
+
+            <h2>Lote finalizado</h2>
+
+            <p>
+                Has revisado todos los códigos de este lote.
+            </p>
+
+            <button
+                id="btnRegresarLotesFinalizado"
+                class="boton boton-principal"
+            >
+                Volver a mis lotes
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- ================================================= -->
+<!-- MENSAJE -->
+<!-- ================================================= -->
+
+<div id="mensaje" class="mensaje"></div>
+
+
+<script src="app.js"></script>
+
+
+</body>
+</html>
