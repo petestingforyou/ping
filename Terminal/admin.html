@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#ffffff"><title>Administración | TERMINAL ROJA</title><link rel="stylesheet" href="estilos.css"></head>
+<body>
+  <header class="site-header"><div class="terminal-mark">TR<span>_</span></div><div><p class="eyebrow">MÓDULO DE CONTROL</p><h1>ADMINISTRACIÓN</h1><p class="subtitle">Publicaciones y respuestas</p></div><a class="admin-link" href="index.html">[ VER SITIO ]</a></header>
+  <main class="admin-shell">
+    <section id="login-panel" class="panel"><h2>&gt; ACCESO ADMINISTRATIVO</h2><form id="login-form" class="stack-form"><label>Contraseña administrativa<input id="password" type="password" autocomplete="current-password" minlength="8" required></label><button id="login-button" type="submit">VERIFICAR ACCESO</button><p id="login-message" class="form-message" role="status"></p></form><p class="muted">La página compara un hash derivado de la contraseña con el registro configuracion/admin de Firestore.</p><p class="form-message">ADVERTENCIA: este acceso solo oculta el panel; no protege las operaciones de Firestore frente a otros usuarios.</p></section>
+    <div id="admin-content" class="hidden"><div class="admin-top"><div><p class="eyebrow">SESIÓN LOCAL</p><h1>CONSOLA DE CONTROL</h1></div><button id="logout-button" class="button-secondary" type="button">CERRAR SESIÓN</button></div>
+      <section class="panel"><h2>&gt; NUEVA PUBLICACIÓN</h2><form id="post-form" class="stack-form"><label>Título del tema<input id="post-title" maxlength="120" required placeholder="Ej. ¿Qué opinas sobre..."></label><label>Contenido<textarea id="post-body" maxlength="12000" required placeholder="Escribe aquí el tema que quieres compartir..."></textarea></label><button id="publish-button" type="submit">PUBLICAR TEMA</button><p id="post-message" class="form-message" role="status"></p></form></section>
+      <section class="panel"><h2>&gt; PUBLICACIONES Y CONVERSACIONES</h2><div id="admin-posts"><p class="muted">Cargando...</p></div></section>
+    </div>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body></html>

@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // MODO SIMPLE SOLICITADO: la contraseña solo controla la interfaz.
+    // Estas reglas NO distinguen al administrador de un visitante.
+    // Cualquier persona con acceso al proyecto puede modificar publicaciones
+    // y respuestas directamente mediante las APIs de Firestore.
+    match /publicaciones/{postId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['titulo', 'contenido', 'fecha'])
+        && request.resource.data.titulo is string
+        && request.resource.data.titulo.size() > 0
+        && request.resource.data.titulo.size() <= 120
+        && request.resource.data.contenido is string
+        && request.resource.data.contenido.size() > 0
+        && request.resource.data.contenido.size() <= 12000
+        && request.resource.data.fecha == request.time;
+      allow update: if request.resource.data.keys().hasOnly(['titulo', 'contenido', 'fecha'])
+        && request.resource.data.titulo is string
+        && request.resource.data.titulo.size() > 0
+        && request.resource.data.titulo.size() <= 120
+        && request.resource.data.contenido is string
+        && request.resource.data.contenido.size() > 0
+        && request.resource.data.contenido.size() <= 12000;
+      allow delete: if true;
+    }
+    match /comentarios/{commentId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly([
+          'publicacionId', 'alias', 'texto', 'fecha', 'respuesta', 'respuestaFecha'
+        ])
+        && request.resource.data.publicacionId is string
+        && request.resource.data.publicacionId.size() > 0
+        && exists(/databases/$(database)/documents/publicaciones/$(request.resource.data.publicacionId))
+        && request.resource.data.alias is string
+        && request.resource.data.alias.size() > 0
+        && request.resource.data.alias.size() <= 32
+        && request.resource.data.texto is string
+        && request.resource.data.texto.size() > 0
+        && request.resource.data.texto.size() <= 2000
+        && request.resource.data.fecha == request.time
+        && request.resource.data.respuesta == ''
+        && request.resource.data.respuestaFecha == null;
+      allow update: if request.resource.data.keys().hasOnly([
+          'publicacionId', 'alias', 'texto', 'fecha', 'respuesta', 'respuestaFecha'
+        ])
+        && request.resource.data.publicacionId == resource.data.publicacionId
+        && request.resource.data.alias == resource.data.alias
+        && request.resource.data.texto == resource.data.texto
+        && request.resource.data.respuesta is string
+        && request.resource.data.respuesta.size() <= 2000;
+      allow delete: if true;
+    }
+    // El hash se puede leer para la comprobación local, pero no modificar desde la web.
+    match /configuracion/{documento} {
+      allow read: if documento == 'admin';
+      allow write: if false;
+    }
+  }
+}
