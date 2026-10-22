@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Desplazamiento</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header class="encabezado">
+        <h1>Control de Desplazamiento</h1>
+        <p>Registro de piezas desplazadas</p>
+    </header>
+
+    <nav class="menu">
+        <button type="button" class="boton-menu activo" data-seccion="productos">
+            Productos
+        </button>
+        <button type="button" class="boton-menu" data-seccion="desplazamiento">
+            Desplazamiento
+        </button>
+        <button type="button" class="boton-menu" data-seccion="reportes">
+            Reportes y respaldos
+        </button>
+    </nav>
+
+    <main class="contenedor">
+
+        <section id="productos" class="seccion">
+            <h2>Alta de productos</h2>
+
+            <form id="formProducto">
+                <label for="nombreProducto">Nombre del producto</label>
+                <input
+                    type="text"
+                    id="nombreProducto"
+                    placeholder="Escribe el nombre del producto"
+                    maxlength="120"
+                    required
+                >
+                <button type="submit" class="boton principal">
+                    Guardar producto
+                </button>
+            </form>
+
+            <div class="encabezado-lista">
+                <h3>Productos registrados</h3>
+                <button
+                    type="button"
+                    id="eliminarTodosProductos"
+                    class="boton peligro"
+                >
+                    Eliminar todos
+                </button>
+            </div>
+
+            <p class="ayuda">
+                Eliminar un producto no borra sus movimientos históricos.
+            </p>
+
+            <div id="listaProductos"></div>
+        </section>
+
+        <section id="desplazamiento" class="seccion oculto">
+            <h2>Registrar desplazamiento</h2>
+
+            <form id="formMovimiento">
+                <label for="productoMovimiento">Seleccionar producto</label>
+                <select id="productoMovimiento" required>
+                    <option value="">Selecciona un producto</option>
+                </select>
+
+                <label for="cantidadMovimiento">
+                    Número de piezas desplazadas
+                </label>
+                <input
+                    type="number"
+                    id="cantidadMovimiento"
+                    min="1"
+                    step="1"
+                    placeholder="Ej. 15"
+                    required
+                >
+
+                <button type="submit" class="boton principal">
+                    Guardar desplazamiento
+                </button>
+            </form>
+
+            <h3>Últimos movimientos</h3>
+            <div id="listaMovimientos"></div>
+        </section>
+
+        <section id="reportes" class="seccion oculto">
+            <h2>Reporte por fechas</h2>
+
+            <form id="formReporte">
+                <label for="fechaInicio">Fecha inicial</label>
+                <input type="date" id="fechaInicio" required>
+
+                <label for="fechaFin">Fecha final</label>
+                <input type="date" id="fechaFin" required>
+
+                <button type="submit" class="boton principal">
+                    Consultar reporte
+                </button>
+            </form>
+
+            <div id="resultadoReporte"></div>
+
+            <div class="zona-respaldo">
+                <h3>Respaldo de información</h3>
+                <p>
+                    Guarda una copia de tus productos y movimientos para
+                    recuperarlos después, incluso si cambias de navegador
+                    o necesitas restaurar tus datos.
+                </p>
+
+                <button
+                    type="button"
+                    id="descargarRespaldo"
+                    class="boton principal"
+                >
+                    Descargar respaldo
+                </button>
+
+                <hr>
+
+                <label for="archivoRespaldo">Seleccionar archivo de respaldo</label>
+                <input
+                    type="file"
+                    id="archivoRespaldo"
+                    accept=".json,application/json"
+                >
+
+                <p class="ayuda">
+                    Importar un respaldo reemplazará los productos y
+                    movimientos actuales por los del archivo seleccionado.
+                </p>
+
+                <button
+                    type="button"
+                    id="restaurarRespaldo"
+                    class="boton advertencia"
+                >
+                    Restaurar respaldo
+                </button>
+
+                <p id="estadoRespaldo" class="mensaje oculto" role="status"></p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Control local de desplazamiento de productos</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
