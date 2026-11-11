@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cacería de Pollos Online</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <main class="contenedor">
+
+        <header class="encabezado">
+            <h1>🐔 Cacería de Pollos</h1>
+            <p>Juego de estrategia multijugador</p>
+        </header>
+
+        <!-- INICIO -->
+        <section id="pantallaInicio" class="panel">
+            <h2>Entrar al juego</h2>
+
+            <label for="seudonimo">Tu seudónimo</label>
+            <input
+                type="text"
+                id="seudonimo"
+                maxlength="15"
+                placeholder="Escribe tu nombre"
+                autocomplete="off"
+            >
+
+            <div class="configuracion-creacion">
+                <h3>Configuración de la sala</h3>
+                <p>
+                    Estas reglas serán elegidas por quien cree la sala.
+                    Al unirte a otra sala, se utilizará la configuración
+                    de su anfitrión.
+                </p>
+
+                <label for="configFilas">Filas del tablero</label>
+                <select id="configFilas">
+                    <option value="2">2 filas</option>
+                    <option value="3">3 filas</option>
+                    <option value="4">4 filas</option>
+                    <option value="5">5 filas</option>
+                    <option value="6">6 filas</option>
+                    <option value="7">7 filas</option>
+                    <option value="8">8 filas</option>
+                    <option value="9">9 filas</option>
+                    <option value="10" selected>10 filas</option>
+                </select>
+
+                <label for="configColumnas">Columnas del tablero</label>
+                <select id="configColumnas">
+                    <option value="1">1 columna</option>
+                    <option value="2">2 columnas</option>
+                    <option value="3">3 columnas</option>
+                    <option value="4">4 columnas</option>
+                    <option value="5">5 columnas</option>
+                    <option value="6">6 columnas</option>
+                    <option value="7">7 columnas</option>
+                    <option value="8">8 columnas</option>
+                    <option value="9">9 columnas</option>
+                    <option value="10" selected>10 columnas</option>
+                </select>
+
+                <label for="configPollos">Pollos por jugador</label>
+                <select id="configPollos">
+                    <option value="1">1 pollo</option>
+                    <option value="2">2 pollos</option>
+                    <option value="3" selected>3 pollos</option>
+                    <option value="4">4 pollos</option>
+                    <option value="5">5 pollos</option>
+                    <option value="6">6 pollos</option>
+                    <option value="7">7 pollos</option>
+                    <option value="8">8 pollos</option>
+                    <option value="9">9 pollos</option>
+                    <option value="10">10 pollos</option>
+                </select>
+
+                <label for="configTiempo">
+                    Tiempo por turno (segundos)
+                </label>
+                <input
+                    type="number"
+                    id="configTiempo"
+                    min="5"
+                    max="86400"
+                    step="1"
+                    value="8"
+                    inputmode="numeric"
+                >
+
+                <label for="configJugadores">
+                    Máximo de jugadores permitidos
+                </label>
+                <input
+                    type="number"
+                    id="configJugadores"
+                    min="2"
+                    max="100"
+                    step="1"
+                    value="4"
+                    inputmode="numeric"
+                >
+
+                <div class="resumen-configuracion">
+                    <strong>Reglas de la sala</strong>
+                    <span id="resumenConfiguracion">
+                        Tablero: 10 × 10 · 3 pollos · 8 segundos · 4 jugadores
+                    </span>
+                </div>
+            </div>
+
+            <button id="btnCrearSala" class="boton principal">
+                CREAR SALA
+            </button>
+
+            <div class="separador">O</div>
+
+            <label for="codigoEntrada">Código de sala</label>
+            <input
+                type="text"
+                id="codigoEntrada"
+                maxlength="6"
+                placeholder="Ejemplo: A7K2M9"
+                autocomplete="off"
+            >
+
+            <button id="btnUnirseSala" class="boton secundario">
+                UNIRME A UNA SALA
+            </button>
+
+            <p id="mensajeInicio" class="mensaje"></p>
+        </section>
+
+        <!-- SALA DE ESPERA -->
+        <section id="pantallaSala" class="panel oculto">
+            <h2>Sala de espera</h2>
+
+            <div class="codigo-contenedor">
+                <span>CÓDIGO DE LA SALA</span>
+                <strong id="codigoSala">------</strong>
+                <button id="btnCopiarCodigo" class="boton copiar">
+                    COPIAR CÓDIGO
+                </button>
+            </div>
+
+            <div class="reglas-sala">
+                <h3>Reglas de esta partida</h3>
+                <p id="reglasSalaTexto"></p>
+            </div>
+
+            <div class="informacion-sala">
+                <p>Jugadores conectados:</p>
+                <strong id="contadorJugadores">0 / 4</strong>
+            </div>
+
+            <div id="listaJugadores" class="lista-jugadores"></div>
+
+            <p id="mensajeSala" class="mensaje"></p>
+
+            <div id="zonaInicioPartida" class="zona-inicio oculto">
+                <button id="btnIniciarPartida" class="boton iniciar" disabled>
+                    COMENZAR PREPARACIÓN
+                </button>
+                <p id="mensajeInicioPartida" class="texto-ayuda">
+                    Se necesitan al menos 2 jugadores.
+                </p>
+            </div>
+
+            <button id="btnSalirSala" class="boton salir">
+                VOLVER AL INICIO
+            </button>
+        </section>
+
+        <!-- JUEGO -->
+        <section id="pantallaJuego" class="panel oculto">
+
+            <div class="encabezado-juego">
+                <h2 id="tituloFase">Preparación</h2>
+                <p id="textoFase"></p>
+            </div>
+
+            <div class="estado-juego">
+                <p>Turno:</p>
+                <strong id="jugadorTurno">Esperando...</strong>
+            </div>
+
+            <!-- PREPARACIÓN -->
+            <div id="panelPreparacion" class="fase-juego oculto">
+                <h3>Esconde tus pollos</h3>
+                <p>
+                    Selecciona las coordenadas donde quieres esconder tus pollos.
+                    Puedes colocar varios pollos en la misma casilla.
+                </p>
+
+                <div class="contador-pollos">
+                    Pollos seleccionados:
+                    <strong id="contadorPollos">0 / 3</strong>
+                </div>
+
+                <div id="tableroPreparacion" class="tablero"></div>
+
+                <button
+                    id="btnDeshacerPollo"
+                    class="boton secundario boton-deshacer"
+                    disabled
+                >
+                    DESHACER ÚLTIMO POLLO
+                </button>
+
+                <button
+                    id="btnGuardarPollos"
+                    class="boton iniciar"
+                    disabled
+                >
+                    CONFIRMAR POSICIONES
+                </button>
+
+                <p id="mensajePreparacion" class="mensaje"></p>
+            </div>
+
+            <!-- COMBATE -->
+            <div id="panelCombate" class="fase-juego oculto">
+                <h3>Tablero de combate</h3>
+                <p>
+                    Selecciona una coordenada para atacar.
+                    No puedes repetir un ataque realizado por ti.
+                </p>
+
+                <div id="panelTemporizador" class="temporizador oculto">
+                    <span>TIEMPO RESTANTE</span>
+                    <strong id="tiempoRestante">8</strong>
+                    <small>segundos</small>
+                </div>
+
+                <div class="leyenda">
+                    <span><i class="marca propia"></i> Tus pollos</span>
+                    <span><i class="marca ataque"></i> Casilla atacada</span>
+                    <span><i class="marca acierto"></i> Impacto</span>
+                </div>
+
+                <div id="tableroCombate" class="tablero"></div>
+
+                <p id="mensajeCombate" class="mensaje"></p>
+            </div>
+
+            <!-- RESULTADOS -->
+            <div id="panelResultados" class="fase-juego oculto">
+                <h3>Resultados de la partida</h3>
+
+                <div id="resultadoFinal"></div>
+
+                <button
+                    id="btnNuevaPartida"
+                    class="boton iniciar oculto"
+                >
+                    NUEVA PARTIDA
+                </button>
+
+                <p
+                    id="mensajeNuevaPartida"
+                    class="texto-ayuda"
+                ></p>
+            </div>
+
+            <div class="seccion-jugadores">
+                <h3>Estado de los jugadores</h3>
+                <div id="estadoJugadores" class="lista-jugadores"></div>
+            </div>
+
+            <div class="historial">
+                <h3>Historial de la partida</h3>
+                <div id="historialAtaques"></div>
+            </div>
+
+            <button id="btnSalirJuego" class="boton salir">
+                SALIR DEL JUEGO
+            </button>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
