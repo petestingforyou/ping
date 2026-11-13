@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Separar preguntas - Trivia Online</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 15px;
+    background: #0c1020;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.contenedor {
+    max-width: 750px;
+    margin: auto;
+}
+
+.tarjeta {
+    background: #151c30;
+    border: 1px solid #29334d;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #00d9a5;
+}
+
+p {
+    color: #b6bfd2;
+    line-height: 1.6;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    background: #0c1020;
+    color: white;
+    border: 1px solid #36415e;
+    border-radius: 7px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 7px;
+    background: #00d9a5;
+    color: #071b19;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.secundario {
+    background: #27334d;
+    color: white;
+}
+
+.progreso {
+    width: 100%;
+    height: 12px;
+    background: #0c1020;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.barra {
+    height: 100%;
+    width: 0%;
+    background: #00d9a5;
+}
+
+pre {
+    background: #0c1020;
+    border: 1px solid #29334d;
+    border-radius: 8px;
+    padding: 15px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: #d7e0f5;
+}
+
+.aviso {
+    border-left: 4px solid #e6ad48;
+    background: #211e19;
+    padding: 12px;
+    color: #f3d7a2;
+    line-height: 1.5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="tarjeta">
+
+        <h1>TRIVIA ONLINE</h1>
+
+        <h2>Separación del banco de preguntas</h2>
+
+        <p>
+            Esta herramienta separa las preguntas originales
+            de sus respuestas correctas.
+        </p>
+
+        <p>
+            No elimina ni modifica la colección original.
+        </p>
+
+    </div>
+
+    <div class="tarjeta">
+
+        <h3>1. Acceso de administrador</h3>
+
+        <input
+            id="correo"
+            type="email"
+            placeholder="Correo del administrador"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Contraseña"
+        >
+
+        <button id="btnLogin">
+            INICIAR SESIÓN
+        </button>
+
+        <button id="btnLogout" class="secundario" disabled>
+            CERRAR SESIÓN
+        </button>
+
+        <p id="estadoSesion">
+            No has iniciado sesión.
+        </p>
+
+    </div>
+
+    <div class="tarjeta">
+
+        <h3>2. Separar las preguntas</h3>
+
+        <div class="aviso">
+            Esta operación conservará la colección original
+            y creará dos colecciones nuevas.
+            No la ejecutes mientras haya otra carga en proceso.
+        </div>
+
+        <button id="btnSeparar" disabled>
+            SEPARAR LAS 100 PREGUNTAS
+        </button>
+
+        <div class="progreso">
+            <div id="barra" class="barra"></div>
+        </div>
+
+        <p id="estadoOperacion">
+            Esperando autorización.
+        </p>
+
+        <pre id="resultado">Preparado.</pre>
+
+    </div>
+
+</div>
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    doc,
+    writeBatch,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+
+
+/* =========================================
+   FIREBASE
+========================================= */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA1RF-fjgtcODSGHDxcByOrpraNm4ASABA",
+    authDomain: "triviaonline-cf8ac.firebaseapp.com",
+    projectId: "triviaonline-cf8ac",
+    storageBucket: "triviaonline-cf8ac.firebasestorage.app",
+    messagingSenderId: "1087950514374",
+    appId: "1:1087950514374:web:7cc458397441ec5a0c8fc7"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const auth = getAuth(app);
+
+
+/* =========================================
+   ELEMENTOS
+========================================= */
+
+const correo = document.getElementById("correo");
+const password = document.getElementById("password");
+
+const btnLogin = document.getElementById("btnLogin");
+const btnLogout = document.getElementById("btnLogout");
+const btnSeparar = document.getElementById("btnSeparar");
+
+const estadoSesion = document.getElementById("estadoSesion");
+const estadoOperacion = document.getElementById("estadoOperacion");
+
+const barra = document.getElementById("barra");
+const resultado = document.getElementById("resultado");
+
+
+/* =========================================
+   MENSAJES
+========================================= */
+
+function mostrarResultado(texto) {
+    resultado.textContent = texto;
+}
+
+
+/* =========================================
+   AUTENTICACIÓN
+========================================= */
+
+btnLogin.addEventListener("click", async () => {
+
+    const email = correo.value.trim();
+    const clave = password.value;
+
+    if (!email || !clave) {
+
+        estadoSesion.textContent =
+            "Escribe tu correo y contraseña.";
+
+        return;
+    }
+
+    btnLogin.disabled = true;
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            clave
+        );
+
+        estadoSesion.textContent =
+            "Inicio de sesión correcto.";
+
+    } catch (error) {
+
+        estadoSesion.textContent =
+            "Error: " + error.code;
+
+    } finally {
+
+        btnLogin.disabled = false;
+
+    }
+
+});
+
+
+/* =========================================
+   CERRAR SESIÓN
+========================================= */
+
+btnLogout.addEventListener("click", async () => {
+
+    try {
+
+        await signOut(auth);
+
+    } catch (error) {
+
+        estadoSesion.textContent = error.message;
+
+    }
+
+});
+
+
+/* =========================================
+   ESTADO DE AUTENTICACIÓN
+========================================= */
+
+onAuthStateChanged(auth, usuario => {
+
+    const conectado = !!usuario;
+
+    btnSeparar.disabled = !conectado;
+    btnLogout.disabled = !conectado;
+
+    estadoSesion.textContent = conectado
+        ? "Administrador conectado: " + usuario.email
+        : "No has iniciado sesión.";
+
+});
+
+
+/* =========================================
+   VALIDAR PREGUNTA
+========================================= */
+
+function validarPregunta(datos, id) {
+
+    if (!datos.enunciado || typeof datos.enunciado !== "string") {
+        throw new Error("Pregunta sin enunciado: " + id);
+    }
+
+    if (!Array.isArray(datos.opciones) || datos.opciones.length !== 4) {
+        throw new Error("Opciones incorrectas en: " + id);
+    }
+
+    const ids = datos.opciones.map(opcion => opcion.id);
+
+    if (!["A", "B", "C", "D"].every(letra => ids.includes(letra))) {
+        throw new Error("Identificadores de opciones incorrectos: " + id);
+    }
+
+    if (!["A", "B", "C", "D"].includes(datos.respuestaCorrecta)) {
+        throw new Error("Respuesta correcta inválida: " + id);
+    }
+
+}
+
+
+/* =========================================
+   SEPARAR BANCO
+========================================= */
+
+btnSeparar.addEventListener("click", async () => {
+
+    if (!auth.currentUser) {
+
+        estadoOperacion.textContent =
+            "Debes iniciar sesión.";
+
+        return;
+    }
+
+    const confirmar = confirm(
+        "Se crearán las colecciones preguntas_publicas " +
+        "y respuestas_privadas. ¿Deseas continuar?"
+    );
+
+    if (!confirmar) return;
+
+    btnSeparar.disabled = true;
+
+    barra.style.width = "0%";
+
+    estadoOperacion.textContent =
+        "Leyendo preguntas originales...";
+
+    mostrarResultado("Iniciando operación...");
+
+    try {
+
+        // Leer colección original
+        const referencia = collection(db, "preguntas");
+
+        const consulta = await getDocs(referencia);
+
+        if (consulta.empty) {
+            throw new Error("La colección preguntas está vacía.");
+        }
+
+        const preguntas = [];
+
+        consulta.forEach(documento => {
+
+            const datos = documento.data();
+
+            validarPregunta(datos, documento.id);
+
+            preguntas.push({
+                id: documento.id,
+                datos
+            });
+
+        });
+
+        estadoOperacion.textContent =
+            "Se encontraron " + preguntas.length + " preguntas.";
+
+        // Preparar escritura
+        const TAMANO_LOTE = 400;
+
+        let procesadas = 0;
+
+        for (
+            let inicio = 0;
+            inicio < preguntas.length;
+            inicio += TAMANO_LOTE
+        ) {
+
+            const grupo = preguntas.slice(
+                inicio,
+                inicio + TAMANO_LOTE
+            );
+
+            const lote = writeBatch(db);
+
+            grupo.forEach(item => {
+
+                const id = item.id;
+                const datos = item.datos;
+
+                // Colección pública
+                const preguntaPublica = doc(
+                    db,
+                    "preguntas_publicas",
+                    id
+                );
+
+                lote.set(preguntaPublica, {
+
+                    categoria: datos.categoria,
+                    dificultad: datos.dificultad,
+                    enunciado: datos.enunciado,
+                    opciones: datos.opciones,
+
+                    actualizadoEn: serverTimestamp()
+
+                });
+
+                // Colección privada
+                const respuestaPrivada = doc(
+                    db,
+                    "respuestas_privadas",
+                    id
+                );
+
+                lote.set(respuestaPrivada, {
+
+                    respuestaCorrecta: datos.respuestaCorrecta,
+
+                    actualizadoEn: serverTimestamp()
+
+                });
+
+            });
+
+            await lote.commit();
+
+            procesadas += grupo.length;
+
+            const porcentaje =
+                (procesadas / preguntas.length) * 100;
+
+            barra.style.width = porcentaje + "%";
+
+            estadoOperacion.textContent =
+                "Procesadas " + procesadas +
+                " de " + preguntas.length + " preguntas.";
+
+        }
+
+        estadoOperacion.textContent =
+            "¡Separación completada!";
+
+        mostrarResultado(
+            "OPERACIÓN COMPLETADA\n\n" +
+            "Preguntas procesadas: " + preguntas.length + "\n\n" +
+            "Colecciones creadas o actualizadas:\n\n" +
+            "preguntas_publicas\n" +
+            "respuestas_privadas\n\n" +
+            "La colección original preguntas permanece intacta.\n\n" +
+            "No se eliminó ningún documento."
+        );
+
+    } catch (error) {
+
+        estadoOperacion.textContent =
+            "La operación se detuvo por un error.";
+
+        mostrarResultado(
+            "ERROR\n\n" +
+            "Código: " + (error.code || "sin código") + "\n\n" +
+            "Mensaje: " + error.message
+        );
+
+    } finally {
+
+        btnSeparar.disabled = !auth.currentUser;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

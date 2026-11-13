@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cargador de preguntas - Trivia Online</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 25px 15px;
+    background: #0c1020;
+    color: #f4f6fb;
+    font-family: Arial, sans-serif;
+}
+
+.contenedor {
+    max-width: 850px;
+    margin: auto;
+}
+
+.tarjeta {
+    background: #151c30;
+    border: 1px solid #29334d;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    color: #00d9a5;
+}
+
+p {
+    color: #b6bfd2;
+    line-height: 1.5;
+}
+
+.estadisticas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.estadistica {
+    background: #0c1020;
+    border: 1px solid #29334d;
+    border-radius: 10px;
+    padding: 15px;
+    min-width: 120px;
+}
+
+.estadistica b {
+    display: block;
+    font-size: 25px;
+    color: #00d9a5;
+}
+
+.fila {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+input {
+    background: #0c1020;
+    color: white;
+    border: 1px solid #36415e;
+    border-radius: 8px;
+    padding: 13px;
+    min-width: 220px;
+    flex: 1;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 13px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #00d9a5;
+    color: #071b19;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.secundario {
+    background: #27324b;
+    color: white;
+}
+
+.progreso {
+    height: 12px;
+    background: #0c1020;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.barra {
+    height: 100%;
+    width: 0%;
+    background: #00d9a5;
+    transition: width 0.2s;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #0c1020;
+    border: 1px solid #29334d;
+    padding: 14px;
+    border-radius: 8px;
+    max-height: 260px;
+    overflow: auto;
+    color: #d7e0f5;
+}
+
+.advertencia {
+    border-left: 4px solid #e6ad48;
+    padding: 12px;
+    background: #211e19;
+    color: #f3d7a2;
+    line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+
+<main class="contenedor">
+
+    <div class="tarjeta">
+        <h1>TRIVIA ONLINE</h1>
+        <h2>Cargador de 100 preguntas</h2>
+
+        <p>
+            Este archivo permite cargar el banco inicial de preguntas
+            directamente en la base de datos Firestore.
+        </p>
+
+        <div class="estadisticas">
+
+            <div class="estadistica">
+                <b>100</b>
+                Preguntas
+            </div>
+
+            <div class="estadistica">
+                <b>4</b>
+                Opciones por pregunta
+            </div>
+
+            <div class="estadistica">
+                <b>7</b>
+                Categorías
+            </div>
+
+        </div>
+    </div>
+
+    <div class="tarjeta">
+
+        <h3>1. Conexión con Firebase</h3>
+
+        <p>
+            Inicia sesión con tu cuenta de administrador de Firebase.
+            Esta cuenta debe tener permiso para escribir en Firestore.
+        </p>
+
+        <div class="fila">
+
+            <input
+                id="email"
+                type="email"
+                placeholder="Correo del administrador"
+                autocomplete="username"
+            >
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Contraseña"
+                autocomplete="current-password"
+            >
+
+        </div>
+
+        <button id="login">
+            Iniciar sesión
+        </button>
+
+        <button id="logout" class="secundario" disabled>
+            Cerrar sesión
+        </button>
+
+        <p id="authStatus">
+            No has iniciado sesión.
+        </p>
+
+    </div>
+
+    <div class="tarjeta">
+
+        <h3>2. Cargar preguntas</h3>
+
+        <p>
+            Las preguntas se guardarán en la colección
+            <b>preguntas</b>.
+        </p>
+
+        <p>
+            Cada pregunta tendrá un identificador fijo desde
+            pregunta_001 hasta pregunta_100.
+            Si vuelves a ejecutar la carga, se actualizarán
+            esos documentos en lugar de duplicarlos.
+        </p>
+
+        <div class="advertencia">
+            IMPORTANTE: los documentos contienen las respuestas correctas.
+            No permitas que los jugadores lean esta colección.
+            Más adelante debemos protegerla y separar las respuestas
+            mediante un backend seguro.
+        </div>
+
+        <div class="fila">
+
+            <button id="upload" disabled>
+                Cargar las 100 preguntas a Firestore
+            </button>
+
+            <button id="preview" class="secundario">
+                Ver resumen del banco
+            </button>
+
+        </div>
+
+        <div class="progreso">
+            <div id="bar" class="barra"></div>
+        </div>
+
+        <p id="status">
+            Esperando autorización.
+        </p>
+
+        <pre id="log">Listo. Inicia sesión para habilitar la carga.</pre>
+
+    </div>
+
+    <div class="tarjeta">
+
+        <h3>3. Estructura de las preguntas</h3>
+
+        <pre>{
+  "categoria": "Historia",
+  "dificultad": "Fácil",
+  "enunciado": "¿En qué año comenzó...?",
+  "opciones": [
+    {"id":"A", "texto":"1810"},
+    {"id":"B", "texto":"1821"},
+    {"id":"C", "texto":"1910"},
+    {"id":"D", "texto":"1812"}
+  ],
+  "respuestaCorrecta": "A"
+}</pre>
+
+    </div>
+
+</main>
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+
+import {
+    getFirestore,
+    doc,
+    writeBatch,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-auth.js";
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyA1RF-fjgtcODSGHDxcByOrpraNm4ASABA",
+    authDomain: "triviaonline-cf8ac.firebaseapp.com",
+    projectId: "triviaonline-cf8ac",
+    storageBucket: "triviaonline-cf8ac.firebasestorage.app",
+    messagingSenderId: "1087950514374",
+    appId: "1:1087950514374:web:7cc458397441ec5a0c8fc7"
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const auth = getAuth(app);
+
+
+/* =====================================================
+   BANCO DE 100 PREGUNTAS
+
+   Formato:
+   [categoria, dificultad, pregunta,
+   opcionA, opcionB, opcionC, opcionD, respuesta]
+===================================================== */
+
+const banco = [
+["Historia","Fácil","¿En qué año comenzó la Independencia de México?","1810","1821","1910","1812","A"],
+["Historia","Fácil","¿Quién fue el primer presidente de México?","Benito Juárez","Guadalupe Victoria","Porfirio Díaz","Vicente Guerrero","B"],
+["Historia","Fácil","¿Qué civilización construyó Chichén Itzá?","Azteca","Olmeca","Maya","Inca","C"],
+["Historia","Media","¿En qué año cayó el Imperio romano de Occidente?","476","1492","395","711","A"],
+["Historia","Media","¿Quién fue conocido como el Libertador de América?","Simón Bolívar","José de San Martín","Miguel Hidalgo","Francisco Morazán","A"],
+["Historia","Fácil","¿Qué muro cayó en 1989 y simbolizó el fin de la división de Berlín?","Muro de Adriano","Muro de Berlín","Gran Muralla China","Muro de las Lamentaciones","B"],
+["Historia","Media","¿En qué país comenzó el Renacimiento europeo?","Francia","Inglaterra","Italia","España","C"],
+["Historia","Media","¿Qué acontecimiento detonó la Primera Guerra Mundial en 1914?","La invasión de Polonia","El asesinato del archiduque Francisco Fernando","La Revolución rusa","El hundimiento del Lusitania","B"],
+["Historia","Fácil","¿En qué ciudad-estado de la antigua Grecia se desarrolló una de las primeras democracias?","Atenas","Esparta","Corinto","Tebas","A"],
+["Historia","Media","¿Qué emperador francés fue derrotado definitivamente en Waterloo?","Luis XIV","Napoleón Bonaparte","Carlomagno","Carlos V","B"],
+["Historia","Difícil","¿Qué tratado impuso las condiciones de paz a Alemania al terminar la Primera Guerra Mundial?","Tratado de Tordesillas","Tratado de Versalles","Tratado de Utrecht","Tratado de París de 1763","B"],
+["Historia","Fácil","¿Qué navegante llegó al continente americano en 1492 al servicio de Castilla?","Fernando de Magallanes","Cristóbal Colón","Vasco da Gama","Américo Vespucio","B"],
+["Historia","Media","¿Qué imperio tenía como capital la ciudad de Tenochtitlan?","Maya","Inca","Mexica","Purépecha","C"],
+["Historia","Media","¿En qué año se consumó la Independencia de México?","1810","1815","1821","1824","C"],
+["Historia","Difícil","¿Qué reina gobernó Inglaterra durante gran parte de la era isabelina?","María I","Isabel I","Victoria","Ana","B"],
+
+["Geografía","Fácil","¿Cuál es el océano más grande del planeta?","Atlántico","Índico","Ártico","Pacífico","D"],
+["Geografía","Fácil","¿Cuál es la capital de Japón?","Kioto","Tokio","Osaka","Hiroshima","B"],
+["Geografía","Fácil","¿En qué continente se encuentra Egipto?","Asia","Europa","África","Oceanía","C"],
+["Geografía","Media","¿Cuál es el país más extenso del mundo por superficie?","Canadá","China","Estados Unidos","Rusia","D"],
+["Geografía","Fácil","¿Qué río atraviesa Egipto y desemboca en el mar Mediterráneo?","Amazonas","Nilo","Danubio","Yangtsé","B"],
+["Geografía","Media","¿Cuál es la montaña más alta del mundo sobre el nivel del mar?","K2","Kilimanjaro","Everest","Aconcagua","C"],
+["Geografía","Fácil","¿Cuál es la capital de Argentina?","Córdoba","Rosario","Buenos Aires","Mendoza","C"],
+["Geografía","Media","¿Qué país europeo tiene forma de bota?","Grecia","Italia","Portugal","Croacia","B"],
+["Geografía","Fácil","¿En qué continente se encuentra Brasil?","África","América del Sur","Asia","Europa","B"],
+["Geografía","Media","¿Cuál es el desierto cálido más grande del mundo?","Gobi","Kalahari","Sahara","Atacama","C"],
+["Geografía","Fácil","¿Qué país tiene como capital a Ottawa?","Australia","Canadá","Irlanda","Nueva Zelanda","B"],
+["Geografía","Media","¿Qué línea imaginaria divide la Tierra en hemisferios norte y sur?","Trópico de Cáncer","Meridiano de Greenwich","Ecuador","Círculo polar ártico","C"],
+["Geografía","Difícil","¿Cuál de estos países no tiene salida al mar?","Vietnam","Bolivia","Noruega","Portugal","B"],
+["Geografía","Media","¿Qué mar separa Europa de África?","Mar Báltico","Mar Mediterráneo","Mar del Norte","Mar Negro","B"],
+["Geografía","Fácil","¿Cuál es la capital de Australia?","Sídney","Melbourne","Canberra","Perth","C"],
+
+["Ciencia","Fácil","¿Qué planeta es conocido como el planeta rojo?","Venus","Marte","Júpiter","Mercurio","B"],
+["Ciencia","Fácil","¿Cuál es la fórmula química del agua?","CO2","O2","H2O","NaCl","C"],
+["Ciencia","Media","¿Qué órgano del cuerpo humano bombea la sangre?","Pulmón","Hígado","Corazón","Riñón","C"],
+["Ciencia","Fácil","¿Cuál es el gas más abundante en la atmósfera terrestre?","Oxígeno","Nitrógeno","Dióxido de carbono","Hidrógeno","B"],
+["Ciencia","Media","¿Qué fuerza mantiene a los planetas en órbita alrededor del Sol?","Magnetismo","Fricción","Gravedad","Electricidad","C"],
+["Ciencia","Fácil","¿Cuántos huesos tiene normalmente el esqueleto de un adulto?","206","201","212","198","A"],
+["Ciencia","Media","¿Qué estructura celular contiene la mayor parte del material genético?","Membrana","Núcleo","Citoplasma","Ribosoma","B"],
+["Ciencia","Fácil","¿A qué temperatura hierve el agua al nivel del mar, aproximadamente?","50 °C","90 °C","100 °C","120 °C","C"],
+["Ciencia","Media","¿Qué científico formuló las leyes del movimiento y la gravitación universal?","Albert Einstein","Isaac Newton","Galileo Galilei","Nikola Tesla","B"],
+["Ciencia","Fácil","¿Qué vitamina puede producir la piel con ayuda de la luz solar?","Vitamina A","Vitamina B12","Vitamina C","Vitamina D","D"],
+["Ciencia","Media","¿Cuál es la unidad básica de la herencia biológica?","Célula","Gen","Tejido","Proteína","B"],
+["Ciencia","Media","¿Qué instrumento se utiliza para medir la presión atmosférica?","Termómetro","Barómetro","Anemómetro","Higrómetro","B"],
+["Ciencia","Fácil","¿Qué gas absorben principalmente las plantas durante la fotosíntesis?","Oxígeno","Nitrógeno","Dióxido de carbono","Helio","C"],
+["Ciencia","Difícil","¿Cuál es la velocidad aproximada de la luz en el vacío?","30 000 km/s","150 000 km/s","300 000 km/s","1 000 000 km/s","C"],
+["Ciencia","Media","¿Qué tipo de animal es una ballena?","Pez","Anfibio","Mamífero","Reptil","C"],
+
+["Deportes","Fácil","¿Cuántos jugadores de un equipo de fútbol están normalmente en el campo al comenzar un partido?","9","10","11","12","C"],
+["Deportes","Fácil","¿Cada cuántos años se celebran normalmente los Juegos Olímpicos de verano?","2","3","4","5","C"],
+["Deportes","Media","¿En qué deporte se utiliza un bate y se recorren bases?","Críquet","Béisbol","Rugby","Hockey","B"],
+["Deportes","Fácil","¿Qué país ganó la Copa Mundial masculina de fútbol de 2022?","Francia","Brasil","Argentina","Alemania","C"],
+["Deportes","Media","¿Cuántos puntos vale un tiro libre encestado en baloncesto?","1","2","3","4","A"],
+["Deportes","Fácil","¿En qué superficie se disputa tradicionalmente el torneo de Wimbledon?","Arcilla","Cemento","Hierba","Arena","C"],
+["Deportes","Media","¿Qué objeto golpean los jugadores en el bádminton?","Pelota de goma","Volante","Disco","Bola de madera","B"],
+["Deportes","Media","¿En qué deporte se compite en el Tour de Francia?","Atletismo","Ciclismo","Automovilismo","Natación","B"],
+["Deportes","Fácil","¿Cuántos anillos aparecen en el símbolo olímpico?","4","5","6","7","B"],
+["Deportes","Difícil","¿Qué país es considerado la cuna del judo moderno?","China","Corea del Sur","Japón","Tailandia","C"],
+
+["Arte y literatura","Fácil","¿Quién escribió Don Quijote de la Mancha?","Federico García Lorca","Miguel de Cervantes","Lope de Vega","Francisco de Quevedo","B"],
+["Arte y literatura","Fácil","¿Quién pintó la Mona Lisa?","Vincent van Gogh","Pablo Picasso","Leonardo da Vinci","Claude Monet","C"],
+["Arte y literatura","Media","¿Qué instrumento musical tiene normalmente 88 teclas?","Violín","Piano","Flauta","Arpa","B"],
+["Arte y literatura","Fácil","¿Quién escribió Romeo y Julieta?","William Shakespeare","Charles Dickens","Oscar Wilde","Jane Austen","A"],
+["Arte y literatura","Media","¿A qué movimiento artístico se asocia Salvador Dalí?","Impresionismo","Cubismo","Surrealismo","Barroco","C"],
+["Arte y literatura","Fácil","¿Cuántas cuerdas tiene normalmente una guitarra clásica?","4","5","6","8","C"],
+["Arte y literatura","Media","¿Qué muralista mexicano pintó El hombre controlador del universo?","Diego Rivera","José Clemente Orozco","David Alfaro Siqueiros","Rufino Tamayo","A"],
+["Arte y literatura","Media","¿Cómo se llama la escuela de magia a la que asiste Harry Potter?","Beauxbatons","Durmstrang","Hogwarts","Ilvermorny","C"],
+["Arte y literatura","Difícil","¿Quién escribió Cien años de soledad?","Mario Vargas Llosa","Gabriel García Márquez","Julio Cortázar","Pablo Neruda","B"],
+["Arte y literatura","Fácil","¿Qué colores se consideran primarios en el modelo tradicional de pintura?","Rojo, amarillo y azul","Verde, naranja y violeta","Rojo, verde y azul","Blanco, negro y gris","A"],
+
+["Tecnología","Fácil","¿Qué significan las siglas WWW?","World Wide Web","Wide World Web","Web World Window","World Web Wire","A"],
+["Tecnología","Fácil","¿Cuál de estos componentes ejecuta instrucciones y procesa datos en una computadora?","Monitor","Procesador","Teclado","Fuente de poder","B"],
+["Tecnología","Media","¿Qué lenguaje se utiliza principalmente para estructurar el contenido de una página web?","HTML","SQL","Python","C++","A"],
+["Tecnología","Fácil","¿Qué significa la sigla USB?","Universal Serial Bus","United System Board","User Service Box","Universal Software Base","A"],
+["Tecnología","Media","¿Cuál es la función principal de un sistema operativo?","Diseñar imágenes","Administrar el hardware y los recursos del equipo","Aumentar la velocidad de Internet","Crear páginas web automáticamente","B"],
+["Tecnología","Fácil","¿Qué dispositivo permite conectar una computadora a una red inalámbrica?","Escáner","Adaptador Wi-Fi","Impresora","Micrófono","B"],
+["Tecnología","Media","¿Qué empresa desarrolla Android?","Apple","Microsoft","Google","IBM","C"],
+["Tecnología","Media","¿Qué es el phishing?","Un tipo de memoria","Un engaño para obtener información confidencial","Un lenguaje de programación","Un sistema de respaldo","B"],
+["Tecnología","Fácil","¿Qué extensión se utiliza comúnmente para archivos de imagen JPEG?",".mp3",".jpg",".exe",".txt","B"],
+["Tecnología","Difícil","¿Qué protocolo permite transferir páginas web mediante una conexión cifrada?","FTP","HTTP","HTTPS","SMTP","C"],
+
+["Cultura general","Fácil","¿Cuántos días tiene un año bisiesto?","364","365","366","367","C"],
+["Cultura general","Fácil","¿Cuántos lados tiene un hexágono?","5","6","7","8","B"],
+["Cultura general","Media","¿Cuál es el idioma con más hablantes nativos del mundo?","Inglés","Español","Chino mandarín","Francés","C"],
+["Cultura general","Media","¿Qué moneda se utiliza en Japón?","Won","Yuan","Yen","Dólar","C"],
+["Cultura general","Fácil","¿Cuántos minutos tiene una hora?","50","60","70","100","B"],
+["Cultura general","Fácil","¿Cuál es el ingrediente principal del guacamole tradicional?","Pepino","Aguacate","Calabacín","Chícharo","B"],
+["Cultura general","Fácil","¿Qué animal es conocido popularmente como el rey de la selva?","Tigre","Elefante","León","Leopardo","C"],
+["Cultura general","Fácil","¿En qué país se encuentra la Torre Eiffel?","Italia","Francia","Bélgica","Suiza","B"],
+["Cultura general","Fácil","¿Cuántos colores se suelen distinguir en el arcoíris?","5","6","7","8","C"],
+["Cultura general","Media","¿Qué celebración mexicana se realiza tradicionalmente el 1 y 2 de noviembre?","Día de la Independencia","Día de Muertos","Día de la Revolución","Día de la Constitución","B"],
+["Cultura general","Fácil","¿Qué metal tiene el símbolo químico Au?","Plata","Oro","Aluminio","Cobre","B"],
+["Cultura general","Media","¿Qué país regaló la Estatua de la Libertad a Estados Unidos?","Reino Unido","España","Francia","Alemania","C"],
+["Cultura general","Fácil","¿Qué bebida se prepara a partir de granos de café tostados?","Té","Café","Cacao","Mate","B"],
+["Cultura general","Media","¿Qué número representa la letra L en números romanos?","10","50","100","500","B"],
+["Cultura general","Fácil","¿Qué insecto produce la miel que consumimos habitualmente?","Avispa","Mariposa","Abeja","Hormiga","C"],
+
+["Historia","Media","¿Qué civilización construyó las pirámides de Guiza?","Romana","Egipcia","Griega","Persa","B"],
+["Historia","Media","¿Quién encabezó el movimiento de independencia de India mediante la resistencia no violenta?","Mahatma Gandhi","Jawaharlal Nehru","Nelson Mandela","Muhammad Ali Jinnah","A"],
+["Geografía","Fácil","¿Cuál es la capital de Chile?","Valparaíso","Santiago","Concepción","La Serena","B"],
+["Geografía","Media","¿Qué cordillera recorre gran parte del oeste de América del Sur?","Los Alpes","Los Andes","El Himalaya","Los Urales","B"],
+["Ciencia","Media","¿Qué partícula subatómica tiene carga eléctrica negativa?","Protón","Neutrón","Electrón","Núcleo","C"],
+["Ciencia","Fácil","¿Qué órgano permite principalmente la respiración humana al intercambiar gases?","Estómago","Pulmones","Páncreas","Bazo","B"],
+["Deportes","Fácil","¿Cuántos sets debe ganar normalmente un jugador para ganar un partido masculino de Grand Slam de tenis?","Dos","Tres","Cuatro","Cinco","B"],
+["Arte y literatura","Media","¿Quién compuso la Novena Sinfonía, conocida por incluir la Oda a la alegría?","Wolfgang Amadeus Mozart","Ludwig van Beethoven","Johann Sebastian Bach","Frédéric Chopin","B"],
+["Tecnología","Media","¿Qué significa la sigla CPU?","Central Processing Unit","Computer Personal Utility","Control Program User","Central Power Utility","A"],
+["Cultura general","Fácil","¿Cuántas semanas tiene un año común, aproximadamente?","48","50","52","54","C"]
+];
+
+
+/* =====================================================
+   CONVERTIR EL BANCO AL FORMATO DE FIRESTORE
+===================================================== */
+
+const preguntas = banco.map((p, indice) => {
+
+    return {
+        id: "pregunta_" + String(indice + 1).padStart(3, "0"),
+
+        categoria: p[0],
+
+        dificultad: p[1],
+
+        enunciado: p[2],
+
+        opciones: [
+            { id: "A", texto: p[3] },
+            { id: "B", texto: p[4] },
+            { id: "C", texto: p[5] },
+            { id: "D", texto: p[6] }
+        ],
+
+        respuestaCorrecta: p[7]
+    };
+
+});
+
+
+/* =====================================================
+   ELEMENTOS HTML
+===================================================== */
+
+const elemento = id => document.getElementById(id);
+
+function escribirLog(mensaje) {
+    elemento("log").textContent = mensaje;
+}
+
+
+/* =====================================================
+   VER RESUMEN
+===================================================== */
+
+elemento("preview").addEventListener("click", () => {
+
+    const categorias = {};
+
+    preguntas.forEach(p => {
+
+        categorias[p.categoria] =
+            (categorias[p.categoria] || 0) + 1;
+
+    });
+
+    let resumen = "";
+
+    resumen += "TOTAL DE PREGUNTAS: " + preguntas.length + "\n\n";
+
+    Object.entries(categorias).forEach(([categoria, cantidad]) => {
+
+        resumen += categoria + ": " + cantidad + "\n";
+
+    });
+
+    escribirLog(resumen);
+
+});
+
+
+/* =====================================================
+   INICIAR SESIÓN
+===================================================== */
+
+elemento("login").addEventListener("click", async () => {
+
+    const email = elemento("email").value.trim();
+
+    const password = elemento("password").value;
+
+    if (!email || !password) {
+
+        elemento("authStatus").textContent =
+            "Escribe el correo y la contraseña.";
+
+        return;
+    }
+
+    elemento("login").disabled = true;
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        elemento("authStatus").textContent =
+            "Sesión iniciada correctamente.";
+
+    } catch (error) {
+
+        elemento("authStatus").textContent =
+            "Error de inicio de sesión: " + error.message;
+
+    } finally {
+
+        elemento("login").disabled = false;
+
+    }
+
+});
+
+
+/* =====================================================
+   CERRAR SESIÓN
+===================================================== */
+
+elemento("logout").addEventListener("click", async () => {
+
+    try {
+
+        await signOut(auth);
+
+    } catch (error) {
+
+        elemento("authStatus").textContent = error.message;
+
+    }
+
+});
+
+
+/* =====================================================
+   VIGILAR AUTENTICACIÓN
+===================================================== */
+
+onAuthStateChanged(auth, usuario => {
+
+    const autenticado = !!usuario;
+
+    elemento("upload").disabled = !autenticado;
+
+    elemento("logout").disabled = !autenticado;
+
+    elemento("authStatus").textContent = autenticado
+        ? "Sesión activa: " + usuario.email
+        : "No has iniciado sesión.";
+
+});
+
+
+/* =====================================================
+   CARGAR PREGUNTAS EN FIRESTORE
+===================================================== */
+
+elemento("upload").addEventListener("click", async () => {
+
+    if (!auth.currentUser) {
+
+        elemento("status").textContent =
+            "Primero debes iniciar sesión.";
+
+        return;
+    }
+
+    const confirmar = confirm(
+        "¿Deseas cargar las 100 preguntas en Firestore?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    elemento("upload").disabled = true;
+
+    elemento("bar").style.width = "0%";
+
+    elemento("status").textContent =
+        "Preparando la carga de preguntas...";
+
+    try {
+
+        let cargadas = 0;
+
+        const TAMANO_LOTE = 400;
+
+        for (
+            let inicio = 0;
+            inicio < preguntas.length;
+            inicio += TAMANO_LOTE
+        ) {
+
+            const lote = writeBatch(db);
+
+            const grupo = preguntas.slice(
+                inicio,
+                inicio + TAMANO_LOTE
+            );
+
+            grupo.forEach(pregunta => {
+
+                const referencia = doc(
+                    db,
+                    "preguntas",
+                    pregunta.id
+                );
+
+                const datos = {
+                    categoria: pregunta.categoria,
+                    dificultad: pregunta.dificultad,
+                    enunciado: pregunta.enunciado,
+                    opciones: pregunta.opciones,
+                    respuestaCorrecta: pregunta.respuestaCorrecta,
+                    actualizadoEn: serverTimestamp()
+                };
+
+                lote.set(referencia, datos);
+
+            });
+
+            await lote.commit();
+
+            cargadas += grupo.length;
+
+            const porcentaje =
+                (cargadas / preguntas.length) * 100;
+
+            elemento("bar").style.width =
+                porcentaje + "%";
+
+            elemento("status").textContent =
+                "Cargadas " + cargadas +
+                " de " + preguntas.length + " preguntas.";
+
+        }
+
+        elemento("status").textContent =
+            "¡Carga completada correctamente!";
+
+        escribirLog(
+            "CARGA COMPLETADA\n\n" +
+            "Preguntas guardadas: " + cargadas + "\n" +
+            "Colección: preguntas\n" +
+            "Primer documento: pregunta_001\n" +
+            "Último documento: pregunta_100\n\n" +
+            "Las preguntas ya están guardadas en Firestore."
+        );
+
+    } catch (error) {
+
+        elemento("status").textContent =
+            "Error durante la carga: " +
+            error.code;
+
+        escribirLog(
+            "LA CARGA SE DETUVO POR UN ERROR.\n\n" +
+            "Código: " + error.code + "\n\n" +
+            "Mensaje: " + error.message + "\n\n" +
+            "Revisa la autenticación y las reglas de Firestore."
+        );
+
+    } finally {
+
+        elemento("upload").disabled =
+            !auth.currentUser;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

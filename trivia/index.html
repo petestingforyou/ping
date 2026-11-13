@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TRIVIA ONLINE</title>
+
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+    <header class="encabezado">
+
+        <div class="logo">
+            TRIVIA<span>ONLINE</span>
+        </div>
+
+        <div class="estado-conexion">
+            <span id="indicadorConexion" class="indicador"></span>
+            <span id="textoConexion">Conectando...</span>
+        </div>
+
+    </header>
+
+    <main class="contenedor">
+
+        <section class="presentacion">
+
+            <div class="etiqueta">
+                CONOCIMIENTO • VELOCIDAD • COMPETENCIA
+            </div>
+
+            <h1>
+                ¿CUÁNTO<br>
+                <span>SABES?</span>
+            </h1>
+
+            <p>
+                Demuestra tus conocimientos de cultura general.
+                Compite contra otros jugadores y consigue el
+                primer lugar.
+            </p>
+
+            <div class="opciones">
+
+                <button id="btnCrearSala" class="boton principal">
+                    CREAR PARTIDA
+                </button>
+
+                <button id="btnUnirseSala" class="boton secundario">
+                    UNIRSE A UNA PARTIDA
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="informacion">
+
+            <div class="tarjeta">
+                <span class="numero">100</span>
+                <span class="descripcion">Preguntas disponibles</span>
+            </div>
+
+            <div class="tarjeta">
+                <span class="numero">10</span>
+                <span class="descripcion">Preguntas por partida (ejemplo)</span>
+            </div>
+
+            <div class="tarjeta">
+                <span class="numero">∞</span>
+                <span class="descripcion">Competencia multijugador</span>
+            </div>
+
+        </section>
+
+        <section id="panelAcceso" class="panel oculto">
+
+            <h2 id="tituloPanel">INGRESAR A PARTIDA</h2>
+
+            <div class="campo">
+                <label for="nombreJugador">Tu nombre o alias</label>
+
+                <input
+                    type="text"
+                    id="nombreJugador"
+                    maxlength="20"
+                    placeholder="Escribe tu nombre"
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="campo" id="campoCodigo">
+
+                <label for="codigoSala">Código de la sala</label>
+
+                <input
+                    type="text"
+                    id="codigoSala"
+                    maxlength="8"
+                    placeholder="Código de partida"
+                    autocomplete="off"
+                >
+
+            </div>
+
+            <button id="btnContinuar" class="boton principal">
+                CONTINUAR
+            </button>
+
+            <button id="btnCancelar" class="boton cancelar">
+                CANCELAR
+            </button>
+
+        </section>
+
+        <div id="mensaje" class="mensaje"></div>
+
+    </main>
+
+    <footer>
+        TRIVIA ONLINE © 2026
+        <br>
+        Pon a prueba tus conocimientos.
+    </footer>
+
+    <script type="module" src="app.js"></script>
+
+</body>
+
+</html>
